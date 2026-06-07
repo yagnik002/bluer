@@ -1,0 +1,150 @@
+<header class="site-header" id="site-header">
+  <div class="header-inner">
+
+    <div class="header-logo">
+      <a href="{{ routes.root_url }}" aria-label="{{ shop.name }} home">
+        {{ shop.name | upcase }}
+      </a>
+    </div>
+
+    <div class="header-search">
+      <form action="{{ routes.search_url }}" method="get" role="search">
+        <label for="header-search-input" class="text-editorial-xs">Search</label>
+        <input
+          type="search"
+          name="q"
+          id="header-search-input"
+          class="header-search-input"
+          placeholder=""
+          autocomplete="off"
+          aria-label="Search"
+        >
+      </form>
+    </div>
+
+    <nav class="header-nav" aria-label="Site navigation">
+      <button
+        class="btn-reset text-editorial-xs"
+        id="menu-toggle"
+        aria-expanded="false"
+        aria-controls="nav-drawer"
+        aria-label="Open menu"
+      >
+        Menu
+      </button>
+
+      <a
+        href="{{ routes.account_url }}"
+        class="text-editorial-xs"
+        aria-label="Account"
+      >
+        {%- if customer -%}Account{%- else -%}Sign In{%- endif -%}
+      </a>
+
+      <a
+        href="{{ routes.cart_url }}"
+        class="text-editorial-xs"
+        style="display:flex;align-items:center;gap:6px;"
+        aria-label="Cart ({{ cart.item_count }} items)"
+      >
+        Your Bag
+        <span
+          class="cart-count"
+          id="cart-count"
+          {%- if cart.item_count == 0 -%}style="display:none"{%- endif -%}
+        >
+          {{- cart.item_count -}}
+        </span>
+      </a>
+    </nav>
+
+  </div>
+</header>
+
+<!-- Navigation Drawer -->
+<div class="nav-drawer" id="nav-drawer" aria-hidden="true" role="dialog" aria-label="Site navigation">
+  <div class="nav-drawer__header">
+    <p class="nav-drawer__title font-display">Discover</p>
+    <button class="nav-drawer__close btn-reset" id="menu-close" aria-label="Close menu">×</button>
+  </div>
+
+  <div class="nav-drawer__body">
+    <!-- Sidebar: category buttons -->
+    <div class="nav-sidebar">
+      {%- assign menu = linklists[section.settings.menu] -%}
+      {%- for link in menu.links -%}
+        <button
+          class="nav-sidebar-btn btn-reset"
+          data-panel="nav-panel-{{ forloop.index }}"
+        >
+          {{ link.title }}
+        </button>
+      {%- endfor -%}
+
+      <div class="nav-sidebar-extras">
+        <a href="/pages/about" class="nav-extra-link">About</a>
+        <a href="/pages/careers" class="nav-extra-link">Careers</a>
+        <a href="{{ routes.account_url }}" class="nav-extra-link">
+          {%- if customer -%}Account{%- else -%}Sign In{%- endif -%}
+        </a>
+      </div>
+    </div>
+
+    <!-- Panels: category sub-links -->
+    <div style="position:relative;min-height:200px">
+      {%- for link in menu.links -%}
+        <div class="nav-links-panel" id="nav-panel-{{ forloop.index }}">
+          {%- for child in link.links -%}
+            <a href="{{ child.url }}" class="nav-link">{{ child.title }}</a>
+          {%- endfor -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+
+  {%- if section.settings.show_collections -%}
+    <div class="nav-collections">
+      {%- assign col_menu = linklists[section.settings.collections_menu] -%}
+      {%- for link in col_menu.links limit: 3 -%}
+        <a href="{{ link.url }}" class="nav-collection-tile">
+          {%- assign coll = collections[link.object.handle] -%}
+          <div class="nav-collection-tile__img">
+            {%- if coll.image -%}
+              <img src="{{ coll.image | image_url: width: 600 }}" alt="{{ coll.title }}" loading="lazy">
+            {%- elsif coll.products.first.featured_image -%}
+              <img src="{{ coll.products.first.featured_image | image_url: width: 600 }}" alt="{{ coll.title }}" loading="lazy">
+            {%- endif -%}
+          </div>
+          <p class="nav-collection-tile__label">{{ link.title }}</p>
+        </a>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</div>
+<div class="nav-overlay" id="nav-overlay"></div>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Main menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collections",
+      "label": "Show collection tiles in menu",
+      "default": true
+    },
+    {
+      "type": "link_list",
+      "id": "collections_menu",
+      "label": "Collections menu (for tiles)",
+      "default": "main-menu"
+    }
+  ]
+}
+{% endschema %}

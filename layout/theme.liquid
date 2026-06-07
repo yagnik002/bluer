@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+
+  {%- if page_title -%}
+    <title>{{ page_title }} — {{ shop.name }}</title>
+  {%- else -%}
+    <title>{{ shop.name }} — Modern editorial fashion</title>
+  {%- endif -%}
+
+  {%- if page_description -%}
+    <meta name="description" content="{{ page_description | escape }}">
+  {%- endif -%}
+
+  <link rel="canonical" href="{{ canonical_url }}">
+
+  {%- if settings.favicon != blank -%}
+    <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32 }}">
+  {%- endif -%}
+
+  {{ content_for_header }}
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  {{ 'theme.css' | asset_url | stylesheet_tag }}
+</head>
+<body class="template-{{ template.name }}">
+
+  {%- sections 'announcement-bar' -%}
+  {%- section 'header' -%}
+
+  <main id="main-content" tabindex="-1">
+    {{ content_for_layout }}
+  </main>
+
+  {%- section 'footer' -%}
+
+  <!-- Cart Drawer -->
+  <div id="cart-drawer" class="cart-drawer" aria-hidden="true" role="dialog" aria-label="Your bag">
+    <div class="cart-drawer__overlay" id="cart-overlay"></div>
+    <div class="cart-drawer__panel">
+      <div class="cart-drawer__header">
+        <h2 class="text-editorial">YOUR BAG</h2>
+        <button class="cart-drawer__close btn-reset" id="cart-close" aria-label="Close cart">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="cart-drawer__body" id="cart-drawer-body">
+        <p class="cart-empty-msg text-editorial-sm">Your bag is empty</p>
+      </div>
+      <div class="cart-drawer__footer" id="cart-drawer-footer" style="display:none">
+        <div class="cart-subtotal">
+          <span class="text-editorial-sm">SUBTOTAL</span>
+          <span class="cart-subtotal__amount" id="cart-subtotal-amount"></span>
+        </div>
+        <p class="cart-tax-note">MRP inclusive of all taxes</p>
+        <a href="/cart" class="btn btn--full text-editorial-sm">Proceed to Checkout</a>
+      </div>
+    </div>
+  </div>
+
+  {{ 'theme.js' | asset_url | script_tag }}
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "main": {
+      "type": "about-content",
+      "settings": {
+        "heading": "The Foundation",
+        "body": "Bluer was born in 2022 from a simple but powerful realization: finding good-quality denim on the Indian high street wasn't easy. Trends came and went, but true quality was rare, and the few options that did exist often came with a heavy price tag. This challenge soon revealed a larger gap and an opportunity for our founder to create something meaningful."
+      }
+    }
+  },
+  "order": ["main"]
+}

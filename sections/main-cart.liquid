@@ -1,0 +1,145 @@
+<div class="cart-header">
+  <a href="{{ routes.root_url }}" class="cart-header__back" aria-label="Back to home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/>
+    </svg>
+  </a>
+
+  <div class="cart-tabs">
+    <button class="cart-tab-btn is-active btn-reset" data-tab="bag">
+      Your Bag [{{ cart.item_count }}]
+    </button>
+    <button class="cart-tab-btn btn-reset" data-tab="wishlist">Wishlist</button>
+  </div>
+</div>
+
+<div data-tab-panel="wishlist" style="display:none">
+  <div class="cart-empty-page">
+    <p>Your wishlist is empty.</p>
+  </div>
+</div>
+
+<div data-tab-panel="bag" class="cart-page">
+  {%- if cart.item_count == 0 -%}
+    <div class="cart-empty-page">
+      <p>Your bag is empty</p>
+      <a href="{{ routes.root_url }}" class="btn" style="margin-top:24px">Continue Shopping</a>
+    </div>
+
+  {%- else -%}
+    <div class="cart-layout">
+
+      <!-- Items -->
+      <div class="cart-items">
+        {%- for item in cart.items -%}
+          <div class="cart-item">
+            <div class="cart-item__img">
+              <a href="{{ item.url }}">
+                {%- if item.image -%}
+                  <img
+                    src="{{ item.image | image_url: width: 300 }}"
+                    alt="{{ item.image.alt | default: item.product.title | escape }}"
+                    loading="lazy"
+                    width="{{ item.image.width }}"
+                    height="{{ item.image.height }}"
+                  >
+                {%- endif -%}
+              </a>
+            </div>
+            <div class="cart-item__details">
+              <div class="cart-item__top">
+                <div>
+                  <a href="{{ item.url }}" class="cart-item__title">{{ item.product.title }}</a>
+                  <p class="cart-item__price">{{ item.final_line_price | money }}</p>
+                </div>
+                <button
+                  class="cart-item__remove btn-reset"
+                  data-remove="{{ item.variant_id }}"
+                  aria-label="Remove {{ item.product.title }}"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
+                  </svg>
+                </button>
+              </div>
+
+              {%- unless item.variant.title == 'Default Title' -%}
+                <p style="font-size:14px">{{ item.variant.title }}</p>
+              {%- endunless -%}
+
+              <div class="quantity-control">
+                <button
+                  class="qty-btn btn-reset"
+                  data-variant="{{ item.variant_id }}"
+                  data-action="decrease"
+                  aria-label="Decrease quantity"
+                >−</button>
+                <span class="qty-display">{{ item.quantity }}</span>
+                <button
+                  class="qty-btn btn-reset"
+                  data-variant="{{ item.variant_id }}"
+                  data-action="increase"
+                  aria-label="Increase quantity"
+                >+</button>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <!-- Summary -->
+      <aside class="cart-summary">
+        <div class="cart-summary-row">
+          <span>Subtotal</span>
+          <span>{{ cart.total_price | money }}</span>
+        </div>
+        <div class="cart-summary-row cart-summary-row--muted">
+          <span>Delivery</span>
+          <span>Calculated at checkout</span>
+        </div>
+        <div class="cart-total">
+          <div class="cart-total__row">
+            <span>Total</span>
+            <span>{{ cart.total_price | money }}</span>
+          </div>
+          <p class="cart-tax-note">MRP inclusive of all taxes</p>
+        </div>
+        <a href="{{ routes.cart_url }}/checkout" class="btn btn--full">Proceed to Checkout</a>
+      </aside>
+
+    </div>
+  {%- endif -%}
+</div>
+
+{%- if section.settings.show_featured -%}
+  {%- assign featured_collection = collections[section.settings.featured_collection] -%}
+  {%- if featured_collection != blank -%}
+    <div style="padding: 0 24px 80px">
+      <h2 class="section-heading" style="padding-left:0">Featured Products</h2>
+      <div class="product-grid product-grid--4">
+        {%- for product in featured_collection.products limit: 4 -%}
+          {%- render 'product-card', product: product -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Cart",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_featured",
+      "label": "Show featured products below cart",
+      "default": true
+    },
+    {
+      "type": "collection",
+      "id": "featured_collection",
+      "label": "Featured collection"
+    }
+  ]
+}
+{% endschema %}

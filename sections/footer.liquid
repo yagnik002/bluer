@@ -1,0 +1,117 @@
+<footer class="site-footer">
+  <div class="footer-inner">
+
+    <!-- Newsletter -->
+    <div class="footer-newsletter">
+      <div>
+        <p class="footer-newsletter__label">Subscribe to our newsletter</p>
+      </div>
+      <form class="footer-email-form" action="/contact#contact_form" method="post" accept-charset="UTF-8">
+        <input type="hidden" name="form_type" value="customer">
+        <input type="hidden" name="utf8" value="✓">
+        <label class="footer-email-label" for="footer-email">Email Address</label>
+        <div class="footer-email-row">
+          <input
+            type="email"
+            name="contact[email]"
+            id="footer-email"
+            class="footer-email-input"
+            placeholder=""
+            required
+            autocomplete="email"
+          >
+          <button type="submit" class="footer-email-btn">Subscribe</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Link columns -->
+    <div class="footer-links">
+      {%- for i in (1..3) -%}
+        {%- assign menu_setting = 'menu_' | append: i -%}
+        {%- assign menu_handle = section.settings[menu_setting] -%}
+        {%- if menu_handle != blank -%}
+          <ul class="footer-links-col">
+            {%- for link in linklists[menu_handle].links -%}
+              <li>
+                <a href="{{ link.url }}" class="footer-link">{{ link.title }}</a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <!-- Bottom row -->
+    <div class="footer-bottom">
+      <div class="footer-social">
+        {%- if section.settings.instagram_url != blank -%}
+          <a href="{{ section.settings.instagram_url }}" class="footer-social-link" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
+        {%- endif -%}
+        {%- if section.settings.facebook_url != blank -%}
+          <a href="{{ section.settings.facebook_url }}" class="footer-social-link" target="_blank" rel="noopener" aria-label="Facebook">FB</a>
+        {%- endif -%}
+        {%- if section.settings.twitter_url != blank -%}
+          <a href="{{ section.settings.twitter_url }}" class="footer-social-link" target="_blank" rel="noopener" aria-label="X / Twitter">@</a>
+        {%- endif -%}
+        {%- if section.settings.linkedin_url != blank -%}
+          <a href="{{ section.settings.linkedin_url }}" class="footer-social-link" target="_blank" rel="noopener" aria-label="LinkedIn">LI</a>
+        {%- endif -%}
+      </div>
+      <p class="footer-copyright">Copyright &copy;{{ 'now' | date: '%Y' }} {{ shop.name }}. All Rights Reserved.</p>
+    </div>
+
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Link columns"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_1",
+      "label": "Column 1",
+      "default": "footer"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_2",
+      "label": "Column 2"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_3",
+      "label": "Column 3"
+    },
+    {
+      "type": "header",
+      "content": "Social links"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Instagram URL"
+    },
+    {
+      "type": "url",
+      "id": "facebook_url",
+      "label": "Facebook URL"
+    },
+    {
+      "type": "url",
+      "id": "twitter_url",
+      "label": "X / Twitter URL"
+    },
+    {
+      "type": "url",
+      "id": "linkedin_url",
+      "label": "LinkedIn URL"
+    }
+  ]
+}
+{% endschema %}

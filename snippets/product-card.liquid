@@ -1,0 +1,56 @@
+{%- comment -%}
+  Renders a product card.
+  Usage: {% render 'product-card', product: product %}
+{%- endcomment -%}
+
+{%- assign first_available = product.variants | where: "available", true | first -%}
+{%- assign quick_variant = first_available | default: product.variants.first -%}
+
+<div
+  class="product-card"
+  data-index="{{ forloop.index0 }}"
+  data-price="{{ product.price }}"
+>
+  <a href="{{ product.url }}" class="product-card__img-wrap" style="display:block">
+    {%- if product.featured_image -%}
+      <img
+        class="product-card__img"
+        src="{{ product.featured_image | image_url: width: 600 }}"
+        srcset="{{ product.featured_image | image_url: width: 400 }} 400w, {{ product.featured_image | image_url: width: 600 }} 600w, {{ product.featured_image | image_url: width: 900 }} 900w"
+        sizes="(min-width:1200px) 25vw, (min-width:768px) 33vw, 50vw"
+        alt="{{ product.featured_image.alt | default: product.title | escape }}"
+        loading="lazy"
+        width="{{ product.featured_image.width }}"
+        height="{{ product.featured_image.height }}"
+      >
+    {%- else -%}
+      <div style="width:100%;aspect-ratio:3/4;background:var(--color-muted)"></div>
+    {%- endif -%}
+
+    {%- unless product.available -%}
+      <div class="product-card__sold-out">
+        <span>Sold Out</span>
+      </div>
+    {%- endunless -%}
+  </a>
+
+  <button
+    class="product-card__quick-add btn-reset"
+    data-quick-add="{{ quick_variant.id }}"
+    aria-label="Quick add {{ product.title }}"
+  >
+    +
+  </button>
+
+  <div class="product-card__info">
+    <p class="product-card__title">
+      <a href="{{ product.url }}">{{ product.title }}</a>
+    </p>
+    <p class="product-card__price">
+      {%- if product.compare_at_price > product.price -%}
+        <s style="margin-right:6px;opacity:0.5">{{ product.compare_at_price | money }}</s>
+      {%- endif -%}
+      {{ product.price | money }}
+    </p>
+  </div>
+</div>

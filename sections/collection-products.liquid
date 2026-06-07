@@ -1,0 +1,85 @@
+<!-- Collection bar -->
+<div class="collection-bar">
+  <a href="{{ routes.root_url }}" class="collection-bar__back" aria-label="Back to home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/>
+    </svg>
+  </a>
+
+  <h1 class="collection-bar__title">{{ collection.title }}</h1>
+
+  <button class="collection-bar__filter-btn btn-reset" id="filter-toggle" aria-expanded="false" aria-controls="filter-bar">
+    Filters
+    <span class="filter-icon" aria-hidden="true"></span>
+  </button>
+</div>
+
+<!-- Filter / sort bar -->
+<div class="filter-bar" id="filter-bar">
+  <button class="filter-btn is-active btn-reset" data-sort="featured">Featured</button>
+  <button class="filter-btn btn-reset" data-sort="price-asc">Price ↑</button>
+  <button class="filter-btn btn-reset" data-sort="price-desc">Price ↓</button>
+</div>
+
+{%- if collection.products_count == 0 -%}
+  <div class="collection-empty">
+    <p>No products found</p>
+  </div>
+{%- else -%}
+  <div class="product-grid" id="collection-grid">
+    {%- for product in collection.products -%}
+      <div
+        class="product-card"
+        data-index="{{ forloop.index0 }}"
+        data-price="{{ product.price }}"
+      >
+        <a href="{{ product.url }}" class="product-card__img-wrap" style="display:block">
+          {%- if product.featured_image -%}
+            <img
+              class="product-card__img"
+              src="{{ product.featured_image | image_url: width: 600 }}"
+              srcset="{{ product.featured_image | image_url: width: 400 }} 400w, {{ product.featured_image | image_url: width: 600 }} 600w, {{ product.featured_image | image_url: width: 900 }} 900w"
+              sizes="(min-width:1200px) 33vw, (min-width:768px) 33vw, 50vw"
+              alt="{{ product.featured_image.alt | default: product.title | escape }}"
+              loading="lazy"
+              width="{{ product.featured_image.width }}"
+              height="{{ product.featured_image.height }}"
+            >
+          {%- else -%}
+            <div style="width:100%;aspect-ratio:3/4;background:var(--color-muted)"></div>
+          {%- endif -%}
+
+          {%- unless product.available -%}
+            <div class="product-card__sold-out">
+              <span>Sold Out</span>
+            </div>
+          {%- endunless -%}
+        </a>
+
+        {%- assign first_available = product.variants | where: "available", true | first -%}
+        {%- assign quick_variant = first_available | default: product.variants.first -%}
+        <button
+          class="product-card__quick-add btn-reset"
+          data-quick-add="{{ quick_variant.id }}"
+          aria-label="{{ product.available | if: 'Quick add', 'Get notified' }} — {{ product.title }}"
+        >
+          +
+        </button>
+
+        <div class="product-card__info">
+          <p class="product-card__title">{{ product.title }}</p>
+          <p class="product-card__price">
+            {{ product.price | money }}
+          </p>
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Collection products",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,76 @@
+<div class="account-section">
+  <h1 class="account-greeting">
+    HI, {{ customer.first_name | upcase | default: 'THERE' }}
+  </h1>
+  <p class="account-email">{{ customer.email }}</p>
+
+  <!-- Editorial image -->
+  {%- if section.settings.image != blank -%}
+    <div class="account-img">
+      <img
+        src="{{ section.settings.image | image_url: width: 1280 }}"
+        alt="{{ section.settings.image.alt | default: 'BLUER editorial' }}"
+        loading="lazy"
+      >
+    </div>
+  {%- endif -%}
+
+  <!-- Account links -->
+  <ul class="account-links">
+    <li>
+      <a href="#" class="account-link-row">
+        <span>Help Centre</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+        </svg>
+      </a>
+    </li>
+    <li>
+      <a href="#" class="account-link-row">
+        <span>Wishlist</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+        </svg>
+      </a>
+    </li>
+    <li>
+      <a href="{{ routes.account_url }}/orders" class="account-link-row">
+        <span>My Purchases</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+        </svg>
+      </a>
+    </li>
+    <li>
+      <a href="#" class="account-link-row">
+        <span>Start a Return</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+        </svg>
+      </a>
+    </li>
+    <li>
+      <a href="{{ routes.account_url }}/addresses" class="account-link-row">
+        <span>Account Details</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+        </svg>
+      </a>
+    </li>
+  </ul>
+
+  <a href="{{ routes.account_logout_url }}" class="account-signout">Sign out</a>
+</div>
+
+{% schema %}
+{
+  "name": "Account",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Editorial portrait image"
+    }
+  ]
+}
+{% endschema %}

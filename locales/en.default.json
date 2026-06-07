@@ -1,0 +1,79 @@
+{
+  "general": {
+    "search": {
+      "placeholder": "Search"
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to Bag",
+      "sold_out": "Sold Out",
+      "unavailable": "Unavailable",
+      "get_notified": "Get Notified",
+      "sale": "Sale",
+      "price": {
+        "from_price_html": "From {{ price }}"
+      }
+    },
+    "facets": {
+      "filters": "Filters",
+      "sort_by": "Sort by",
+      "featured": "Featured",
+      "price_asc": "Price: Low to High",
+      "price_desc": "Price: High to Low"
+    }
+  },
+  "cart": {
+    "general": {
+      "title": "Your Bag",
+      "empty": "Your bag is empty",
+      "continue_browsing_html": "Continue shopping",
+      "subtotal": "Subtotal",
+      "checkout": "Proceed to Checkout",
+      "taxes_note": "MRP inclusive of all taxes"
+    },
+    "items": {
+      "remove": "Remove"
+    }
+  },
+  "customer": {
+    "login": {
+      "title": "Sign In",
+      "sign_in": "Sign In",
+      "email": "Email Address",
+      "password": "Password",
+      "forgot_password": "Forgot password?",
+      "create_account": "Create account"
+    },
+    "register": {
+      "title": "Create Account",
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "email": "Email Address",
+      "password": "Password",
+      "submit": "Create Account",
+      "have_account": "Already have an account? Sign in"
+    },
+    "account": {
+      "sign_out": "Sign out",
+      "details": "Account Details"
+    }
+  },
+  "sections": {
+    "header": {
+      "menu": "Menu"
+    },
+    "footer": {
+      "newsletter_label": "Subscribe to our newsletter",
+      "email_label": "Email Address",
+      "subscribe": "Subscribe"
+    }
+  },
+  "accessibility": {
+    "skip_to_content": "Skip to content",
+    "close": "Close",
+    "open_menu": "Open menu",
+    "close_menu": "Close menu",
+    "cart_count": "{{ count }} items in cart"
+  }
+}

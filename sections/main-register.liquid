@@ -1,0 +1,71 @@
+<div class="customer-layout">
+  <h1>Create Account</h1>
+
+  {%- form 'create_customer' -%}
+    {%- if form.errors -%}
+      <div style="color:red;font-size:12px;margin-bottom:16px;letter-spacing:0.1em">
+        {{ form.errors | default_errors }}
+      </div>
+    {%- endif -%}
+
+    <div class="form-field">
+      <label class="form-label" for="first_name">First Name</label>
+      <input
+        class="form-input"
+        type="text"
+        name="customer[first_name]"
+        id="first_name"
+        autocomplete="given-name"
+      >
+    </div>
+
+    <div class="form-field">
+      <label class="form-label" for="last_name">Last Name</label>
+      <input
+        class="form-input"
+        type="text"
+        name="customer[last_name]"
+        id="last_name"
+        autocomplete="family-name"
+      >
+    </div>
+
+    <div class="form-field">
+      <label class="form-label" for="reg_email">Email Address</label>
+      <input
+        class="form-input"
+        type="email"
+        name="customer[email]"
+        id="reg_email"
+        autocomplete="email"
+        autocorrect="off"
+        autocapitalize="off"
+        required
+      >
+    </div>
+
+    <div class="form-field">
+      <label class="form-label" for="reg_password">Password</label>
+      <input
+        class="form-input"
+        type="password"
+        name="customer[password]"
+        id="reg_password"
+        autocomplete="new-password"
+        required
+      >
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn--full">Create Account</button>
+      <a href="{{ routes.account_login_url }}" class="form-link">Already have an account? Sign in</a>
+    </div>
+  {%- endform -%}
+</div>
+
+{% schema %}
+{
+  "name": "Register",
+  "settings": []
+}
+{% endschema %}

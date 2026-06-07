@@ -1,0 +1,76 @@
+{%- if section.settings.layout == 'full' -%}
+  <div class="editorial-banner">
+    {%- if section.settings.image_1 != blank -%}
+      <img
+        src="{{ section.settings.image_1 | image_url: width: 1920 }}"
+        srcset="{{ section.settings.image_1 | image_url: width: 800 }} 800w, {{ section.settings.image_1 | image_url: width: 1440 }} 1440w, {{ section.settings.image_1 | image_url: width: 1920 }} 1920w"
+        sizes="100vw"
+        alt="{{ section.settings.image_1.alt | default: section.settings.label_1 }}"
+        loading="lazy"
+      >
+    {%- else -%}
+      <div style="width:100%;height:88vh;background:var(--color-muted)"></div>
+    {%- endif -%}
+    {%- if section.settings.label_1 != blank -%}
+      <p class="hero-label">{{ section.settings.label_1 }}</p>
+    {%- endif -%}
+  </div>
+
+{%- elsif section.settings.layout == 'two-col' -%}
+  <div class="editorial-grid">
+    {%- if section.settings.image_1 != blank -%}
+      <img
+        src="{{ section.settings.image_1 | image_url: width: 960 }}"
+        alt="{{ section.settings.image_1.alt | default: '' }}"
+        loading="lazy"
+      >
+    {%- else -%}
+      <div style="aspect-ratio:4/5;background:var(--color-muted)"></div>
+    {%- endif -%}
+    {%- if section.settings.image_2 != blank -%}
+      <img
+        src="{{ section.settings.image_2 | image_url: width: 960 }}"
+        alt="{{ section.settings.image_2.alt | default: '' }}"
+        loading="lazy"
+      >
+    {%- else -%}
+      <div style="aspect-ratio:4/5;background:var(--color-muted)"></div>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Editorial block",
+  "settings": [
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        { "value": "full", "label": "Full-width banner" },
+        { "value": "two-col", "label": "Two-column grid" }
+      ],
+      "default": "full"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "label_1",
+      "label": "Corner label (full-width only)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Image 2 (two-column only)"
+    }
+  ],
+  "presets": [
+    { "name": "Editorial block" }
+  ]
+}
+{% endschema %}

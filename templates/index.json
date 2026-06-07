@@ -1,0 +1,52 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero-banner",
+      "settings": {
+        "title": "BLUER",
+        "label": "CRAFTE"
+      }
+    },
+    "editorial_1": {
+      "type": "editorial-grid",
+      "settings": {
+        "layout": "full",
+        "label_1": "NEW ARRIVALS"
+      }
+    },
+    "editorial_2": {
+      "type": "editorial-grid",
+      "settings": {
+        "layout": "two-col"
+      }
+    },
+    "editorial_3": {
+      "type": "editorial-grid",
+      "settings": {
+        "layout": "full",
+        "label_1": "SUMMER '26"
+      }
+    },
+    "editorial_4": {
+      "type": "editorial-grid",
+      "settings": {
+        "layout": "two-col"
+      }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "SHOP THE EDIT",
+        "products_to_show": 8
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "editorial_1",
+    "editorial_2",
+    "editorial_3",
+    "editorial_4",
+    "featured_collection"
+  ]
+}

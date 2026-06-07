@@ -1,0 +1,73 @@
+<section class="about-section">
+
+  <!-- Mobile: image first -->
+  <div class="about-img-mobile">
+    {%- if section.settings.image != blank -%}
+      <img
+        src="{{ section.settings.image | image_url: width: 800 }}"
+        alt="{{ section.settings.image.alt | default: 'About BLUER' }}"
+        loading="lazy"
+      >
+    {%- endif -%}
+  </div>
+
+  <div class="about-layout">
+    <div class="about-copy">
+      <h1>{{ section.settings.heading | default: 'The Foundation' }}</h1>
+      {%- if section.settings.body != blank -%}
+        <p>{{ section.settings.body }}</p>
+      {%- elsif page.content != blank -%}
+        {{ page.content }}
+      {%- endif -%}
+      {%- if section.settings.body_extra != blank -%}
+        <p>{{ section.settings.body_extra }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="about-img-desktop">
+      {%- if section.settings.image != blank -%}
+        <img
+          src="{{ section.settings.image | image_url: width: 1200 }}"
+          srcset="{{ section.settings.image | image_url: width: 800 }} 800w, {{ section.settings.image | image_url: width: 1200 }} 1200w"
+          sizes="(min-width:768px) 55vw, 100vw"
+          alt="{{ section.settings.image.alt | default: 'About BLUER' }}"
+          loading="lazy"
+        >
+      {%- endif -%}
+    </div>
+  </div>
+
+</section>
+
+{% schema %}
+{
+  "name": "About content",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "About image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The Foundation"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body text",
+      "default": "Bluer was born in 2022 from a simple but powerful realization: finding good-quality denim on the indian high street wasn't easy. trends came and went, but true quality was rare, and the few options that did exist often came with a heavy price tag. this challenge soon revealed a larger gap and an opportunity for our founder to create something meaningful."
+    },
+    {
+      "type": "textarea",
+      "id": "body_extra",
+      "label": "Additional body text"
+    }
+  ],
+  "presets": [
+    { "name": "About content" }
+  ]
+}
+{% endschema %}
