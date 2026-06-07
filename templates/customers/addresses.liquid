@@ -1,0 +1,194 @@
+{% layout 'theme' %}
+
+<div class="policy-page">
+  <div class="policy-page__inner" style="max-width:720px">
+
+    <a href="{{ routes.account_url }}" class="policy-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
+      Account
+    </a>
+
+    <h1 class="policy-page__title font-display">Account Details</h1>
+
+    <!-- Add new address -->
+    <div class="addr-section">
+      <h2 class="addr-section__heading">Add a New Address</h2>
+      {%- form 'customer_address', customer.new_address -%}
+        <div class="addr-form">
+          <div class="form-grid">
+            <div class="form-field">
+              <label class="form-label" for="first_name">First Name</label>
+              <input class="form-input" type="text" name="address[first_name]" id="first_name" value="{{ form.first_name }}" autocomplete="given-name">
+            </div>
+            <div class="form-field">
+              <label class="form-label" for="last_name">Last Name</label>
+              <input class="form-input" type="text" name="address[last_name]" id="last_name" value="{{ form.last_name }}" autocomplete="family-name">
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="company">Company (optional)</label>
+            <input class="form-input" type="text" name="address[company]" id="company" value="{{ form.company }}" autocomplete="organization">
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="address1">Address</label>
+            <input class="form-input" type="text" name="address[address1]" id="address1" value="{{ form.address1 }}" autocomplete="address-line1" required>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="address2">Apartment, Suite, etc. (optional)</label>
+            <input class="form-input" type="text" name="address[address2]" id="address2" value="{{ form.address2 }}" autocomplete="address-line2">
+          </div>
+
+          <div class="form-grid">
+            <div class="form-field">
+              <label class="form-label" for="city">City</label>
+              <input class="form-input" type="text" name="address[city]" id="city" value="{{ form.city }}" autocomplete="address-level2" required>
+            </div>
+            <div class="form-field">
+              <label class="form-label" for="zip">PIN Code</label>
+              <input class="form-input" type="text" name="address[zip]" id="zip" value="{{ form.zip }}" autocomplete="postal-code">
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-field">
+              <label class="form-label" for="country">Country</label>
+              <select class="form-input form-select" name="address[country]" id="country" autocomplete="country" data-default="{{ form.country }}">
+                {{ all_country_option_tags }}
+              </select>
+            </div>
+            <div class="form-field">
+              <label class="form-label" for="province">State / Province</label>
+              <select class="form-input form-select" name="address[province]" id="province" autocomplete="address-level1" data-default="{{ form.province }}">
+                <option value="">Select state...</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="phone">Phone</label>
+            <input class="form-input" type="tel" name="address[phone]" id="phone" value="{{ form.phone }}" autocomplete="tel">
+          </div>
+
+          <div style="margin-top:8px">
+            <label class="addr-default-label">
+              <input type="checkbox" name="address[default]" value="1" {% if form.default %}checked{% endif %}
+                style="accent-color:var(--color-fg);width:14px;height:14px">
+              Set as default address
+            </label>
+          </div>
+
+          <button type="submit" class="btn" style="margin-top:24px">Save Address</button>
+        </div>
+      {%- endform -%}
+    </div>
+
+    <!-- Saved addresses -->
+    {%- if customer.addresses_count > 0 -%}
+      <div class="addr-section" style="margin-top:48px">
+        <h2 class="addr-section__heading">Saved Addresses</h2>
+        <div class="addr-list">
+          {%- for address in customer.addresses -%}
+            <div class="addr-card">
+              {%- if address.default -%}
+                <span class="addr-default-badge text-editorial-xs">Default</span>
+              {%- endif -%}
+              <p class="addr-name">{{ address.first_name }} {{ address.last_name }}</p>
+              {%- if address.company != blank -%}<p class="addr-line">{{ address.company }}</p>{%- endif -%}
+              <p class="addr-line">{{ address.address1 }}</p>
+              {%- if address.address2 != blank -%}<p class="addr-line">{{ address.address2 }}</p>{%- endif -%}
+              <p class="addr-line">{{ address.city }}{%- if address.province != blank -%}, {{ address.province }}{%- endif %} {{ address.zip }}</p>
+              <p class="addr-line">{{ address.country }}</p>
+              {%- if address.phone != blank -%}<p class="addr-line">{{ address.phone }}</p>{%- endif -%}
+              <div class="addr-actions">
+                <a href="#" class="addr-action-btn" data-edit-address="{{ address.id }}">Edit</a>
+                <a href="{{ routes.account_addresses_url }}/{{ address.id }}" class="addr-action-btn" data-confirm-message="Are you sure you wish to delete this address?" method="delete">Delete</a>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+  </div>
+</div>
+
+<style>
+.addr-section { margin-top: 40px; }
+.addr-section__heading {
+  font-size: 12px;
+  letter-spacing: var(--tracking-editorial);
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-border);
+}
+.addr-form { display: flex; flex-direction: column; }
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 768px) { .form-grid { grid-template-columns: 1fr 1fr; gap: 24px; } }
+
+.form-select {
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%231a1a1a' stroke-width='1.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+.addr-default-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--color-muted-fg);
+  cursor: pointer;
+}
+
+.addr-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+@media (min-width: 768px) { .addr-list { grid-template-columns: 1fr 1fr; } }
+
+.addr-card {
+  padding: 24px;
+  background: var(--color-muted);
+  position: relative;
+}
+.addr-default-badge {
+  display: inline-block;
+  background: var(--color-fg);
+  color: var(--color-bg);
+  padding: 2px 8px;
+  margin-bottom: 12px;
+}
+.addr-name {
+  font-size: 12px;
+  letter-spacing: var(--tracking-editorial);
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+.addr-line { font-size: 13px; color: var(--color-muted-fg); line-height: 1.6; }
+
+.addr-actions { display: flex; gap: 16px; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--color-border); }
+.addr-action-btn {
+  font-size: 11px;
+  letter-spacing: var(--tracking-editorial);
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: opacity 0.2s;
+}
+.addr-action-btn:hover { opacity: 0.6; }
+</style>

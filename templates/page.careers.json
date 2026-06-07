@@ -1,8 +1,47 @@
 {
   "sections": {
     "main": {
-      "type": "main-page",
-      "settings": {}
+      "type": "careers-page",
+      "blocks": {
+        "role1": {
+          "type": "role",
+          "settings": {
+            "title": "Media Buying Executive",
+            "location": "Work from home, Mumbai",
+            "type": "Full-Time"
+          }
+        },
+        "role2": {
+          "type": "role",
+          "settings": {
+            "title": "Human Resource Executive",
+            "location": "Work from home, Mumbai",
+            "type": "Full-Time"
+          }
+        },
+        "role3": {
+          "type": "role",
+          "settings": {
+            "title": "Marketing Executive",
+            "location": "Work from home, Mumbai",
+            "type": "Full-Time"
+          }
+        },
+        "role4": {
+          "type": "role",
+          "settings": {
+            "title": "Graphic Designer",
+            "location": "Work from home, Mumbai",
+            "type": "Full-Time"
+          }
+        }
+      },
+      "blocks_order": ["role1", "role2", "role3", "role4"],
+      "settings": {
+        "heading": "Inspiring Bold Ideas",
+        "body": "Bluer is built on purpose, creativity, and a drive to move fashion forward. We're not here to follow trends — we're here to set them. That takes people who think differently and want their work to matter. We're looking for individuals who can help bring our vision to life. We celebrate collaboration and growth, creating an environment where ideas thrive.",
+        "careers_email": "careers@bluer.com"
+      }
     }
   },
   "order": ["main"]

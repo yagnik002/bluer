@@ -1,0 +1,32 @@
+{
+  "sections": {
+    "main": {
+      "type": "policy-content",
+      "blocks": {
+        "h1": { "type": "heading", "settings": { "text": "Return Window" } },
+        "t1": { "type": "text", "settings": { "text": "We accept returns within 15 days of the delivery date. To be eligible, items must be unworn, unwashed, and in their original condition with all tags attached and original packaging intact." } },
+        "d1": { "type": "divider", "settings": {} },
+        "h2": { "type": "heading", "settings": { "text": "Non-Returnable Items" } },
+        "t2": { "type": "text", "settings": { "text": "The following items cannot be returned: sale or discounted items marked as final sale, innerwear and swimwear, gift cards, and items that have been worn, washed, altered, or damaged after delivery." } },
+        "d2": { "type": "divider", "settings": {} },
+        "h3": { "type": "heading", "settings": { "text": "How to Initiate a Return" } },
+        "t3": { "type": "text", "settings": { "text": "Visit our Start a Return page and submit your request with your order number and item details. Our team will confirm eligibility and schedule a pickup within 2 business days." } },
+        "d3": { "type": "divider", "settings": {} },
+        "h4": { "type": "heading", "settings": { "text": "Refunds" } },
+        "t4": { "type": "text", "settings": { "text": "Once we receive and inspect your return, we will notify you by email. Approved refunds are processed to your original payment method within 5–7 business days. Shipping charges are non-refundable unless the item was defective or incorrectly sent." } },
+        "d4": { "type": "divider", "settings": {} },
+        "h5": { "type": "heading", "settings": { "text": "Exchanges" } },
+        "t5": { "type": "text", "settings": { "text": "We offer exchanges for a different size or colour, subject to availability. Please select 'Exchange' when initiating your return and specify your preferred size or colour. Exchanges ship free of charge." } },
+        "d5": { "type": "divider", "settings": {} },
+        "h6": { "type": "heading", "settings": { "text": "Damaged or Defective Items" } },
+        "t6": { "type": "text", "settings": { "text": "If your item arrived damaged or defective, please contact us at support@bluer.com within 48 hours of delivery with photos. We will arrange a free return and send a replacement or issue a full refund." } }
+      },
+      "blocks_order": ["h1","t1","d1","h2","t2","d2","h3","t3","d3","h4","t4","d4","h5","t5","d5","h6","t6"],
+      "settings": {
+        "title": "Return Policy",
+        "intro": "We want you to love what you ordered. If something isn't right, we make returns simple."
+      }
+    }
+  },
+  "order": ["main"]
+}

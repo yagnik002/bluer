@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "main": {
+      "type": "start-a-return",
+      "settings": {
+        "return_window": 15
+      }
+    }
+  },
+  "order": ["main"]
+}

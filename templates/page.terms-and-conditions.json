@@ -1,0 +1,35 @@
+{
+  "sections": {
+    "main": {
+      "type": "policy-content",
+      "blocks": {
+        "h1": { "type": "heading", "settings": { "text": "Acceptance of Terms" } },
+        "t1": { "type": "text", "settings": { "text": "By accessing and using the BLUER website, you accept and agree to be bound by these Terms and Conditions and our Privacy Policy. If you do not agree to these terms, please do not use our website." } },
+        "d1": { "type": "divider", "settings": {} },
+        "h2": { "type": "heading", "settings": { "text": "Use of the Website" } },
+        "t2": { "type": "text", "settings": { "text": "You agree to use this website only for lawful purposes and in a way that does not infringe the rights of others. You must not misuse our website by introducing viruses, trojans, worms, or other technologically harmful material." } },
+        "d2": { "type": "divider", "settings": {} },
+        "h3": { "type": "heading", "settings": { "text": "Intellectual Property" } },
+        "t3": { "type": "text", "settings": { "text": "All content on this website — including text, images, graphics, logos, and design — is the property of BLUER and is protected by applicable intellectual property laws. You may not reproduce or distribute any content without prior written permission." } },
+        "d3": { "type": "divider", "settings": {} },
+        "h4": { "type": "heading", "settings": { "text": "Purchases and Pricing" } },
+        "t4": { "type": "text", "settings": { "text": "All prices are listed in Indian Rupees (INR) and are inclusive of applicable GST. We reserve the right to modify prices at any time without notice. Orders will be charged at the price displayed at the time of purchase." } },
+        "d4": { "type": "divider", "settings": {} },
+        "h5": { "type": "heading", "settings": { "text": "Limitation of Liability" } },
+        "t5": { "type": "text", "settings": { "text": "BLUER shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of the website or products purchased. Our total liability shall not exceed the value of the order placed." } },
+        "d5": { "type": "divider", "settings": {} },
+        "h6": { "type": "heading", "settings": { "text": "Governing Law" } },
+        "t6": { "type": "text", "settings": { "text": "These terms are governed by the laws of India. Any disputes arising from these terms shall be subject to the exclusive jurisdiction of the courts in Mumbai, Maharashtra." } },
+        "d6": { "type": "divider", "settings": {} },
+        "h7": { "type": "heading", "settings": { "text": "Contact" } },
+        "t7": { "type": "text", "settings": { "text": "For questions regarding these Terms and Conditions, please contact us at legal@bluer.com." } }
+      },
+      "blocks_order": ["h1","t1","d1","h2","t2","d2","h3","t3","d3","h4","t4","d4","h5","t5","d5","h6","t6","d6","h7","t7"],
+      "settings": {
+        "title": "Terms and Conditions",
+        "intro": "Please read these Terms and Conditions carefully before using the BLUER website. Last updated: January 2025."
+      }
+    }
+  },
+  "order": ["main"]
+}

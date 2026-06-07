@@ -1,0 +1,35 @@
+{
+  "sections": {
+    "main": {
+      "type": "policy-content",
+      "blocks": {
+        "h1": { "type": "heading", "settings": { "text": "Shipping Destinations" } },
+        "t1": { "type": "text", "settings": { "text": "We currently ship to all major cities and pin codes across India. International shipping is available to select countries — enter your address at checkout to confirm availability." } },
+        "d1": { "type": "divider", "settings": {} },
+        "h2": { "type": "heading", "settings": { "text": "Delivery Times" } },
+        "t2": { "type": "text", "settings": { "text": "Standard delivery: 5–7 business days. Express delivery: 2–3 business days (available at checkout for eligible pin codes). Metro cities (Mumbai, Delhi, Bangalore, Chennai, Hyderabad, Pune) typically receive orders in 3–5 business days on standard shipping." } },
+        "d2": { "type": "divider", "settings": {} },
+        "h3": { "type": "heading", "settings": { "text": "Shipping Charges" } },
+        "t3": { "type": "text", "settings": { "text": "Free shipping on all prepaid orders above ₹1,990. Orders below ₹1,990 incur a flat shipping fee of ₹99. Express delivery is charged at ₹199 per order regardless of order value. Cash on delivery (COD) is available at an additional fee of ₹49." } },
+        "d3": { "type": "divider", "settings": {} },
+        "h4": { "type": "heading", "settings": { "text": "Order Processing" } },
+        "t4": { "type": "text", "settings": { "text": "Orders placed before 12 PM IST on weekdays are typically dispatched the same day. Orders placed after 12 PM, on weekends, or on public holidays are dispatched the next business day. You will receive a shipping confirmation email with a tracking number once your order is dispatched." } },
+        "d4": { "type": "divider", "settings": {} },
+        "h5": { "type": "heading", "settings": { "text": "Payment Methods" } },
+        "t5": { "type": "text", "settings": { "text": "We accept all major credit cards (Visa, Mastercard, Amex), debit cards, UPI (Google Pay, PhonePe, Paytm), net banking from all major Indian banks, EMI (on select cards), and Cash on Delivery (COD) on eligible pin codes." } },
+        "d5": { "type": "divider", "settings": {} },
+        "h6": { "type": "heading", "settings": { "text": "Payment Security" } },
+        "t6": { "type": "text", "settings": { "text": "All transactions are secured with 256-bit SSL encryption. We do not store card details on our servers. Payments are processed through RBI-compliant payment gateways." } },
+        "d6": { "type": "divider", "settings": {} },
+        "h7": { "type": "heading", "settings": { "text": "Failed or Declined Payments" } },
+        "t7": { "type": "text", "settings": { "text": "If your payment is declined, please verify your card details and billing address. Contact your bank if the issue persists. For any payment-related queries, email us at support@bluer.com." } }
+      },
+      "blocks_order": ["h1","t1","d1","h2","t2","d2","h3","t3","d3","h4","t4","d4","h5","t5","d5","h6","t6","d6","h7","t7"],
+      "settings": {
+        "title": "Shipping & Payments",
+        "intro": "Everything you need to know about how we ship your order and the payment options available."
+      }
+    }
+  },
+  "order": ["main"]
+}

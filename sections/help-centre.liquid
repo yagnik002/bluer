@@ -1,0 +1,151 @@
+<div class="policy-page">
+  <div class="policy-page__inner">
+
+    <a href="{{ routes.root_url }}" class="policy-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
+      Back
+    </a>
+
+    <h1 class="policy-page__title font-display">Help Centre</h1>
+    <p class="policy-page__intro">Find answers to the most common questions below. If you still need help, reach us at <a href="mailto:support@bluer.com">support@bluer.com</a>.</p>
+
+    <div class="faq-list">
+
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'faq' -%}
+          <div class="faq-item" {{ block.shopify_attributes }}>
+            <button class="faq-question btn-reset" aria-expanded="false">
+              <span>{{ block.settings.question }}</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" hidden>
+              <p>{{ block.settings.answer }}</p>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+
+    </div>
+
+    <div class="policy-contact-box">
+      <p class="text-editorial-sm">Still need help?</p>
+      <p style="font-size:13px;margin-top:8px;color:var(--color-muted-fg)">Our team is available Monday – Saturday, 10 AM – 7 PM IST.</p>
+      <a href="mailto:support@bluer.com" class="btn" style="margin-top:20px;display:inline-flex">Email Us</a>
+    </div>
+
+  </div>
+</div>
+
+<style>
+.faq-list { margin-top: 40px; border-top: 1px solid var(--color-border); }
+.faq-item { border-bottom: 1px solid var(--color-border); }
+.faq-question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 20px 0;
+  font-size: 13px;
+  text-align: left;
+  gap: 16px;
+  transition: opacity 0.2s;
+}
+.faq-question:hover { opacity: 0.7; }
+.faq-icon { font-size: 20px; line-height: 1; flex-shrink: 0; transition: transform 0.25s; }
+.faq-item.is-open .faq-icon { transform: rotate(45deg); }
+.faq-answer { padding-bottom: 20px; }
+.faq-answer p { font-size: 14px; line-height: 1.75; color: var(--color-muted-fg); }
+.policy-contact-box {
+  margin-top: 48px;
+  padding: 32px;
+  background: var(--color-muted);
+  text-align: center;
+}
+</style>
+
+<script>
+document.querySelectorAll('.faq-question').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.closest('.faq-item');
+    const answer = item.querySelector('.faq-answer');
+    const open = item.classList.toggle('is-open');
+    btn.setAttribute('aria-expanded', open);
+    answer.hidden = !open;
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "Help Centre",
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "FAQ item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "What is your return policy?"
+        },
+        {
+          "type": "textarea",
+          "id": "answer",
+          "label": "Answer",
+          "default": "We accept returns within 15 days of delivery. Items must be unworn and in original condition."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Help Centre",
+      "blocks": [
+        {
+          "type": "faq",
+          "settings": {
+            "question": "How long does delivery take?",
+            "answer": "Standard delivery takes 5–7 business days. Express delivery (2–3 business days) is available at checkout for most pin codes."
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "How do I track my order?",
+            "answer": "Once your order ships, you will receive a tracking link via email. You can also log in to your account and view your order status under My Purchases."
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "What payment methods do you accept?",
+            "answer": "We accept all major credit and debit cards, UPI, net banking, and prepaid wallets. Cash on delivery is available on select pin codes."
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "How do I start a return?",
+            "answer": "Visit our Start a Return page, fill in your order details, and our team will arrange a pickup within 2 business days."
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "Can I exchange for a different size?",
+            "answer": "Yes. During the return process, select 'Exchange' and choose your preferred size. Exchanges are subject to availability."
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "How do I use a discount code?",
+            "answer": "Enter your discount code in the 'Discount' field at checkout. Only one code can be applied per order."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
