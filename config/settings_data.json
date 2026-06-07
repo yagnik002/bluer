@@ -1,9 +1,41 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "current": {
     "color_background": "#ffffff",
     "color_foreground": "#1a1a1a",
     "color_border": "#e5e5e5",
-    "color_muted": "#f5f5f5"
+    "color_muted": "#f5f5f5",
+    "sections": {
+      "header": {
+        "type": "header",
+        "settings": {
+          "menu": "main-menu",
+          "show_collections": true,
+          "collections_menu": "main-menu"
+        }
+      },
+      "footer": {
+        "type": "footer",
+        "settings": {
+          "menu_1": "footer",
+          "menu_2": "",
+          "menu_3": "",
+          "instagram_url": "https://www.instagram.com/bluer.co.in",
+          "facebook_url": "https://www.facebook.com/people/Bluer/100083943947675/?mibextid=LQQJ4d&rdid=KB3KcBzfn9LhslG7&share_url=https%253A%252F%252Fwww.facebook.com%252Fshare%252FtPVsyB72KYUWRBY4%252F%253Fmibextid%253DLQQJ4d",
+          "twitter_url": "https://www.threads.com/@bluer.co.in",
+          "linkedin_url": "https://www.linkedin.com/company/blueronyou/"
+        }
+      }
+    },
+    "content_for_index": []
   },
   "presets": {}
 }
