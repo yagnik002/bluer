@@ -11,7 +11,24 @@
       "Bash(curl -s http://localhost:8080)",
       "Bash(git init *)",
       "Bash(git remote *)",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(cp \"/Users/yagnikshaparia/Downloads/Shopify Storefront Builder11/src/assets/\"*.jpg \"/Users/yagnikshaparia/Downloads/Shopify Storefront Builder11/assets/\" && ls \"/Users/yagnikshaparia/Downloads/Shopify Storefront Builder11/assets/\")",
+      "Bash(git pull *)",
+      "Bash(git stash *)",
+      "Bash(echo \"PID=$!\")",
+      "Bash(sleep 5 && cat /tmp/bluer-dev.log)",
+      "Read(//private/tmp/**)",
+      "Bash(open http://localhost:8081)",
+      "Bash(pkill -f \"vite dev\")",
+      "Bash(lsof -ti:8081)",
+      "Bash(xargs kill -9)",
+      "Bash(git rm *)",
+      "Bash(rm -rf node_modules/ .lovable/ .tanstack/)"
+    ],
+    "additionalDirectories": [
+      "/Users/yagnikshaparia/Downloads/Shopify Storefront Builder11/src/assets"
     ]
   }
 }
