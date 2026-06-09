@@ -64,6 +64,109 @@
     </div>
   </div>
 
+  <!-- Added to Bag Modal -->
+  <div id="added-to-bag-modal" class="atb-modal" aria-hidden="true" role="dialog" aria-label="Added to bag">
+    <div class="atb-modal__overlay" id="atb-overlay"></div>
+    <div class="atb-modal__panel">
+      <div class="atb-modal__header">
+        <h3 class="atb-modal__title">ADDED TO BAG</h3>
+        <button class="atb-modal__close btn-reset" id="atb-close" aria-label="Close">×</button>
+      </div>
+      <div class="atb-modal__product" id="atb-product">
+        <!-- filled by JS -->
+      </div>
+      <a href="/cart" class="btn btn--full atb-modal__cta">VIEW BAG</a>
+      <div class="atb-modal__suggestions" id="atb-suggestions">
+        <p class="atb-modal__suggestions-heading">MAY INTEREST YOU</p>
+        <div class="product-grid product-grid--4" id="atb-suggestions-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Size Chart Modal -->
+  <div id="size-chart-modal" class="modal-overlay" aria-hidden="true" role="dialog" aria-label="Size chart">
+    <div class="modal-overlay__bg" id="size-chart-bg"></div>
+    <div class="modal-panel">
+      <div class="modal-panel__header">
+        <h3>SIZE CHART</h3>
+        <button class="modal-panel__close btn-reset" id="size-chart-close" aria-label="Close">×</button>
+      </div>
+      <div class="modal-panel__body">
+        <table class="size-chart-table">
+          <thead>
+            <tr><th>SIZE</th><th>CHEST</th><th>WAIST</th><th>HIP</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>XS</td><td>32"</td><td>24"</td><td>34"</td></tr>
+            <tr><td>S</td><td>34"</td><td>26"</td><td>36"</td></tr>
+            <tr><td>M</td><td>36"</td><td>28"</td><td>38"</td></tr>
+            <tr><td>L</td><td>38"</td><td>30"</td><td>40"</td></tr>
+            <tr><td>XL</td><td>40"</td><td>32"</td><td>42"</td></tr>
+            <tr><td>XXL</td><td>42"</td><td>34"</td><td>44"</td></tr>
+          </tbody>
+        </table>
+        <p class="size-chart-measure-heading">HOW TO MEASURE</p>
+        <ul class="size-chart-measure-list">
+          <li><strong>Chest:</strong> Measure around the fullest part of your chest, keeping the tape horizontal.</li>
+          <li><strong>Waist:</strong> Measure around your natural waistline, keeping the tape comfortably loose.</li>
+          <li><strong>Hip:</strong> Measure around the fullest part of your hips, about 8" below your waistline.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Get Notified Modal -->
+  <div id="notify-modal" class="modal-overlay" aria-hidden="true" role="dialog" aria-label="Get notified">
+    <div class="modal-overlay__bg" id="notify-bg"></div>
+    <div class="modal-panel">
+      <div class="modal-panel__header">
+        <h3>GET NOTIFIED</h3>
+        <button class="modal-panel__close btn-reset" id="notify-close" aria-label="Close">×</button>
+      </div>
+      <div class="modal-panel__body">
+        <p style="font-size:13px;margin-bottom:20px;opacity:0.7">We'll let you know when this item is back in stock.</p>
+        <div class="form-field">
+          <label class="form-label" for="notify-size">Size</label>
+          <select class="form-input" id="notify-size" name="notify-size"></select>
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="notify-email">Email Address</label>
+          <input class="form-input" type="email" id="notify-email" placeholder="your@email.com" autocomplete="email">
+        </div>
+        <button class="btn btn--full" id="notify-submit">NOTIFY ME</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="mobile-bottom-nav" aria-label="Mobile navigation">
+    <a href="{{ routes.root_url }}" class="mobile-nav-item{% if template.name == 'index' %} is-active{% endif %}" aria-label="Home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/></svg>
+      <span>Home</span>
+    </a>
+    <button class="mobile-nav-item btn-reset" id="mobile-menu-btn" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
+      <span>Menu</span>
+    </button>
+    <button class="mobile-nav-item btn-reset" id="mobile-search-btn" aria-label="Search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+      <span>Search</span>
+    </button>
+    <a href="{{ routes.cart_url }}" class="mobile-nav-item{% if template.name == 'cart' %} is-active{% endif %}" aria-label="Bag">
+      <span class="mobile-nav-bag-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z"/></svg>
+        {%- if cart.item_count > 0 -%}
+          <span class="mobile-nav-bag-count">{{ cart.item_count }}</span>
+        {%- endif -%}
+      </span>
+      <span>Bag</span>
+    </a>
+    <a href="{{ routes.account_url }}" class="mobile-nav-item{% if template.name == 'customers/account' %} is-active{% endif %}" aria-label="Account">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+      <span>Account</span>
+    </a>
+  </nav>
+
   {{ 'theme.js' | asset_url | script_tag }}
 </body>
 </html>

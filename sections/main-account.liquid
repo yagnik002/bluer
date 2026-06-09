@@ -1,60 +1,59 @@
-<div class="account-section">
-  <h1 class="account-greeting">
-    HI, {{ customer.first_name | upcase | default: 'THERE' }}
-  </h1>
-  <p class="account-email">{{ customer.email }}</p>
+<div class="account-page">
 
-  <!-- Editorial image -->
-  {%- if section.settings.image != blank -%}
-    <div class="account-img">
-      <img
-        src="{{ section.settings.image | image_url: width: 1280 }}"
-        alt="{{ section.settings.image.alt | default: 'BLUER editorial' }}"
-        loading="lazy"
-      >
+  <!-- Greeting -->
+  <div class="account-greeting-block">
+    <h1 class="account-hello">HELLO, {{ customer.first_name | upcase | default: 'THERE' }}</h1>
+    <p class="account-email">{{ customer.email }}</p>
+  </div>
+
+  <!-- Featured collection editorial block -->
+  {%- if section.settings.collection_image != blank -%}
+    <div class="account-editorial">
+      <div class="account-editorial__img">
+        <img
+          src="{{ section.settings.collection_image | image_url: width: 900 }}"
+          alt="{{ section.settings.collection_image.alt | default: 'BLUER collection' }}"
+          loading="lazy"
+        >
+      </div>
+      <div class="account-editorial__info">
+        {%- if section.settings.collection_label != blank -%}
+          <p class="account-editorial__label">{{ section.settings.collection_label }}</p>
+        {%- endif -%}
+        {%- if section.settings.collection_title != blank -%}
+          <p class="account-editorial__title">{{ section.settings.collection_title }}</p>
+        {%- endif -%}
+        {%- if section.settings.collection_subtitle != blank -%}
+          <p class="account-editorial__subtitle">{{ section.settings.collection_subtitle }}</p>
+        {%- endif -%}
+      </div>
     </div>
   {%- endif -%}
 
-  <!-- Account links -->
-  <ul class="account-links">
-    <li>
-      <a href="#" class="account-link-row">
-        <span>Help Centre</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
-        </svg>
+  <!-- Account nav links -->
+  <ul class="account-nav-links">
+    <li class="account-nav-item">
+      <a href="{{ routes.account_url }}/addresses" class="account-nav-row">
+        <span>ACCOUNT DETAILS</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
       </a>
     </li>
-    <li>
-      <a href="#" class="account-link-row">
-        <span>Wishlist</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
-        </svg>
+    <li class="account-nav-item">
+      <a href="#wishlist" class="account-nav-row">
+        <span>WISHLIST</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
       </a>
     </li>
-    <li>
-      <a href="{{ routes.account_url }}/orders" class="account-link-row">
-        <span>My Purchases</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
-        </svg>
+    <li class="account-nav-item">
+      <a href="{{ routes.account_url }}/orders" class="account-nav-row">
+        <span>MY PURCHASES</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
       </a>
     </li>
-    <li>
-      <a href="#" class="account-link-row">
-        <span>Start a Return</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
-        </svg>
-      </a>
-    </li>
-    <li>
-      <a href="{{ routes.account_url }}/addresses" class="account-link-row">
-        <span>Account Details</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
-        </svg>
+    <li class="account-nav-item">
+      <a href="/pages/start-a-return" class="account-nav-row">
+        <span>RETURNS</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
       </a>
     </li>
   </ul>
@@ -68,8 +67,26 @@
   "settings": [
     {
       "type": "image_picker",
-      "id": "image",
-      "label": "Editorial portrait image"
+      "id": "collection_image",
+      "label": "Collection editorial image"
+    },
+    {
+      "type": "text",
+      "id": "collection_label",
+      "label": "Collection label (e.g. NEW ARRIVALS)",
+      "default": "NEW ARRIVALS"
+    },
+    {
+      "type": "text",
+      "id": "collection_title",
+      "label": "Collection title (e.g. CRAFTED)",
+      "default": "CRAFTED"
+    },
+    {
+      "type": "text",
+      "id": "collection_subtitle",
+      "label": "Collection subtitle",
+      "default": "Refined essentials for the modern wardrobe."
     }
   ]
 }

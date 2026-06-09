@@ -1,66 +1,86 @@
 <footer class="site-footer">
   <div class="footer-inner">
 
+    <!-- Link columns -->
+    <div class="footer-links">
+      <ul class="footer-links-col">
+        <li><a href="{{ routes.account_url }}/addresses" class="footer-link">Account Details</a></li>
+        <li><a href="{{ routes.account_url }}/orders" class="footer-link">Purchases</a></li>
+        <li><a href="/pages/start-a-return" class="footer-link">Returns</a></li>
+        <li><a href="/pages/about" class="footer-link">About the Brand</a></li>
+        <li><a href="/pages/careers" class="footer-link">Career</a></li>
+      </ul>
+      <ul class="footer-links-col">
+        <li><a href="/pages/help-centre" class="footer-link">Help Centre</a></li>
+        <li><a href="/pages/terms-and-conditions" class="footer-link">Terms and Conditions</a></li>
+        <li><a href="/pages/return-policy" class="footer-link">Return Policy</a></li>
+        <li><a href="/pages/privacy-policy" class="footer-link">Privacy Policy</a></li>
+        <li><a href="/pages/shipping-and-payments" class="footer-link">Shipping and Payments</a></li>
+      </ul>
+    </div>
+
     <!-- Newsletter -->
     <div class="footer-newsletter">
-      <div>
-        <p class="footer-newsletter__label">Subscribe to our newsletter</p>
-      </div>
+      <h3 class="footer-newsletter__heading">NEWSLETTER</h3>
+      <p class="footer-newsletter__sub">Discover new arrivals and exclusive access to what's coming next.</p>
       <form class="footer-email-form" action="/contact#contact_form" method="post" accept-charset="UTF-8">
         <input type="hidden" name="form_type" value="customer">
         <input type="hidden" name="utf8" value="✓">
-        <label class="footer-email-label" for="footer-email">Email Address</label>
         <div class="footer-email-row">
           <input
             type="email"
             name="contact[email]"
             id="footer-email"
             class="footer-email-input"
-            placeholder=""
+            placeholder="Email Address"
             required
             autocomplete="email"
           >
-          <button type="submit" class="footer-email-btn">Subscribe</button>
+          <button type="submit" class="footer-email-btn">SUBSCRIBE</button>
         </div>
       </form>
     </div>
 
-    <!-- Link columns — hardcoded BLUER page structure -->
-    <div class="footer-links">
-      <ul class="footer-links-col">
-        <li><a href="/pages/help-centre" class="footer-link">Help Centre</a></li>
-        <li><a href="{{ routes.account_url }}/orders" class="footer-link">My Purchases</a></li>
-        <li><a href="/pages/start-a-return" class="footer-link">Start a Return</a></li>
-      </ul>
-      <ul class="footer-links-col">
-        <li><a href="/pages/terms-and-conditions" class="footer-link">Terms and Conditions</a></li>
-        <li><a href="/pages/return-policy" class="footer-link">Return Policy</a></li>
-        <li><a href="/pages/shipping-and-payments" class="footer-link">Shipping and Payments</a></li>
-      </ul>
-      <ul class="footer-links-col">
-        <li><a href="{{ routes.account_url }}/addresses" class="footer-link">Account Details</a></li>
-        <li><a href="/pages/about" class="footer-link">About the Brand</a></li>
-        <li><a href="/pages/careers" class="footer-link">Careers</a></li>
-      </ul>
-    </div>
-
-    <!-- Bottom row -->
+    <!-- Social icons + copyright -->
     <div class="footer-bottom">
       <div class="footer-social">
         {%- if section.settings.instagram_url != blank -%}
-          <a href="{{ section.settings.instagram_url }}" class="footer-social-link" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
+          <a href="{{ section.settings.instagram_url }}" class="footer-social-link" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
         {%- endif -%}
         {%- if section.settings.facebook_url != blank -%}
-          <a href="{{ section.settings.facebook_url }}" class="footer-social-link" target="_blank" rel="noopener" aria-label="Facebook">FB</a>
+          <a href="{{ section.settings.facebook_url }}" class="footer-social-link" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
         {%- endif -%}
-        {%- if section.settings.twitter_url != blank -%}
-          <a href="{{ section.settings.twitter_url }}" class="footer-social-link" target="_blank" rel="noopener" aria-label="X / Twitter">@</a>
+        {%- if section.settings.threads_url != blank -%}
+          <a href="{{ section.settings.threads_url }}" class="footer-social-link" target="_blank" rel="noopener" aria-label="Threads">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.473 12.01v-.017c.027-3.579.877-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.473l-2.396.623c-1.101-4.232-3.905-6.37-8.101-6.393-2.921.019-5.147.919-6.617 2.674-1.388 1.655-2.072 4.07-2.096 7.171.024 3.105.708 5.524 2.096 7.18 1.47 1.755 3.696 2.655 6.616 2.673 2.547-.019 4.288-.671 5.47-1.992.907-1.005 1.438-2.496 1.544-4.33-.57.073-1.168.111-1.8.115-2.745 0-4.915-.742-6.394-2.177C9.875 15.64 9 13.682 9 11.25c0-2.432.875-4.39 2.524-5.874 1.479-1.335 3.571-2.082 5.909-2.115 2.66.038 4.682.918 6.012 2.614C24.536 7.446 25 9.76 25 12.354c0 .062 0 .127-.002.191-.07 3.016-.803 5.302-2.222 6.8-1.663 1.752-4.13 2.644-7.338 2.655h-.252zm.254-19.5h-.013c-1.73.024-3.172.55-4.246 1.517C7.147 7.031 6.5 8.447 6.5 10.25c0 1.813.648 3.232 1.93 4.218.893.681 2.045 1.032 3.422 1.032.688 0 1.338-.072 1.944-.213l-.006.013c.015-2.246-.005-3.882-.06-4.868-.103-1.862-.776-2.874-2.157-2.932h-.186c-.895 0-1.548.328-1.938.977-.338.562-.394 1.22-.283 1.745l.006.028-2.35.513-.009-.04c-.21-1.006-.073-2.127.573-3.048.75-1.069 1.963-1.675 3.446-1.675h.313c2.558.11 3.97 1.71 4.118 4.613.058 1.075.08 2.791.066 5.116l-.003.273c.633-.052 1.207-.136 1.722-.251v-.021c.005-.076.007-.157.007-.24C18.5 11.12 18.14 9.215 17.31 7.97c-.85-1.27-2.252-1.932-4.17-1.97h-.7z"/></svg>
+          </a>
         {%- endif -%}
         {%- if section.settings.linkedin_url != blank -%}
-          <a href="{{ section.settings.linkedin_url }}" class="footer-social-link" target="_blank" rel="noopener" aria-label="LinkedIn">LI</a>
+          <a href="{{ section.settings.linkedin_url }}" class="footer-social-link" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+        {%- endif -%}
+        {%- comment -%}Fallback: always show icons if none set — store can configure later{%- endcomment -%}
+        {%- if section.settings.instagram_url == blank and section.settings.facebook_url == blank and section.settings.threads_url == blank and section.settings.linkedin_url == blank -%}
+          <a href="#" class="footer-social-link" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="#" class="footer-social-link" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="#" class="footer-social-link" aria-label="Threads">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.473 12.01v-.017c.027-3.579.877-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.473l-2.396.623c-1.101-4.232-3.905-6.37-8.101-6.393-2.921.019-5.147.919-6.617 2.674-1.388 1.655-2.072 4.07-2.096 7.171.024 3.105.708 5.524 2.096 7.18 1.47 1.755 3.696 2.655 6.616 2.673 2.547-.019 4.288-.671 5.47-1.992.907-1.005 1.438-2.496 1.544-4.33-.57.073-1.168.111-1.8.115-2.745 0-4.915-.742-6.394-2.177C9.875 15.64 9 13.682 9 11.25c0-2.432.875-4.39 2.524-5.874 1.479-1.335 3.571-2.082 5.909-2.115 2.66.038 4.682.918 6.012 2.614C24.536 7.446 25 9.76 25 12.354c0 .062 0 .127-.002.191-.07 3.016-.803 5.302-2.222 6.8-1.663 1.752-4.13 2.644-7.338 2.655h-.252z"/></svg>
+          </a>
+          <a href="#" class="footer-social-link" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
         {%- endif -%}
       </div>
-      <p class="footer-copyright">Copyright &copy;{{ 'now' | date: '%Y' }} {{ shop.name }}. All Rights Reserved.</p>
+      <p class="footer-copyright">Copyright &copy;2025 All Rights Reserved</p>
     </div>
 
   </div>
@@ -70,26 +90,6 @@
 {
   "name": "Footer",
   "settings": [
-    {
-      "type": "header",
-      "content": "Link columns"
-    },
-    {
-      "type": "link_list",
-      "id": "menu_1",
-      "label": "Column 1",
-      "default": "footer"
-    },
-    {
-      "type": "link_list",
-      "id": "menu_2",
-      "label": "Column 2"
-    },
-    {
-      "type": "link_list",
-      "id": "menu_3",
-      "label": "Column 3"
-    },
     {
       "type": "header",
       "content": "Social links"
@@ -106,8 +106,8 @@
     },
     {
       "type": "url",
-      "id": "twitter_url",
-      "label": "X / Twitter URL"
+      "id": "threads_url",
+      "label": "Threads URL"
     },
     {
       "type": "url",

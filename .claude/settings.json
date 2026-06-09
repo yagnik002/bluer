@@ -25,7 +25,9 @@
       "Bash(lsof -ti:8081)",
       "Bash(xargs kill -9)",
       "Bash(git rm *)",
-      "Bash(rm -rf node_modules/ .lovable/ .tanstack/)"
+      "Bash(rm -rf node_modules/ .lovable/ .tanstack/)",
+      "WebFetch(domain:www.figma.com)",
+      "WebFetch(domain:embed.figma.com)"
     ],
     "additionalDirectories": [
       "/Users/yagnikshaparia/Downloads/Shopify Storefront Builder11/src/assets"

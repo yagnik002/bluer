@@ -7,23 +7,27 @@
 
   <div class="cart-tabs">
     <button class="cart-tab-btn is-active btn-reset" data-tab="bag">
-      Your Bag [{{ cart.item_count }}]
+      YOUR BAG [{{ cart.item_count }}]
     </button>
-    <button class="cart-tab-btn btn-reset" data-tab="wishlist">Wishlist</button>
+    <button class="cart-tab-btn btn-reset" data-tab="looks">LOOKS</button>
   </div>
 </div>
 
-<div data-tab-panel="wishlist" style="display:none">
+<!-- Looks / Wishlist tab -->
+<div data-tab-panel="looks" style="display:none">
   <div class="cart-empty-page">
-    <p>Your wishlist is empty.</p>
+    <p class="text-editorial-sm">YOUR LOOKS ARE EMPTY</p>
+    <p style="font-size:13px;opacity:0.6;margin-top:8px">Save your favourite items to create outfits.</p>
   </div>
 </div>
 
+<!-- Bag tab -->
 <div data-tab-panel="bag" class="cart-page">
   {%- if cart.item_count == 0 -%}
     <div class="cart-empty-page">
-      <p>Your bag is empty</p>
-      <a href="{{ routes.root_url }}" class="btn" style="margin-top:24px">Continue Shopping</a>
+      <p class="text-editorial-sm">YOUR BAG IS EMPTY</p>
+      <p class="cart-empty-sub">Explore the latest arrivals and more</p>
+      <a href="/collections/all" class="btn cart-empty-cta">VIEW COLLECTION</a>
     </div>
 
   {%- else -%}
@@ -51,6 +55,22 @@
                 <div>
                   <a href="{{ item.url }}" class="cart-item__title">{{ item.product.title }}</a>
                   <p class="cart-item__price">{{ item.final_line_price | money }}</p>
+                  {%- unless item.variant.title == 'Default Title' -%}
+                    <p class="cart-item__variant">{{ item.variant.title }}</p>
+                  {%- endunless -%}
+                  {%- if item.variant.option1 != 'Default Title' -%}
+                    <div class="cart-item__options">
+                      {%- for option in item.product.options_with_values -%}
+                        {%- assign opt_val = '' -%}
+                        {%- if option.position == 1 -%}{%- assign opt_val = item.variant.option1 -%}{%- endif -%}
+                        {%- if option.position == 2 -%}{%- assign opt_val = item.variant.option2 -%}{%- endif -%}
+                        {%- if option.position == 3 -%}{%- assign opt_val = item.variant.option3 -%}{%- endif -%}
+                        {%- if opt_val != blank and opt_val != 'Default Title' -%}
+                          <span class="cart-item__opt-label">{{ option.name }}: <span class="cart-item__opt-val">{{ opt_val }}</span></span>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </div>
+                  {%- endif -%}
                 </div>
                 <button
                   class="cart-item__remove btn-reset"
@@ -58,14 +78,10 @@
                   aria-label="Remove {{ item.product.title }}"
                 >
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
                   </svg>
                 </button>
               </div>
-
-              {%- unless item.variant.title == 'Default Title' -%}
-                <p style="font-size:14px">{{ item.variant.title }}</p>
-              {%- endunless -%}
 
               <div class="quantity-control">
                 <button
@@ -104,25 +120,24 @@
           </div>
           <p class="cart-tax-note">MRP inclusive of all taxes</p>
         </div>
-        <a href="{{ routes.cart_url }}/checkout" class="btn btn--full">Proceed to Checkout</a>
+        <a href="{{ routes.cart_url }}/checkout" class="btn btn--full">PROCEED TO CHECKOUT</a>
       </aside>
 
     </div>
   {%- endif -%}
 </div>
 
-{%- if section.settings.show_featured -%}
-  {%- assign featured_collection = collections[section.settings.featured_collection] -%}
-  {%- if featured_collection != blank -%}
-    <div style="padding: 0 24px 80px">
-      <h2 class="section-heading" style="padding-left:0">Featured Products</h2>
-      <div class="product-grid product-grid--4">
-        {%- for product in featured_collection.products limit: 4 -%}
-          {%- render 'product-card', product: product -%}
-        {%- endfor -%}
-      </div>
+<!-- Suggested products -->
+{%- assign suggested_collection = collections[section.settings.suggested_collection] -%}
+{%- if suggested_collection != blank and suggested_collection.products_count > 0 -%}
+  <div class="cart-suggested">
+    <h2 class="section-heading cart-suggested__heading">SUGGESTED</h2>
+    <div class="product-grid product-grid--4">
+      {%- for product in suggested_collection.products limit: 4 -%}
+        {%- render 'product-card', product: product -%}
+      {%- endfor -%}
     </div>
-  {%- endif -%}
+  </div>
 {%- endif -%}
 
 {% schema %}
@@ -130,15 +145,9 @@
   "name": "Cart",
   "settings": [
     {
-      "type": "checkbox",
-      "id": "show_featured",
-      "label": "Show featured products below cart",
-      "default": true
-    },
-    {
       "type": "collection",
-      "id": "featured_collection",
-      "label": "Featured collection"
+      "id": "suggested_collection",
+      "label": "Suggested products collection"
     }
   ]
 }

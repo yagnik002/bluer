@@ -24,7 +24,7 @@
   <!-- Info -->
   <div class="product-info">
     <div>
-      <a href="{{ collection.url }}" style="font-size:11px;letter-spacing:var(--tracking-editorial);text-transform:uppercase;opacity:0.5;display:inline-block;margin-bottom:12px;transition:opacity 0.2s">
+      <a href="{{ collection.url }}" class="product-collection-link">
         {{ collection.title }}
       </a>
       <h1 class="product-title">{{ product.title }}</h1>
@@ -36,49 +36,65 @@
     {%- unless product.has_only_default_variant -%}
       <div class="product-variants">
         {%- for option in product.options_with_values -%}
-          <p class="product-variants-label">{{ option.name }}</p>
-          <div class="product-variants-list">
-            {%- for value in option.values -%}
-              {%- assign variant_for_value = product.variants | where: "option1", value | first -%}
-              {%- if product.options.size >= 2 -%}
-                {%- assign variant_for_value = product.variants | where: "option1", value | first -%}
-                {%- if option.position == 2 -%}
-                  {%- assign variant_for_value = product.variants | where: "option2", value | first -%}
-                {%- elsif option.position == 3 -%}
-                  {%- assign variant_for_value = product.variants | where: "option3", value | first -%}
-                {%- endif -%}
+          {%- assign option_name_lower = option.name | downcase -%}
+          <div class="product-option">
+            <div class="product-option__header">
+              <p class="product-variants-label">{{ option.name }}</p>
+              {%- if option_name_lower == 'size' -%}
+                <button class="size-guide-link btn-reset" id="size-guide-btn">SIZE GUIDE</button>
               {%- endif -%}
-              <button
-                class="variant-btn btn-reset{% if current_variant.option1 == value or current_variant.option2 == value or current_variant.option3 == value %} is-active{% endif %}"
-                data-variant-id="{{ variant_for_value.id | default: product.variants.first.id }}"
-                data-price="{{ variant_for_value.price | default: product.price }}"
-                data-available="{{ variant_for_value.available | default: false }}"
-                {%- unless variant_for_value.available -%}disabled{%- endunless -%}
-              >
-                {{ value }}
-              </button>
-            {%- endfor -%}
+            </div>
+            <div class="product-variants-list{%- if option_name_lower == 'color' %} product-variants-list--color{%- endif %}">
+              {%- for value in option.values -%}
+                {%- assign variant_for_value = product.variants | where: "option1", value | first -%}
+                {%- if product.options.size >= 2 -%}
+                  {%- if option.position == 2 -%}
+                    {%- assign variant_for_value = product.variants | where: "option2", value | first -%}
+                  {%- elsif option.position == 3 -%}
+                    {%- assign variant_for_value = product.variants | where: "option3", value | first -%}
+                  {%- endif -%}
+                {%- endif -%}
+                {%- if option_name_lower == 'color' -%}
+                  <button
+                    class="variant-color-btn btn-reset{% if current_variant.option1 == value or current_variant.option2 == value or current_variant.option3 == value %} is-active{% endif %}"
+                    data-variant-id="{{ variant_for_value.id | default: product.variants.first.id }}"
+                    data-price="{{ variant_for_value.price | default: product.price }}"
+                    data-available="{{ variant_for_value.available | default: false }}"
+                    data-color="{{ value }}"
+                    title="{{ value }}"
+                    style="background:{{ value | downcase | replace: ' ', '' }};"
+                    {%- unless variant_for_value.available -%}disabled{%- endunless -%}
+                  ></button>
+                {%- else -%}
+                  <button
+                    class="variant-btn btn-reset{% if current_variant.option1 == value or current_variant.option2 == value or current_variant.option3 == value %} is-active{% endif %}"
+                    data-variant-id="{{ variant_for_value.id | default: product.variants.first.id }}"
+                    data-price="{{ variant_for_value.price | default: product.price }}"
+                    data-available="{{ variant_for_value.available | default: false }}"
+                    {%- unless variant_for_value.available -%}disabled{%- endunless -%}
+                  >
+                    {{ value }}
+                  </button>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
           </div>
         {%- endfor -%}
       </div>
     {%- endunless -%}
 
-    <div
-      id="product-form"
-      data-default-variant="{{ current_variant.id }}"
-    >
-      <button
-        id="add-to-cart-btn"
-        class="product-add-btn"
-        {%- unless current_variant.available -%}
-        {%- endunless -%}
-      >
-        {%- if current_variant.available -%}
-          Add to Bag
-        {%- else -%}
-          Sold Out
-        {%- endif -%}
-      </button>
+    <!-- Stock notice -->
+    {%- if current_variant.inventory_management == 'shopify' and current_variant.inventory_quantity > 0 and current_variant.inventory_quantity <= 5 -%}
+      <p class="product-low-stock" id="product-low-stock">Only {{ current_variant.inventory_quantity }} units left</p>
+    {%- endif -%}
+
+    <div id="product-form" data-default-variant="{{ current_variant.id }}">
+      {%- if current_variant.available -%}
+        <button id="add-to-cart-btn" class="product-add-btn">ADD TO BAG</button>
+      {%- else -%}
+        <button id="add-to-cart-btn" class="product-add-btn product-add-btn--sold-out" disabled>SOLD OUT</button>
+        <button class="product-notify-btn btn-reset" id="notify-me-btn">NOTIFY ME WHEN AVAILABLE</button>
+      {%- endif -%}
     </div>
 
     {%- if product.description != blank -%}
@@ -86,6 +102,45 @@
         {{ product.description }}
       </div>
     {%- endif -%}
+
+    <!-- Shipping accordion -->
+    <div class="product-accordion">
+      <button class="product-accordion__trigger btn-reset" aria-expanded="false">
+        <span>SHIPPING</span>
+        <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+      </button>
+      <div class="product-accordion__body">
+        <div class="pincode-checker">
+          <div class="pincode-row">
+            <input type="text" class="form-input pincode-input" id="pincode-input" placeholder="Enter Pincode" maxlength="6" pattern="[0-9]{6}">
+            <button class="btn pincode-apply-btn" id="pincode-apply">APPLY</button>
+          </div>
+          <p class="pincode-result" id="pincode-result"></p>
+        </div>
+        <ul class="shipping-features">
+          <li>Free shipping on orders above ₹2,499</li>
+          <li>Standard delivery: 5–7 business days</li>
+          <li>Express delivery available at checkout</li>
+          <li>Ships from Mumbai</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Returns accordion -->
+    <div class="product-accordion">
+      <button class="product-accordion__trigger btn-reset" aria-expanded="false">
+        <span>RETURNS</span>
+        <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+      </button>
+      <div class="product-accordion__body">
+        <ul class="shipping-features">
+          <li>Easy returns within 15 days of delivery</li>
+          <li>Items must be unworn, unwashed, and with original tags</li>
+          <li>Refunds processed within 5–7 business days</li>
+          <li><a href="/pages/return-policy">View full return policy</a></li>
+        </ul>
+      </div>
+    </div>
 
     <!-- Structured data -->
     <script type="application/json" id="product-data">
@@ -96,7 +151,8 @@
               "id": {{ variant.id }},
               "title": {{ variant.title | json }},
               "price": {{ variant.price }},
-              "available": {{ variant.available }}
+              "available": {{ variant.available }},
+              "inventory_quantity": {{ variant.inventory_quantity | default: 0 }}
             }{% unless forloop.last %},{% endunless %}
           {%- endfor -%}
         ]
@@ -106,9 +162,43 @@
 
 </div>
 
+<!-- Complete the Look -->
+{%- if section.settings.look_collection != blank -%}
+  {%- assign look_collection = collections[section.settings.look_collection] -%}
+  {%- if look_collection != blank and look_collection.products_count > 0 -%}
+    <div class="complete-the-look">
+      <h2 class="section-heading">COMPLETE THE LOOK</h2>
+      <div class="product-grid product-grid--2">
+        {%- for look_product in look_collection.products limit: 2 -%}
+          {%- render 'product-card', product: look_product -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+{%- endif -%}
+
+<!-- Recommended products -->
+{%- assign recommended = recommendations.products -%}
+{%- if recommended.size > 0 -%}
+  <div class="recommended-products" data-product-id="{{ product.id }}">
+    <h2 class="section-heading">YOU MAY ALSO LIKE</h2>
+    <div class="product-grid product-grid--4">
+      {%- for rec in recommended limit: 4 -%}
+        {%- render 'product-card', product: rec -%}
+      {%- endfor -%}
+    </div>
+  </div>
+{%- endif -%}
+
 {% schema %}
 {
   "name": "Product information",
-  "settings": []
+  "settings": [
+    {
+      "type": "collection",
+      "id": "look_collection",
+      "label": "Complete the Look collection"
+    }
+  ]
 }
 {% endschema %}

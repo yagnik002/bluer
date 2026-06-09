@@ -8,17 +8,85 @@
 
   <h1 class="collection-bar__title">{{ collection.title }}</h1>
 
-  <button class="collection-bar__filter-btn btn-reset" id="filter-toggle" aria-expanded="false" aria-controls="filter-bar">
-    Filters
-    <span class="filter-icon" aria-hidden="true"></span>
+  <button class="collection-bar__filter-btn btn-reset" id="filter-toggle" aria-expanded="false" aria-controls="filter-drawer">
+    FILTERS
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" style="width:16px;height:16px;margin-left:6px"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"/></svg>
   </button>
 </div>
 
-<!-- Filter / sort bar -->
-<div class="filter-bar" id="filter-bar">
-  <button class="filter-btn is-active btn-reset" data-sort="featured">Featured</button>
-  <button class="filter-btn btn-reset" data-sort="price-asc">Price ↑</button>
-  <button class="filter-btn btn-reset" data-sort="price-desc">Price ↓</button>
+<!-- Filter Drawer -->
+<div class="filter-drawer" id="filter-drawer" aria-hidden="true">
+  <div class="filter-drawer__overlay" id="filter-overlay"></div>
+  <div class="filter-drawer__panel">
+    <div class="filter-drawer__header">
+      <h2 class="filter-drawer__title">FILTERS</h2>
+      <button class="filter-drawer__close btn-reset" id="filter-close" aria-label="Close filters">×</button>
+    </div>
+
+    <div class="filter-drawer__body">
+      <!-- Size filter -->
+      <div class="filter-section">
+        <h3 class="filter-section__title">SIZE</h3>
+        <div class="filter-size-grid">
+          {%- assign sizes = 'XS,S,M,L,XL,XXL,24,26,28,30,32,34' | split: ',' -%}
+          {%- for size in sizes -%}
+            <button class="filter-size-btn btn-reset" data-filter-size="{{ size }}">{{ size }}</button>
+          {%- endfor -%}
+        </div>
+      </div>
+
+      <!-- Color filter -->
+      <div class="filter-section">
+        <h3 class="filter-section__title">COLOR</h3>
+        <ul class="filter-color-list">
+          <li class="filter-color-item">
+            <button class="filter-color-btn btn-reset" data-filter-color="Black">
+              <span class="filter-color-swatch" style="background:#000"></span>
+              <span>Black</span>
+            </button>
+          </li>
+          <li class="filter-color-item">
+            <button class="filter-color-btn btn-reset" data-filter-color="White">
+              <span class="filter-color-swatch" style="background:#fff;border-color:#ccc"></span>
+              <span>White</span>
+            </button>
+          </li>
+          <li class="filter-color-item">
+            <button class="filter-color-btn btn-reset" data-filter-color="Blue">
+              <span class="filter-color-swatch" style="background:#2a4a7f"></span>
+              <span>Blue</span>
+            </button>
+          </li>
+          <li class="filter-color-item">
+            <button class="filter-color-btn btn-reset" data-filter-color="Brown">
+              <span class="filter-color-swatch" style="background:#7a5c3a"></span>
+              <span>Brown</span>
+            </button>
+          </li>
+          <li class="filter-color-item">
+            <button class="filter-color-btn btn-reset" data-filter-color="Red">
+              <span class="filter-color-swatch" style="background:#c0392b"></span>
+              <span>Red</span>
+            </button>
+          </li>
+          <li class="filter-color-item">
+            <button class="filter-color-btn btn-reset" data-filter-color="Beige">
+              <span class="filter-color-swatch" style="background:#e8d5b7"></span>
+              <span>Beige</span>
+            </button>
+          </li>
+        </ul>
+        <button class="filter-show-more btn-reset" id="filter-show-more">SHOW MORE</button>
+      </div>
+    </div>
+
+    <div class="filter-drawer__footer">
+      <button class="btn btn--outline filter-clear-btn btn-reset" id="filter-clear">CLEAR ALL</button>
+      <button class="btn filter-show-items-btn" id="filter-show-items">
+        SHOW ITEMS ({{ collection.products_count }})
+      </button>
+    </div>
+  </div>
 </div>
 
 {%- if collection.products_count == 0 -%}
@@ -28,51 +96,7 @@
 {%- else -%}
   <div class="product-grid" id="collection-grid">
     {%- for product in collection.products -%}
-      <div
-        class="product-card"
-        data-index="{{ forloop.index0 }}"
-        data-price="{{ product.price }}"
-      >
-        <a href="{{ product.url }}" class="product-card__img-wrap" style="display:block">
-          {%- if product.featured_image -%}
-            <img
-              class="product-card__img"
-              src="{{ product.featured_image | image_url: width: 600 }}"
-              srcset="{{ product.featured_image | image_url: width: 400 }} 400w, {{ product.featured_image | image_url: width: 600 }} 600w, {{ product.featured_image | image_url: width: 900 }} 900w"
-              sizes="(min-width:1200px) 33vw, (min-width:768px) 33vw, 50vw"
-              alt="{{ product.featured_image.alt | default: product.title | escape }}"
-              loading="lazy"
-              width="{{ product.featured_image.width }}"
-              height="{{ product.featured_image.height }}"
-            >
-          {%- else -%}
-            <div style="width:100%;aspect-ratio:3/4;background:var(--color-muted)"></div>
-          {%- endif -%}
-
-          {%- unless product.available -%}
-            <div class="product-card__sold-out">
-              <span>Sold Out</span>
-            </div>
-          {%- endunless -%}
-        </a>
-
-        {%- assign first_available = product.variants | where: "available", true | first -%}
-        {%- assign quick_variant = first_available | default: product.variants.first -%}
-        <button
-          class="product-card__quick-add btn-reset"
-          data-quick-add="{{ quick_variant.id }}"
-          aria-label="{{ product.available | if: 'Quick add', 'Get notified' }} — {{ product.title }}"
-        >
-          +
-        </button>
-
-        <div class="product-card__info">
-          <p class="product-card__title">{{ product.title }}</p>
-          <p class="product-card__price">
-            {{ product.price | money }}
-          </p>
-        </div>
-      </div>
+      {%- render 'product-card', product: product -%}
     {%- endfor -%}
   </div>
 {%- endif -%}

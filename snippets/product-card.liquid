@@ -5,6 +5,13 @@
 
 {%- assign first_available = product.variants | where: "available", true | first -%}
 {%- assign quick_variant = first_available | default: product.variants.first -%}
+{%- assign is_bestseller = false -%}
+{%- assign is_new = false -%}
+{%- for tag in product.tags -%}
+  {%- assign tag_lower = tag | downcase -%}
+  {%- if tag_lower == 'bestseller' -%}{%- assign is_bestseller = true -%}{%- endif -%}
+  {%- if tag_lower == 'new' -%}{%- assign is_new = true -%}{%- endif -%}
+{%- endfor -%}
 
 <div
   class="product-card"
@@ -32,6 +39,12 @@
         <span>Sold Out</span>
       </div>
     {%- endunless -%}
+
+    {%- if is_bestseller -%}
+      <span class="product-badge product-badge--bestseller">Bestseller</span>
+    {%- elsif is_new -%}
+      <span class="product-badge product-badge--new">New</span>
+    {%- endif -%}
   </a>
 
   <button

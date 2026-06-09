@@ -1,8 +1,20 @@
 <div class="careers-page">
+
+  <!-- Mobile: hero image at top -->
+  {%- if section.settings.image != blank -%}
+    <div class="careers-img-mobile">
+      <img
+        src="{{ section.settings.image | image_url: width: 900 }}"
+        alt="{{ section.settings.image.alt | default: 'BLUER team' }}"
+        loading="lazy"
+      >
+    </div>
+  {%- endif -%}
+
   <div class="careers-layout">
 
     <!-- Left: editorial image (desktop only) -->
-    <div class="careers-img">
+    <div class="careers-img-desktop">
       {%- if section.settings.image != blank -%}
         <img
           src="{{ section.settings.image | image_url: width: 900 }}"
@@ -20,7 +32,7 @@
       <!-- Intro -->
       <section class="careers-intro">
         <h1 class="text-editorial-sm" style="font-weight:600">
-          {{ section.settings.heading | default: 'Inspiring Bold Ideas' }}
+          {{ section.settings.heading | default: 'INSPIRING BOLD IDEAS' }}
         </h1>
         <p class="careers-body">
           {{ section.settings.body | default: "Bluer is built on purpose, creativity, and a drive to move fashion forward. We're not here to follow trends — we're here to set them. That takes people who think differently and want their work to matter. We're looking for individuals who can help bring our vision to life. We celebrate collaboration and growth, creating an environment where ideas thrive." }}
@@ -29,27 +41,27 @@
 
       <!-- Job listings -->
       <section class="careers-roles">
-        <h2 class="text-editorial-sm" style="font-weight:600;margin-bottom:32px">Join Us</h2>
-        <div class="roles-grid">
-
-          {%- for block in section.blocks -%}
-            {%- if block.type == 'role' -%}
-              <div class="role-card" {{ block.shopify_attributes }}>
-                <div>
-                  <p class="role-title">{{ block.settings.title }}</p>
-                  <p class="role-meta">{{ block.settings.location }}</p>
-                  <p class="role-meta">{{ block.settings.type }}</p>
+        <div class="careers-roles-layout">
+          <p class="careers-join-label">JOIN US</p>
+          <div class="roles-grid">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'role' -%}
+                <div class="role-card" {{ block.shopify_attributes }}>
+                  <div>
+                    <p class="role-title">{{ block.settings.title }}</p>
+                    <p class="role-meta">{{ block.settings.location }}</p>
+                    <p class="role-meta">{{ block.settings.type }}</p>
+                  </div>
+                  <a
+                    href="mailto:{{ section.settings.careers_email | default: 'careers@bluer.com' }}?subject=Application — {{ block.settings.title | url_encode }}"
+                    class="role-apply-btn"
+                  >
+                    APPLY
+                  </a>
                 </div>
-                <a
-                  href="mailto:{{ section.settings.careers_email | default: 'careers@bluer.com' }}?subject=Application — {{ block.settings.title | url_encode }}"
-                  class="role-apply-btn"
-                >
-                  Apply
-                </a>
-              </div>
-            {%- endif -%}
-          {%- endfor -%}
-
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
         </div>
       </section>
 
@@ -58,24 +70,28 @@
 </div>
 
 <style>
-.careers-page { padding: 0 24px 80px; }
-@media (min-width: 768px) { .careers-page { padding: 0 40px 80px; } }
+.careers-page { padding: 0 0 80px; }
+@media (min-width: 768px) { .careers-page { padding: 0 0 80px; } }
+
+.careers-img-mobile { display: block; width: 100%; }
+.careers-img-mobile img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+@media (min-width: 768px) { .careers-img-mobile { display: none; } }
 
 .careers-layout {
   display: grid;
   grid-template-columns: 1fr;
   gap: 40px;
-  padding-top: 40px;
+  padding: 40px 24px 0;
 }
 @media (min-width: 768px) {
-  .careers-layout { grid-template-columns: 1fr 1.2fr; gap: 64px; padding-top: 80px; }
+  .careers-layout { grid-template-columns: 1fr 1.4fr; gap: 64px; padding: 80px 40px 0; }
 }
 
-.careers-img { display: none; }
-@media (min-width: 768px) { .careers-img { display: block; } }
-.careers-img img { width: 100%; aspect-ratio: 3/4; object-fit: cover; background: var(--color-muted); }
+.careers-img-desktop { display: none; }
+@media (min-width: 768px) { .careers-img-desktop { display: block; } }
+.careers-img-desktop img { width: 100%; aspect-ratio: 3/4; object-fit: cover; background: var(--color-muted); }
 
-.careers-content { display: flex; flex-direction: column; gap: 64px; }
+.careers-content { display: flex; flex-direction: column; gap: 48px; }
 
 .careers-body {
   margin-top: 20px;
@@ -85,13 +101,32 @@
   max-width: 520px;
 }
 
+.careers-roles-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+@media (min-width: 768px) {
+  .careers-roles-layout { flex-direction: row; gap: 40px; align-items: flex-start; }
+}
+
+.careers-join-label {
+  font-size: 11px;
+  letter-spacing: var(--tracking-editorial);
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding-top: 4px;
+  min-width: 80px;
+}
+
 .roles-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 40px;
+  gap: 32px;
+  flex: 1;
 }
 @media (min-width: 768px) {
-  .roles-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+  .roles-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
 }
 
 .role-card { display: flex; flex-direction: column; gap: 16px; }
