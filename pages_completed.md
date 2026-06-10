@@ -1,0 +1,1 @@
+This repository currently has several pages related to its development. If you could provide more specific details about what constitutes a "completed" page, I can better update this for you currently.
