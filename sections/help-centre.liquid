@@ -1,76 +1,140 @@
-<div class="policy-page">
-  <div class="policy-page__inner">
+<div class="hc-page">
+  <div class="hc-layout">
 
-    <a href="{{ routes.root_url }}" class="policy-back">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
-      Back
-    </a>
+    <!-- Left: Contact -->
+    <div class="hc-contact">
+      <h1 class="hc-contact__heading">CONTACT</h1>
+      <p class="hc-contact__desc">{{ section.settings.contact_description | default: "We're here to make your experience seamless - Reach out for any assistance." }}</p>
 
-    <h1 class="policy-page__title font-display">Help Centre</h1>
-    <p class="policy-page__intro">Find answers to the most common questions below. If you still need help, reach us at <a href="mailto:support@bluer.com">support@bluer.com</a>.</p>
-
-    <div class="faq-list">
-
-      {%- for block in section.blocks -%}
-        {%- if block.type == 'faq' -%}
-          <div class="faq-item" {{ block.shopify_attributes }}>
-            <button class="faq-question btn-reset" aria-expanded="false">
-              <span>{{ block.settings.question }}</span>
-              <span class="faq-icon" aria-hidden="true">+</span>
-            </button>
-            <div class="faq-answer" hidden>
-              <p>{{ block.settings.answer }}</p>
-            </div>
+      <div class="hc-contact__details">
+        {%- if section.settings.phone != blank -%}
+          <div class="hc-contact__item">
+            <p class="hc-contact__label">PHONE</p>
+            <a href="tel:{{ section.settings.phone | remove: ' ' }}" class="hc-contact__value">{{ section.settings.phone }}</a>
           </div>
         {%- endif -%}
-      {%- endfor -%}
-
+        {%- if section.settings.email != blank -%}
+          <div class="hc-contact__item">
+            <p class="hc-contact__label">EMAIL</p>
+            <a href="mailto:{{ section.settings.email }}" class="hc-contact__value">{{ section.settings.email }}</a>
+          </div>
+        {%- endif -%}
+      </div>
     </div>
 
-    <div class="policy-contact-box">
-      <p class="text-editorial-sm">Still need help?</p>
-      <p style="font-size:13px;margin-top:8px;color:var(--color-muted-fg)">Our team is available Monday – Saturday, 10 AM – 7 PM IST.</p>
-      <a href="mailto:support@bluer.com" class="btn" style="margin-top:20px;display:inline-flex">Email Us</a>
+    <!-- Right: FAQs -->
+    <div class="hc-faqs">
+      <h2 class="hc-faqs__heading">FAQs</h2>
+
+      <div class="faq-list">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'faq' -%}
+            <div class="faq-item" {{ block.shopify_attributes }}>
+              <button class="faq-question btn-reset" aria-expanded="false">
+                <span>{{ block.settings.question }}</span>
+              </button>
+              {%- if block.settings.answer != blank -%}
+                <div class="faq-answer" hidden>
+                  <p>{{ block.settings.answer }}</p>
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
     </div>
 
   </div>
 </div>
 
 <style>
-.faq-list { margin-top: 40px; border-top: 1px solid var(--color-border); }
+.hc-page {
+  padding: 48px 24px 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+@media (min-width: 768px) { .hc-page { padding: 64px 40px 100px; } }
+
+.hc-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+}
+@media (min-width: 768px) {
+  .hc-layout { grid-template-columns: 1fr 1.8fr; gap: 80px; align-items: start; }
+}
+
+/* Contact */
+.hc-contact__heading {
+  font-size: 11px;
+  letter-spacing: var(--tracking-editorial);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.hc-contact__desc {
+  font-size: 13px;
+  line-height: 1.7;
+  color: rgba(26,26,26,0.75);
+  max-width: 260px;
+  margin-bottom: 32px;
+}
+.hc-contact__details { display: flex; gap: 32px; flex-wrap: wrap; }
+.hc-contact__label {
+  font-size: 10px;
+  letter-spacing: var(--tracking-editorial);
+  text-transform: uppercase;
+  color: var(--color-muted-fg);
+  margin-bottom: 4px;
+}
+.hc-contact__value {
+  font-size: 13px;
+  color: var(--color-fg);
+  transition: opacity 0.2s;
+}
+.hc-contact__value:hover { opacity: 0.6; }
+
+/* FAQs */
+.hc-faqs__heading {
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  font-weight: 500;
+  margin-bottom: 0;
+}
+
+.faq-list { margin-top: 20px; }
 .faq-item { border-bottom: 1px solid var(--color-border); }
+.faq-item:first-child { border-top: 1px solid var(--color-border); }
+
 .faq-question {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 20px 0;
+  padding: 18px 0;
   font-size: 13px;
   text-align: left;
   gap: 16px;
   transition: opacity 0.2s;
+  color: var(--color-fg);
 }
-.faq-question:hover { opacity: 0.7; }
-.faq-icon { font-size: 20px; line-height: 1; flex-shrink: 0; transition: transform 0.25s; }
-.faq-item.is-open .faq-icon { transform: rotate(45deg); }
-.faq-answer { padding-bottom: 20px; }
-.faq-answer p { font-size: 14px; line-height: 1.75; color: var(--color-muted-fg); }
-.policy-contact-box {
-  margin-top: 48px;
-  padding: 32px;
-  background: var(--color-muted);
-  text-align: center;
+.faq-question:hover { opacity: 0.65; }
+
+.faq-answer { padding-bottom: 18px; }
+.faq-answer p {
+  font-size: 13px;
+  line-height: 1.75;
+  color: rgba(26,26,26,0.7);
 }
 </style>
 
 <script>
-document.querySelectorAll('.faq-question').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const item = btn.closest('.faq-item');
-    const answer = item.querySelector('.faq-answer');
-    const open = item.classList.toggle('is-open');
+document.querySelectorAll('.faq-question').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var item = btn.closest('.faq-item');
+    var answer = item.querySelector('.faq-answer');
+    var open = item.classList.toggle('is-open');
     btn.setAttribute('aria-expanded', open);
-    answer.hidden = !open;
+    if (answer) answer.hidden = !open;
   });
 });
 </script>
@@ -78,6 +142,26 @@ document.querySelectorAll('.faq-question').forEach(btn => {
 {% schema %}
 {
   "name": "Help Centre",
+  "settings": [
+    {
+      "type": "text",
+      "id": "contact_description",
+      "label": "Contact description",
+      "default": "We're here to make your experience seamless - Reach out for any assistance."
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "Phone number",
+      "default": "+91 9321466133"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email address",
+      "default": "Support@bluer.co.in"
+    }
+  ],
   "blocks": [
     {
       "type": "faq",
@@ -86,14 +170,12 @@ document.querySelectorAll('.faq-question').forEach(btn => {
         {
           "type": "text",
           "id": "question",
-          "label": "Question",
-          "default": "What is your return policy?"
+          "label": "Question"
         },
         {
           "type": "textarea",
           "id": "answer",
-          "label": "Answer",
-          "default": "We accept returns within 15 days of delivery. Items must be unworn and in original condition."
+          "label": "Answer"
         }
       ]
     }
@@ -101,19 +183,37 @@ document.querySelectorAll('.faq-question').forEach(btn => {
   "presets": [
     {
       "name": "Help Centre",
+      "settings": {
+        "phone": "+91 9321466133",
+        "email": "Support@bluer.co.in"
+      },
       "blocks": [
         {
           "type": "faq",
           "settings": {
-            "question": "How long does delivery take?",
-            "answer": "Standard delivery takes 5–7 business days. Express delivery (2–3 business days) is available at checkout for most pin codes."
+            "question": "How do I choose the right size?",
+            "answer": "We provide a size guide on each of the product page - check the product you're interested in. It lists exact measurements to help you pick the best fit."
           }
         },
         {
           "type": "faq",
           "settings": {
-            "question": "How do I track my order?",
-            "answer": "Once your order ships, you will receive a tracking link via email. You can also log in to your account and view your order status under My Purchases."
+            "question": "Do I need to create an account to order?",
+            "answer": "No, you can checkout as a guest. However, creating an account lets you track orders, save your wishlist, and speed up future checkouts."
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "Can I return my order?",
+            "answer": "Yes, we accept returns within 15 days of delivery. Items must be unworn, unwashed, and in their original condition with all tags attached."
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "Can I exchange my order?",
+            "answer": "Yes, exchanges for a different size or colour are subject to availability. Select 'Exchange' when initiating your return and specify your preference."
           }
         },
         {
@@ -126,22 +226,50 @@ document.querySelectorAll('.faq-question').forEach(btn => {
         {
           "type": "faq",
           "settings": {
-            "question": "How do I start a return?",
-            "answer": "Visit our Start a Return page, fill in your order details, and our team will arrange a pickup within 2 business days."
+            "question": "How can I contact the customer service?",
+            "answer": "You can reach us at Support@bluer.co.in or call +91 9321466133. Our team is available Monday – Saturday, 10 AM – 7 PM IST."
           }
         },
         {
           "type": "faq",
           "settings": {
-            "question": "Can I exchange for a different size?",
-            "answer": "Yes. During the return process, select 'Exchange' and choose your preferred size. Exchanges are subject to availability."
+            "question": "Can I try clothes in-store?",
+            "answer": "Currently BLUER operates online only. We plan to open physical stores soon — follow us on Instagram for updates."
           }
         },
         {
           "type": "faq",
           "settings": {
-            "question": "How do I use a discount code?",
-            "answer": "Enter your discount code in the 'Discount' field at checkout. Only one code can be applied per order."
+            "question": "How long does a return take?",
+            "answer": "Once we receive and inspect your return, refunds are processed within 5–7 business days to your original payment method."
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "When will I receive my order?",
+            "answer": "Standard delivery takes 5–7 business days. Express delivery (2–3 business days) is available at checkout for most pin codes."
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "How can I collaborate with you?",
+            "answer": "For collaboration enquiries, please email us at support@bluer.co.in with your portfolio or proposal. We'll get back to you within 3–5 business days."
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "How can I track my order?",
+            "answer": "Once your order ships, you will receive a tracking link via email. You can also log in to your account and view your order status under My Purchases."
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "How can I use the coupon code?",
+            "answer": "Enter your coupon code in the 'Discount' field at checkout before completing your payment. Only one code can be applied per order."
           }
         }
       ]

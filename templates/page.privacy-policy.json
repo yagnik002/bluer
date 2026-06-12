@@ -1,0 +1,35 @@
+{
+  "sections": {
+    "main": {
+      "type": "policy-content",
+      "blocks": {
+        "h1": { "type": "heading", "settings": { "text": "Information We Collect" } },
+        "t1": { "type": "text", "settings": { "text": "We collect information you provide directly to us when you create an account, place an order, subscribe to our newsletter, or contact us. This includes your name, email address, phone number, shipping address, and payment information." } },
+        "d1": { "type": "divider", "settings": {} },
+        "h2": { "type": "heading", "settings": { "text": "How We Use Your Information" } },
+        "t2": { "type": "text", "settings": { "text": "We use the information we collect to process your orders, send order confirmations and shipping updates, respond to your enquiries, send marketing communications (with your consent), and improve our products and services." } },
+        "d2": { "type": "divider", "settings": {} },
+        "h3": { "type": "heading", "settings": { "text": "Sharing Your Information" } },
+        "t3": { "type": "text", "settings": { "text": "We do not sell or rent your personal information to third parties. We may share your information with trusted service providers who assist us in operating our website, processing payments, and delivering your orders — all of whom are contractually obligated to keep your information confidential." } },
+        "d3": { "type": "divider", "settings": {} },
+        "h4": { "type": "heading", "settings": { "text": "Cookies" } },
+        "t4": { "type": "text", "settings": { "text": "We use cookies and similar tracking technologies to enhance your browsing experience, analyse site traffic, and personalise content. You can control cookie settings through your browser at any time." } },
+        "d4": { "type": "divider", "settings": {} },
+        "h5": { "type": "heading", "settings": { "text": "Data Security" } },
+        "t5": { "type": "text", "settings": { "text": "We implement industry-standard security measures to protect your personal information from unauthorised access, disclosure, alteration, or destruction. All payment transactions are encrypted using SSL technology." } },
+        "d5": { "type": "divider", "settings": {} },
+        "h6": { "type": "heading", "settings": { "text": "Your Rights" } },
+        "t6": { "type": "text", "settings": { "text": "You have the right to access, correct, or delete your personal information at any time. To exercise these rights, please contact us at support@bluer.com. You may also unsubscribe from marketing emails by clicking the unsubscribe link in any email." } },
+        "d6": { "type": "divider", "settings": {} },
+        "h7": { "type": "heading", "settings": { "text": "Contact Us" } },
+        "t7": { "type": "text", "settings": { "text": "If you have any questions about this Privacy Policy, please contact us at support@bluer.com or write to us at our registered office address." } }
+      },
+      "blocks_order": ["h1","t1","d1","h2","t2","d2","h3","t3","d3","h4","t4","d4","h5","t5","d5","h6","t6","d6","h7","t7"],
+      "settings": {
+        "title": "Privacy Policy",
+        "intro": "Your privacy matters to us. This policy explains how BLUER collects, uses, and protects your personal information."
+      }
+    }
+  },
+  "order": ["main"]
+}
