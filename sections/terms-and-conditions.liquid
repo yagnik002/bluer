@@ -1,15 +1,10 @@
-<div class="policy-page">
+<div class="policy-page policy-page--terms">
   <div class="policy-page__inner">
 
-    <a href="{{ routes.root_url }}" class="policy-back">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
-      Back
-    </a>
-
-    <h1 class="policy-page__title font-display">{{ section.settings.title | default: page.title }}</h1>
+    <h1 class="policy-page__title">{{ section.settings.title | default: page.title }}</h1>
 
     {%- if section.settings.intro != blank -%}
-      <p class="policy-page__intro">{{ section.settings.intro }}</p>
+      <p class="policy-page__intro">{{ section.settings.intro | newline_to_br }}</p>
     {%- endif -%}
 
     <div class="policy-body">
@@ -45,23 +40,63 @@
 </div>
 
 <style>
-.policy-body { margin-top: 40px; }
-.policy-section-heading {
-  font-size: 13px;
-  letter-spacing: var(--tracking-editorial);
-  text-transform: uppercase;
-  font-weight: 500;
-  margin: 32px 0 12px;
+.policy-page--terms {
+  --terms-font: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: var(--terms-font);
+  color: #000;
 }
-.policy-section-heading:first-child { margin-top: 0; }
-.policy-text { font-size: 14px; line-height: 1.8; color: rgba(26,26,26,0.8); margin-bottom: 16px; }
-.policy-list { padding-left: 20px; margin-bottom: 16px; list-style: disc; }
-.policy-list li { font-size: 14px; line-height: 1.8; color: rgba(26,26,26,0.8); margin-bottom: 6px; }
-.policy-divider { border: none; border-top: 1px solid var(--color-border); margin: 32px 0; }
-.rte h2 { font-size: 13px; letter-spacing: var(--tracking-editorial); text-transform: uppercase; font-weight: 500; margin: 32px 0 12px; }
-.rte p { font-size: 14px; line-height: 1.8; color: rgba(26,26,26,0.8); margin-bottom: 16px; }
-.rte ul, .rte ol { padding-left: 20px; margin-bottom: 16px; }
-.rte li { font-size: 14px; line-height: 1.8; color: rgba(26,26,26,0.8); margin-bottom: 6px; }
+@media (min-width: 768px) { .policy-page--terms { padding-top: 105px; } }
+.policy-page--terms .policy-page__inner { max-width: 1096px; }
+
+.policy-page--terms .policy-page__title {
+  font-family: var(--terms-font);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #000;
+  margin-bottom: 20px;
+}
+
+.policy-page--terms .policy-page__intro,
+.policy-page--terms .policy-text,
+.policy-page--terms .policy-list li,
+.policy-page--terms .rte p,
+.policy-page--terms .rte li {
+  font-family: var(--terms-font);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 25px;
+  letter-spacing: 0.1em;
+  text-transform: capitalize;
+  color: #000;
+}
+.policy-page--terms .policy-page__intro { max-width: none; }
+
+.policy-page--terms .policy-body { margin-top: 0; }
+.policy-page--terms .policy-section-heading,
+.policy-page--terms .rte h2 {
+  font-family: var(--terms-font);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 25px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #000;
+  margin: 50px 0 25px;
+}
+.policy-page--terms .policy-section-heading:first-child { margin-top: 50px; }
+
+.policy-page--terms .policy-text,
+.policy-page--terms .rte p { margin-bottom: 25px; }
+.policy-page--terms .policy-list,
+.policy-page--terms .rte ul,
+.policy-page--terms .rte ol { padding-left: 20px; margin-bottom: 25px; list-style: disc; }
+.policy-page--terms .policy-list li,
+.policy-page--terms .rte li { margin-bottom: 0; }
+
+.policy-page--terms .policy-divider { border: none; border-top: 1px solid var(--color-border); margin: 32px 0; }
 </style>
 
 {% schema %}
