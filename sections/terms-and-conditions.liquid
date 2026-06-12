@@ -1,0 +1,126 @@
+<div class="policy-page">
+  <div class="policy-page__inner">
+
+    <a href="{{ routes.root_url }}" class="policy-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
+      Back
+    </a>
+
+    <h1 class="policy-page__title font-display">{{ section.settings.title | default: page.title }}</h1>
+
+    {%- if section.settings.intro != blank -%}
+      <p class="policy-page__intro">{{ section.settings.intro }}</p>
+    {%- endif -%}
+
+    <div class="policy-body">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'heading' -%}
+          <h2 class="policy-section-heading" {{ block.shopify_attributes }}>{{ block.settings.text }}</h2>
+
+        {%- elsif block.type == 'text' -%}
+          <p class="policy-text" {{ block.shopify_attributes }}>{{ block.settings.text }}</p>
+
+        {%- elsif block.type == 'list' -%}
+          <ul class="policy-list" {{ block.shopify_attributes }}>
+            {%- assign items = block.settings.items | newline_to_br | split: '<br />' -%}
+            {%- for item in items -%}
+              {%- assign trimmed = item | strip -%}
+              {%- if trimmed != blank -%}
+                <li>{{ trimmed }}</li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+
+        {%- elsif block.type == 'divider' -%}
+          <hr class="policy-divider" {{ block.shopify_attributes }}>
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- if section.blocks.size == 0 and page.content != blank -%}
+        <div class="rte">{{ page.content }}</div>
+      {%- endif -%}
+    </div>
+
+  </div>
+</div>
+
+<style>
+.policy-body { margin-top: 40px; }
+.policy-section-heading {
+  font-size: 13px;
+  letter-spacing: var(--tracking-editorial);
+  text-transform: uppercase;
+  font-weight: 500;
+  margin: 32px 0 12px;
+}
+.policy-section-heading:first-child { margin-top: 0; }
+.policy-text { font-size: 14px; line-height: 1.8; color: rgba(26,26,26,0.8); margin-bottom: 16px; }
+.policy-list { padding-left: 20px; margin-bottom: 16px; list-style: disc; }
+.policy-list li { font-size: 14px; line-height: 1.8; color: rgba(26,26,26,0.8); margin-bottom: 6px; }
+.policy-divider { border: none; border-top: 1px solid var(--color-border); margin: 32px 0; }
+.rte h2 { font-size: 13px; letter-spacing: var(--tracking-editorial); text-transform: uppercase; font-weight: 500; margin: 32px 0 12px; }
+.rte p { font-size: 14px; line-height: 1.8; color: rgba(26,26,26,0.8); margin-bottom: 16px; }
+.rte ul, .rte ol { padding-left: 20px; margin-bottom: 16px; }
+.rte li { font-size: 14px; line-height: 1.8; color: rgba(26,26,26,0.8); margin-bottom: 6px; }
+</style>
+
+{% schema %}
+{
+  "name": "Terms and Conditions",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Page title (leave blank to use Shopify page title)"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro paragraph"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Section heading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Heading"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text paragraph",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "name": "Bullet list",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "items",
+          "label": "List items (one per line)"
+        }
+      ]
+    },
+    {
+      "type": "divider",
+      "name": "Divider",
+      "settings": []
+    }
+  ],
+  "presets": [
+    { "name": "Terms and Conditions" }
+  ]
+}
+{% endschema %}

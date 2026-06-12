@@ -2,7 +2,7 @@
 {
   "sections": {
     "main": {
-      "type": "policy-content",
+      "type": "terms-and-conditions",
       "blocks": {
         "h1": { "type": "heading", "settings": { "text": "Acceptance of Terms" } },
         "t1": { "type": "text", "settings": { "text": "By accessing and using the BLUER website, you accept and agree to be bound by these Terms and Conditions and our Privacy Policy. If you do not agree to these terms, please do not use our website." } },
