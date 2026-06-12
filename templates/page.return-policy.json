@@ -21,7 +21,7 @@
         "h6": { "type": "heading", "settings": { "text": "Damaged or Defective Items" } },
         "t6": { "type": "text", "settings": { "text": "If your item arrived damaged or defective, please contact us at support@bluer.com within 48 hours of delivery with photos. We will arrange a free return and send a replacement or issue a full refund." } }
       },
-      "blocks_order": ["h1","t1","d1","h2","t2","d2","h3","t3","d3","h4","t4","d4","h5","t5","d5","h6","t6"],
+      "block_order": ["h1","t1","d1","h2","t2","d2","h3","t3","d3","h4","t4","d4","h5","t5","d5","h6","t6"],
       "settings": {
         "title": "Return Policy",
         "intro": "We want you to love what you ordered. If something isn't right, we make returns simple."

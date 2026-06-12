@@ -24,7 +24,7 @@
         "h7": { "type": "heading", "settings": { "text": "Failed or Declined Payments" } },
         "t7": { "type": "text", "settings": { "text": "If your payment is declined, please verify your card details and billing address. Contact your bank if the issue persists. For any payment-related queries, email us at support@bluer.com." } }
       },
-      "blocks_order": ["h1","t1","d1","h2","t2","d2","h3","t3","d3","h4","t4","d4","h5","t5","d5","h6","t6","d6","h7","t7"],
+      "block_order": ["h1","t1","d1","h2","t2","d2","h3","t3","d3","h4","t4","d4","h5","t5","d5","h6","t6","d6","h7","t7"],
       "settings": {
         "title": "Shipping & Payments",
         "intro": "Everything you need to know about how we ship your order and the payment options available."

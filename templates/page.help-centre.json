@@ -88,7 +88,7 @@
           }
         }
       },
-      "blocks_order": ["faq1","faq2","faq3","faq4","faq5","faq6","faq7","faq8","faq9","faq10","faq11","faq12"],
+      "block_order": ["faq1","faq2","faq3","faq4","faq5","faq6","faq7","faq8","faq9","faq10","faq11","faq12"],
       "settings": {
         "contact_description": "We're here to make your experience seamless - Reach out for any assistance.",
         "phone": "+91 9321466133",
