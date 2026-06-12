@@ -1,39 +1,31 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "main": {
-      "type": "policy-content",
+      "type": "return-policy",
       "blocks": {
-        "h1": { "type": "heading", "settings": { "text": "Return Window" } },
-        "t1": { "type": "text", "settings": { "text": "We accept returns within 15 days of the delivery date. To be eligible, items must be unworn, unwashed, and in their original condition with all tags attached and original packaging intact." } },
-        "d1": { "type": "divider", "settings": {} },
-        "h2": { "type": "heading", "settings": { "text": "Non-Returnable Items" } },
-        "t2": { "type": "text", "settings": { "text": "The following items cannot be returned: sale or discounted items marked as final sale, innerwear and swimwear, gift cards, and items that have been worn, washed, altered, or damaged after delivery." } },
-        "d2": { "type": "divider", "settings": {} },
-        "h3": { "type": "heading", "settings": { "text": "How to Initiate a Return" } },
-        "t3": { "type": "text", "settings": { "text": "Visit our Start a Return page and submit your request with your order number and item details. Our team will confirm eligibility and schedule a pickup within 2 business days." } },
-        "d3": { "type": "divider", "settings": {} },
-        "h4": { "type": "heading", "settings": { "text": "Refunds" } },
-        "t4": { "type": "text", "settings": { "text": "Once we receive and inspect your return, we will notify you by email. Approved refunds are processed to your original payment method within 5–7 business days. Shipping charges are non-refundable unless the item was defective or incorrectly sent." } },
-        "d4": { "type": "divider", "settings": {} },
-        "h5": { "type": "heading", "settings": { "text": "Exchanges" } },
-        "t5": { "type": "text", "settings": { "text": "We offer exchanges for a different size or colour, subject to availability. Please select 'Exchange' when initiating your return and specify your preferred size or colour. Exchanges ship free of charge." } },
-        "d5": { "type": "divider", "settings": {} },
-        "h6": { "type": "heading", "settings": { "text": "Damaged or Defective Items" } },
-        "t6": { "type": "text", "settings": { "text": "If your item arrived damaged or defective, please contact us at support@bluer.com within 48 hours of delivery with photos. We will arrange a free return and send a replacement or issue a full refund." } }
+        "h_period": { "type": "heading", "settings": { "text": "Return Period" } },
+        "l_period": { "type": "list", "settings": { "items": "All product-related queries should be reported within 24 hrs of delivery at support@bluer.co.in.|These Include:|-Wrong product received.|-Damaged/Missing product received.|-Product not delivered within the estimated period.\nIf you are not satisfied with a product, you can request a return within 7 days of the product's delivery." } },
+        "t_note": { "type": "text", "settings": { "text": "Note: Failure to do so will result in the complaint being rejected." } },
+        "h_process": { "type": "heading", "settings": { "text": "Return Process" } },
+        "l_process": { "type": "list", "settings": { "items": "Initiate a return request through our website.\nUpon submission of the return request, our team will review it, and a return pick-up will be arranged.\nThe return pick-up service will be attempted twice. For non-serviceable PIN codes, you will be responsible for self-shipping the product back to our warehouse.\nThe product will undergo a quality check once it reaches our warehouse. If the item does not meet the return conditions or is found to be damaged due to customer use, it will be sent back to you, and the coupon code will not be generated. In such cases, a prepaid shipping charge of ₹100 will be borne by the customer." } },
+        "h_fee": { "type": "heading", "settings": { "text": "Return Pick-Up Fee" } },
+        "l_fee1": { "type": "list", "settings": { "items": "A flat fee of rupees 200 will be charged for the return pick-up of the product. The return charges will be deducted from the value of the coupon code." } },
+        "l_fee2": { "type": "list", "settings": { "items": "No charges will be applied for wrong or damaged products." } },
+        "t_missing": { "type": "text", "settings": { "text": "In case of Missing/Wrong/Damaged Products:\nAn opening video of the parcel is mandatory for reporting any missing/damaged/wrong items and must be shared at support@bluer.co.in within 24 hours of delivery." } },
+        "h_noreturn": { "type": "heading", "settings": { "text": "No Return or Exchange in case of:" } },
+        "l_noreturn": { "type": "list", "settings": { "items": "Items in sale are non-returnable/ non-refundable. This policy will be exempted only in cases of damaged or wrong products.\nWe do not have a refund policy.\nWe do not have an exchange policy. If you wish to exchange a product, you must request a return and place a new order." } },
+        "h_coupon": { "type": "heading", "settings": { "text": "Coupon Code" } },
+        "l_coupon": { "type": "list", "settings": { "items": "Coupon code initiation time will be 48 hours after the product is received.\nUploading a product image of the product with tags to address the concern is mandatory. Failure to do so will lead to the request being rejected.\nImages other than the product will not be entertained.\nAll items to be returned must be unused, and all tags should be intact. Failure to do so will result in the coupon not being generated.\nOnce the coupon is generated, it'll be sent to your registered email ID and WhatsApp.\nThe coupon code generated for your return is valid for 1 year from the date of issue.\nThe coupon code value is applicable for one-time use only, you may utilize the entire value in a single transaction.\nThe coupon code issued against your return cannot be combined with any other discount code or promotional offer.\nThe rupees 200 return pick-up fee will be deducted from the product's value. Other fees like cash on delivery charges and shipping charges are non-refundable.\nCoupon-code once expired will not be renewed." } },
+        "t_address": { "type": "text", "settings": { "text": "Change of address:" } },
+        "l_address": { "type": "list", "settings": { "items": "The return pickup address cannot be changed once the procedure has been completed." } },
+        "t_contact": { "type": "text", "settings": { "text": "Contact Us:" } },
+        "l_contact": { "type": "list", "settings": { "items": "If you encounter any difficulties in generating a return request, please contact our team at support@bluer.co.in" } },
+        "t_closing": { "type": "text", "settings": { "text": "We value your shopping experience at Bluer and are committed to ensuring you a satisfying purchase. If you have any questions or need further assistance regarding our return policy, please don't hesitate to reach out to our customer support team at support@bluer.co.in. We are here to help with any concerns or inquiries you may have." } }
       },
-      "block_order": ["h1","t1","d1","h2","t2","d2","h3","t3","d3","h4","t4","d4","h5","t5","d5","h6","t6"],
+      "block_order": ["h_period","l_period","t_note","h_process","l_process","h_fee","l_fee1","l_fee2","t_missing","h_noreturn","l_noreturn","h_coupon","l_coupon","t_address","l_address","t_contact","l_contact","t_closing"],
       "settings": {
         "title": "Return Policy",
-        "intro": "We want you to love what you ordered. If something isn't right, we make returns simple."
+        "intro": "At Bluer, we are committed to delivering the best shopping experience to our customers. We understand that there may be instances where a product doesn't meet your expectations, and we are here to assist you with any return-related issues. Please take note of our return policy:"
       }
     }
   },
