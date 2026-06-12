@@ -25,7 +25,7 @@
         {%- endif -%}
       {%- endfor -%}
 
-      {%- if page.content != blank -%}
+      {%- if section.blocks.size == 0 and page.content != blank -%}
         <div class="rte">{{ page.content }}</div>
       {%- endif -%}
     </div>
