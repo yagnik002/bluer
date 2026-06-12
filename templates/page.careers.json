@@ -1,25 +1,18 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "careers-page",
       "blocks": {
-        "role1": {
-          "type": "role",
-          "settings": {
-            "title": "Media Buying Executive",
-            "location": "Work from home, Mumbai",
-            "type": "Full-Time"
-          }
-        },
-        "role2": {
-          "type": "role",
-          "settings": {
-            "title": "Human Resource Executive",
-            "location": "Work from home, Mumbai",
-            "type": "Full-Time"
-          }
-        },
-        "role3": {
+        "role_gKfTBy": {
           "type": "role",
           "settings": {
             "title": "Marketing Executive",
@@ -27,16 +20,38 @@
             "type": "Full-Time"
           }
         },
-        "role4": {
+        "role_KpyEGL": {
           "type": "role",
           "settings": {
-            "title": "Graphic Designer",
+            "title": "HUMAN RESOURCE EXECUTIVE",
+            "location": "Work from home, Mumbai",
+            "type": "Full-Time"
+          }
+        },
+        "role_FcLDYY": {
+          "type": "role",
+          "settings": {
+            "title": "MEDIA BUYING EXECUTIVE",
+            "location": "Work from home, Mumbai",
+            "type": "Full-Time"
+          }
+        },
+        "role_dMz9mQ": {
+          "type": "role",
+          "settings": {
+            "title": "GRAPHIC DESIGNER",
             "location": "Work from home, Mumbai",
             "type": "Full-Time"
           }
         }
       },
-      "blocks_order": ["role1", "role2", "role3", "role4"],
+      "block_order": [
+        "role_gKfTBy",
+        "role_KpyEGL",
+        "role_FcLDYY",
+        "role_dMz9mQ"
+      ],
+      "custom_css": [],
       "settings": {
         "heading": "Inspiring Bold Ideas",
         "body": "Bluer is built on purpose, creativity, and a drive to move fashion forward. We're not here to follow trends — we're here to set them. That takes people who think differently and want their work to matter. We're looking for individuals who can help bring our vision to life. We celebrate collaboration and growth, creating an environment where ideas thrive.",
@@ -44,5 +59,7 @@
       }
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }
