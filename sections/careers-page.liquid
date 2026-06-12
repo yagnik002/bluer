@@ -1,135 +1,186 @@
 <div class="careers-page">
 
-  <!-- Mobile: hero image at top -->
-  
+  <!-- Mobile: hero image -->
+  {%- if section.settings.image != blank -%}
+    <div class="careers-hero-img">
+      <img
+        src="{{ section.settings.image | image_url: width: 1200 }}"
+        alt="{{ section.settings.image.alt | default: 'BLUER Careers' }}"
+        loading="lazy"
+      >
+    </div>
+  {%- endif -%}
 
-  <div class="careers-layout">
+  <!-- Intro: full width -->
+  <div class="careers-intro">
+    <h1 class="careers-intro__heading">
+      {{ section.settings.heading | default: 'INSPIRING BOLD IDEAS' }}
+    </h1>
+    <p class="careers-intro__body">
+      {{ section.settings.body | default: "Bluer is built on purpose, creativity, and a drive to move fashion forward. We're not here to follow trends — we're here to set them. That takes people who think differently and want their work to matter. We're looking for individuals who can help bring our vision to life. We celebrate collaboration and growth, creating an environment where ideas thrive." }}
+    </p>
+  </div>
 
-    <!-- Left: editorial image (desktop only) -->
-    
-
-    <!-- Right: content -->
-    <div class="careers-content">
-
-      <!-- Intro -->
-      <section class="careers-intro">
-        <h1 class="text-editorial-sm" style="font-weight:600">
-          {{ section.settings.heading | default: 'INSPIRING BOLD IDEAS' }}
-        </h1>
-        <p class="careers-body">
-          {{ section.settings.body | default: "Bluer is built on purpose, creativity, and a drive to move fashion forward. We're not here to follow trends — we're here to set them. That takes people who think differently and want their work to matter. We're looking for individuals who can help bring our vision to life. We celebrate collaboration and growth, creating an environment where ideas thrive." }}
-        </p>
-      </section>
-
-      <!-- Job listings -->
-      <section class="careers-roles">
-        <div class="careers-roles-layout">
-          <p class="careers-join-label">JOIN US</p>
-          <div class="roles-grid">
-            {%- for block in section.blocks -%}
-              {%- if block.type == 'role' -%}
-                <div class="role-card" {{ block.shopify_attributes }}>
-                  <div>
-                    <p class="role-title">{{ block.settings.title }}</p>
-                    <p class="role-meta">{{ block.settings.location }}</p>
-                    <p class="role-meta">{{ block.settings.type }}</p>
-                  </div>
-                  <a
-                    href="mailto:{{ section.settings.careers_email | default: 'careers@bluer.com' }}?subject=Application — {{ block.settings.title | url_encode }}"
-                    class="role-apply-btn"
-                  >
-                    APPLY
-                  </a>
-                </div>
-              {%- endif -%}
-            {%- endfor -%}
+  <!-- Jobs -->
+  <div class="careers-jobs">
+    <p class="careers-join-label">JOIN US</p>
+    <div class="roles-grid">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'role' -%}
+          <div class="role-card" {{ block.shopify_attributes }}>
+            <div class="role-card__info">
+              <p class="role-title">{{ block.settings.title }}</p>
+              <p class="role-meta">{{ block.settings.location }}</p>
+              <p class="role-meta">{{ block.settings.type }}</p>
+            </div>
+            <a
+              href="mailto:{{ section.settings.careers_email | default: 'careers@bluer.com' }}?subject=Application — {{ block.settings.title | url_encode }}"
+              class="role-apply-btn"
+            >
+              APPLY
+            </a>
           </div>
-        </div>
-      </section>
-
+        {%- endif -%}
+      {%- endfor -%}
     </div>
   </div>
+
 </div>
 
 <style>
-.careers-page { padding: 0 0 80px; }
-@media (min-width: 768px) { .careers-page { padding: 0 0 80px; } }
+/* ---- Careers Page ---------------------------------------- */
+.careers-page {
+  padding-bottom: 80px;
+}
 
-.careers-img-mobile { display: block; width: 100%; }
-.careers-img-mobile img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
-@media (min-width: 768px) { .careers-img-mobile { display: none; } }
-
-.careers-layout {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 40px;
-  padding: 40px 24px 0;
+/* Hero image — full width on mobile, hidden on desktop */
+.careers-hero-img {
+  width: 100%;
+  margin-bottom: 40px;
+}
+.careers-hero-img img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  display: block;
 }
 @media (min-width: 768px) {
-  .careers-layout { grid-template-columns: 1fr 1.4fr; gap: 64px; padding: 80px 40px 0; }
+  .careers-hero-img { display: none; }
 }
 
-.careers-img-desktop { display: none; }
-@media (min-width: 768px) { .careers-img-desktop { display: block; } }
-.careers-img-desktop img { width: 100%; aspect-ratio: 3/4; object-fit: cover; background: var(--color-muted); }
+/* Intro */
+.careers-intro {
+  padding: 40px 24px 48px;
+  max-width: 760px;
+}
+@media (min-width: 768px) {
+  .careers-intro { padding: 64px 40px 56px; }
+}
 
-.careers-content { display: flex; flex-direction: column; gap: 48px; }
+.careers-intro__heading {
+  font-size: 11px;
+  letter-spacing: var(--tracking-editorial);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
 
-.careers-body {
-  margin-top: 20px;
+.careers-intro__body {
   font-size: 14px;
-  line-height: 1.75;
+  line-height: 1.8;
   color: rgba(26,26,26,0.8);
-  max-width: 520px;
 }
 
-.careers-roles-layout {
+/* Jobs layout */
+.careers-jobs {
+  padding: 0 24px 0;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 32px;
 }
 @media (min-width: 768px) {
-  .careers-roles-layout { flex-direction: row; gap: 40px; align-items: flex-start; }
+  .careers-jobs {
+    padding: 0 40px 0;
+    flex-direction: row;
+    gap: 60px;
+    align-items: flex-start;
+  }
 }
 
 .careers-join-label {
   font-size: 11px;
   letter-spacing: var(--tracking-editorial);
   text-transform: uppercase;
+  font-weight: 500;
   white-space: nowrap;
-  padding-top: 4px;
-  min-width: 80px;
-}
-
-.roles-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 32px;
-  flex: 1;
+  padding-top: 6px;
+  flex-shrink: 0;
 }
 @media (min-width: 768px) {
-  .roles-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .careers-join-label { min-width: 80px; }
 }
 
-.role-card { display: flex; flex-direction: column; gap: 16px; }
+/* Roles grid */
+.roles-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+@media (min-width: 600px) {
+  .roles-grid { grid-template-columns: 1fr 1fr; gap: 0; }
+}
+
+.role-card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+@media (min-width: 600px) {
+  .role-card {
+    padding: 28px 24px 28px 0;
+    border-right: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .role-card:nth-child(even) {
+    padding: 28px 0 28px 24px;
+    border-right: none;
+  }
+}
+
+.role-card__info { display: flex; flex-direction: column; gap: 6px; }
+
 .role-title {
-  font-size: 12px;
+  font-size: 11px;
   letter-spacing: var(--tracking-editorial);
   text-transform: uppercase;
   font-weight: 600;
 }
-.role-meta { font-size: 14px; color: var(--color-muted-fg); margin-top: 6px; }
+
+.role-meta {
+  font-size: 13px;
+  color: var(--color-muted-fg);
+  line-height: 1.5;
+}
+
 .role-apply-btn {
-  display: block;
-  background: var(--color-muted);
+  display: inline-block;
+  background: var(--color-fg);
+  color: var(--color-bg);
   text-align: center;
-  padding: 12px;
+  padding: 12px 24px;
   font-size: 11px;
   letter-spacing: var(--tracking-editorial);
   text-transform: uppercase;
-  transition: background var(--transition);
+  align-self: flex-start;
+  transition: opacity var(--transition);
 }
-.role-apply-btn:hover { background: rgba(245,245,245,0.7); }
+.role-apply-btn:hover { opacity: 0.75; }
+@media (min-width: 768px) {
+  .role-apply-btn { align-self: flex-start; }
+}
 </style>
 
 {% schema %}
@@ -139,19 +190,19 @@
     {
       "type": "image_picker",
       "id": "image",
-      "label": "Editorial image"
+      "label": "Mobile hero image (optional)"
     },
     {
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "Inspiring Bold Ideas"
+      "default": "INSPIRING BOLD IDEAS"
     },
     {
       "type": "textarea",
       "id": "body",
       "label": "Intro text",
-      "default": "Bluer is built on purpose, creativity, and a drive to move fashion forward. We're not here to follow trends — we're here to set them. That takes people who think differently and want their work to matter."
+      "default": "Bluer is built on purpose, creativity, and a drive to move fashion forward. We're not here to follow trends — we're here to set them. That takes people who think differently and want their work to matter. We're looking for individuals who can help bring our vision to life. We celebrate collaboration and growth, creating an environment where ideas thrive."
     },
     {
       "type": "text",
@@ -190,22 +241,10 @@
     {
       "name": "Careers page",
       "blocks": [
-        {
-          "type": "role",
-          "settings": { "title": "Media Buying Executive", "location": "Work from home, Mumbai", "type": "Full-Time" }
-        },
-        {
-          "type": "role",
-          "settings": { "title": "Human Resource Executive", "location": "Work from home, Mumbai", "type": "Full-Time" }
-        },
-        {
-          "type": "role",
-          "settings": { "title": "Marketing Executive", "location": "Work from home, Mumbai", "type": "Full-Time" }
-        },
-        {
-          "type": "role",
-          "settings": { "title": "Graphic Designer", "location": "Work from home, Mumbai", "type": "Full-Time" }
-        }
+        { "type": "role", "settings": { "title": "Media Buying Executive", "location": "Work from home, Mumbai", "type": "Full-Time" } },
+        { "type": "role", "settings": { "title": "Human Resource Executive", "location": "Work from home, Mumbai", "type": "Full-Time" } },
+        { "type": "role", "settings": { "title": "Marketing Executive", "location": "Work from home, Mumbai", "type": "Full-Time" } },
+        { "type": "role", "settings": { "title": "Graphic Designer", "location": "Work from home, Mumbai", "type": "Full-Time" } }
       ]
     }
   ]
