@@ -6,48 +6,94 @@
         "faq1": {
           "type": "faq",
           "settings": {
-            "question": "How long does delivery take?",
-            "answer": "Standard delivery takes 5–7 business days. Express delivery (2–3 business days) is available at checkout for most pin codes."
+            "question": "How do I choose the right size?",
+            "answer": "We provide a size guide on each of the product page - check the product you're interested in. It lists exact measurements to help you pick the best fit."
           }
         },
         "faq2": {
           "type": "faq",
           "settings": {
-            "question": "How do I track my order?",
-            "answer": "Once your order ships, you will receive a tracking link via email. You can also log in to your account and view your order status under My Purchases."
+            "question": "Do I need to create an account to order?",
+            "answer": "No, you can checkout as a guest. However, creating an account lets you track orders, save your wishlist, and speed up future checkouts."
           }
         },
         "faq3": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I return my order?",
+            "answer": "Yes, we accept returns within 15 days of delivery. Items must be unworn, unwashed, and in their original condition with all tags attached."
+          }
+        },
+        "faq4": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I exchange my order?",
+            "answer": "Yes, exchanges for a different size or color are subject to availability. Select Exchange when initiating your return and specify your preference."
+          }
+        },
+        "faq5": {
           "type": "faq",
           "settings": {
             "question": "What payment methods do you accept?",
             "answer": "We accept all major credit and debit cards, UPI, net banking, and prepaid wallets. Cash on delivery is available on select pin codes."
           }
         },
-        "faq4": {
-          "type": "faq",
-          "settings": {
-            "question": "How do I start a return?",
-            "answer": "Visit our Start a Return page, fill in your order details, and our team will arrange a pickup within 2 business days."
-          }
-        },
-        "faq5": {
-          "type": "faq",
-          "settings": {
-            "question": "Can I exchange for a different size?",
-            "answer": "Yes. During the return process, select 'Exchange' and choose your preferred size. Exchanges are subject to availability."
-          }
-        },
         "faq6": {
           "type": "faq",
           "settings": {
-            "question": "How do I use a discount code?",
-            "answer": "Enter your discount code in the 'Discount' field at checkout. Only one code can be applied per order."
+            "question": "How can I contact the customer service?",
+            "answer": "You can reach us at Support@bluer.co.in or call +91 9321466133. Our team is available Monday to Saturday, 10 AM to 7 PM IST."
+          }
+        },
+        "faq7": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I try clothes in-store?",
+            "answer": "Currently BLUER operates online only. We plan to open physical stores soon — follow us on Instagram for updates."
+          }
+        },
+        "faq8": {
+          "type": "faq",
+          "settings": {
+            "question": "How long does a return take?",
+            "answer": "Once we receive and inspect your return, refunds are processed within 5-7 business days to your original payment method."
+          }
+        },
+        "faq9": {
+          "type": "faq",
+          "settings": {
+            "question": "When will I receive my order?",
+            "answer": "Standard delivery takes 5-7 business days. Express delivery (2-3 business days) is available at checkout for most pin codes."
+          }
+        },
+        "faq10": {
+          "type": "faq",
+          "settings": {
+            "question": "How can I collaborate with you?",
+            "answer": "For collaboration enquiries, please email us at support@bluer.co.in with your portfolio or proposal. We will get back to you within 3-5 business days."
+          }
+        },
+        "faq11": {
+          "type": "faq",
+          "settings": {
+            "question": "How can I track my order?",
+            "answer": "Once your order ships, you will receive a tracking link via email. You can also log in to your account and view your order status under My Purchases."
+          }
+        },
+        "faq12": {
+          "type": "faq",
+          "settings": {
+            "question": "How can I use the coupon code?",
+            "answer": "Enter your coupon code in the Discount field at checkout before completing your payment. Only one code can be applied per order."
           }
         }
       },
-      "blocks_order": ["faq1", "faq2", "faq3", "faq4", "faq5", "faq6"],
-      "settings": {}
+      "blocks_order": ["faq1","faq2","faq3","faq4","faq5","faq6","faq7","faq8","faq9","faq10","faq11","faq12"],
+      "settings": {
+        "contact_description": "We're here to make your experience seamless - Reach out for any assistance.",
+        "phone": "+91 9321466133",
+        "email": "Support@bluer.co.in"
+      }
     }
   },
   "order": ["main"]
