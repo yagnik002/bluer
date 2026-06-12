@@ -1,73 +1,190 @@
-<section class="about-section">
+<div class="about-page">
+  {%- for block in section.blocks -%}
 
-  <!-- Mobile: image first -->
-  <div class="about-img-mobile">
-    {%- if section.settings.image != blank -%}
-      <img
-        src="{{ section.settings.image | image_url: width: 800 }}"
-        alt="{{ section.settings.image.alt | default: 'About BLUER' }}"
-        loading="lazy"
-      >
+    {%- if block.type == 'heading' -%}
+      <div class="about-heading-block" {{ block.shopify_attributes }}>
+        <h2 class="about-heading">{{ block.settings.text }}</h2>
+      </div>
+
+    {%- elsif block.type == 'text' -%}
+      <div class="about-text-block" {{ block.shopify_attributes }}>
+        <p class="about-body">{{ block.settings.text }}</p>
+      </div>
+
+    {%- elsif block.type == 'image_full' -%}
+      {%- if block.settings.image != blank -%}
+        <div class="about-image-full" {{ block.shopify_attributes }}>
+          <img
+            src="{{ block.settings.image | image_url: width: 1440 }}"
+            srcset="{{ block.settings.image | image_url: width: 800 }} 800w, {{ block.settings.image | image_url: width: 1200 }} 1200w, {{ block.settings.image | image_url: width: 1440 }} 1440w"
+            sizes="100vw"
+            alt="{{ block.settings.image.alt | default: 'BLUER' }}"
+            loading="lazy"
+          >
+        </div>
+      {%- endif -%}
+
+    {%- elsif block.type == 'image_pair' -%}
+      <div class="about-image-pair" {{ block.shopify_attributes }}>
+        {%- if block.settings.image_left != blank -%}
+          <img
+            src="{{ block.settings.image_left | image_url: width: 800 }}"
+            alt="{{ block.settings.image_left.alt | default: 'BLUER' }}"
+            loading="lazy"
+          >
+        {%- endif -%}
+        {%- if block.settings.image_right != blank -%}
+          <img
+            src="{{ block.settings.image_right | image_url: width: 800 }}"
+            alt="{{ block.settings.image_right.alt | default: 'BLUER' }}"
+            loading="lazy"
+          >
+        {%- endif -%}
+      </div>
+
+    {%- elsif block.type == 'spacer' -%}
+      <div class="about-spacer" style="height:{{ block.settings.height | default: 40 }}px" {{ block.shopify_attributes }}></div>
+
     {%- endif -%}
-  </div>
+  {%- endfor -%}
+</div>
 
-  <div class="about-layout">
-    <div class="about-copy">
-      <h1>{{ section.settings.heading | default: 'The Foundation' }}</h1>
-      {%- if section.settings.body != blank -%}
-        <p>{{ section.settings.body }}</p>
-      {%- elsif page.content != blank -%}
-        {{ page.content }}
-      {%- endif -%}
-      {%- if section.settings.body_extra != blank -%}
-        <p>{{ section.settings.body_extra }}</p>
-      {%- endif -%}
-    </div>
+<style>
+.about-page {
+  padding-bottom: 80px;
+}
 
-    <div class="about-img-desktop">
-      {%- if section.settings.image != blank -%}
-        <img
-          src="{{ section.settings.image | image_url: width: 1200 }}"
-          srcset="{{ section.settings.image | image_url: width: 800 }} 800w, {{ section.settings.image | image_url: width: 1200 }} 1200w"
-          sizes="(min-width:768px) 55vw, 100vw"
-          alt="{{ section.settings.image.alt | default: 'About BLUER' }}"
-          loading="lazy"
-        >
-      {%- endif -%}
-    </div>
-  </div>
+.about-heading-block {
+  padding: 40px 24px 12px;
+  max-width: 760px;
+}
+@media (min-width: 768px) {
+  .about-heading-block { padding: 48px 40px 12px; }
+}
 
-</section>
+.about-heading {
+  font-size: 11px;
+  letter-spacing: var(--tracking-editorial);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.about-text-block {
+  padding: 0 24px 20px;
+  max-width: 760px;
+}
+@media (min-width: 768px) {
+  .about-text-block { padding: 0 40px 20px; }
+}
+
+.about-body {
+  font-size: 14px;
+  line-height: 1.85;
+  color: rgba(26,26,26,0.85);
+}
+
+.about-image-full {
+  margin: 28px 0;
+}
+.about-image-full img {
+  width: 100%;
+  display: block;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+}
+@media (min-width: 768px) {
+  .about-image-full img { aspect-ratio: auto; max-height: 600px; object-fit: cover; }
+}
+
+.about-image-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  margin: 28px 0;
+}
+.about-image-pair img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  display: block;
+}
+</style>
 
 {% schema %}
 {
   "name": "About content",
-  "settings": [
+  "blocks": [
     {
-      "type": "image_picker",
-      "id": "image",
-      "label": "About image"
+      "type": "heading",
+      "name": "Heading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Heading text",
+          "default": "THE FOUNDATION"
+        }
+      ]
     },
     {
       "type": "text",
-      "id": "heading",
-      "label": "Heading",
-      "default": "The Foundation"
+      "name": "Text paragraph",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Paragraph text",
+          "default": "Add your paragraph here."
+        }
+      ]
     },
     {
-      "type": "textarea",
-      "id": "body",
-      "label": "Body text",
-      "default": "Bluer was born in 2022 from a simple but powerful realization: finding good-quality denim on the indian high street wasn't easy. trends came and went, but true quality was rare, and the few options that did exist often came with a heavy price tag. this challenge soon revealed a larger gap and an opportunity for our founder to create something meaningful."
+      "type": "image_full",
+      "name": "Full-width image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
     },
     {
-      "type": "textarea",
-      "id": "body_extra",
-      "label": "Additional body text"
+      "type": "image_pair",
+      "name": "Two-column images",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image_left",
+          "label": "Left image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_right",
+          "label": "Right image"
+        }
+      ]
+    },
+    {
+      "type": "spacer",
+      "name": "Spacer",
+      "settings": [
+        {
+          "type": "range",
+          "id": "height",
+          "label": "Height (px)",
+          "min": 16,
+          "max": 120,
+          "step": 8,
+          "default": 40
+        }
+      ]
     }
   ],
   "presets": [
-    { "name": "About content" }
+    {
+      "name": "About content"
+    }
   ]
 }
 {% endschema %}

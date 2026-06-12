@@ -2,10 +2,60 @@
   "sections": {
     "main": {
       "type": "about-content",
-      "settings": {
-        "heading": "The Foundation",
-        "body": "Bluer was born in 2022 from a simple but powerful realization: finding good-quality denim on the Indian high street wasn't easy. Trends came and went, but true quality was rare, and the few options that did exist often came with a heavy price tag. This challenge soon revealed a larger gap and an opportunity for our founder to create something meaningful."
-      }
+      "blocks": {
+        "h1": {
+          "type": "heading",
+          "settings": {
+            "text": "THE FOUNDATION"
+          }
+        },
+        "t1": {
+          "type": "text",
+          "settings": {
+            "text": "Bluer was born in 2022 from a simple but powerful realization: finding good-quality denim on the Indian high street wasn't easy. Trends came and went, but true quality was rare, and the few options that did exist often came with a heavy price tag. This challenge soon revealed a larger gap and an opportunity for our founder to create something meaningful."
+          }
+        },
+        "img1": {
+          "type": "image_full",
+          "settings": {}
+        },
+        "t2": {
+          "type": "text",
+          "settings": {
+            "text": "What started with denims has since evolved into a comprehensive collection, offering a wide range of fashion essentials that cater to diverse styles and needs. Each piece reflects our dedication to craftsmanship, individuality, and a distinctly Indian identity, made locally with pride, using rich textiles and skilled hands."
+          }
+        },
+        "t3": {
+          "type": "text",
+          "settings": {
+            "text": "Fashion, to us, is an authentic expression of self — never forced, never fleeting. By choosing quality over quantity and design over trend, we aim to promote thoughtful consumption and long-lasting connection with the clothes you wear. With a minimal, classic aesthetic at the core, we focus on garments that are versatile, refined, and built to endure."
+          }
+        },
+        "img2": {
+          "type": "image_pair",
+          "settings": {}
+        },
+        "h2": {
+          "type": "heading",
+          "settings": {
+            "text": "ETHICAL BELIEF"
+          }
+        },
+        "t4": {
+          "type": "text",
+          "settings": {
+            "text": "We believe in fostering a culture of transparency, inclusivity, and social responsibility. We work closely with our suppliers, ensuring fair wages and safe working conditions for everyone involved in the production process. We actively seek out partnerships with local artisans and craftsmen, supporting their livelihoods and preserving traditional techniques."
+          }
+        },
+        "t5": {
+          "type": "text",
+          "settings": {
+            "text": "Beyond clothing, giving back is part of who we are. A portion of every sale supports causes we care about, from dog shelters to vaccine drives and community aid. It's our way of staying rooted in purpose."
+          }
+        }
+      },
+      "block_order": ["h1", "t1", "img1", "t2", "t3", "img2", "h2", "t4", "t5"],
+      "settings": {}
     }
   },
   "order": ["main"]
