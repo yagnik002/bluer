@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -17,7 +26,9 @@
         },
         "img1": {
           "type": "image_full",
-          "settings": {}
+          "settings": {
+            "image": "shopify://shop_images/Pasted_Graphic.png"
+          }
         },
         "t2": {
           "type": "text",
@@ -31,9 +42,11 @@
             "text": "Fashion, to us, is an authentic expression of self — never forced, never fleeting. By choosing quality over quantity and design over trend, we aim to promote thoughtful consumption and long-lasting connection with the clothes you wear. With a minimal, classic aesthetic at the core, we focus on garments that are versatile, refined, and built to endure."
           }
         },
-        "img2": {
-          "type": "image_pair",
-          "settings": {}
+        "image_full_Pjb9fg": {
+          "type": "image_full",
+          "settings": {
+            "image": "shopify://shop_images/Bluer_Web_App_Design_14.png"
+          }
         },
         "h2": {
           "type": "heading",
@@ -54,9 +67,21 @@
           }
         }
       },
-      "block_order": ["h1", "t1", "img1", "t2", "t3", "img2", "h2", "t4", "t5"],
+      "block_order": [
+        "h1",
+        "t1",
+        "img1",
+        "t2",
+        "t3",
+        "image_full_Pjb9fg",
+        "h2",
+        "t4",
+        "t5"
+      ],
       "settings": {}
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }
