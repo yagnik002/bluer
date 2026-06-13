@@ -1,42 +1,36 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "main": {
-      "type": "policy-content",
+      "type": "shipping-and-payments",
       "blocks": {
-        "h1": { "type": "heading", "settings": { "text": "Shipping Destinations" } },
-        "t1": { "type": "text", "settings": { "text": "We currently ship to all major cities and pin codes across India. International shipping is available to select countries — enter your address at checkout to confirm availability." } },
-        "d1": { "type": "divider", "settings": {} },
-        "h2": { "type": "heading", "settings": { "text": "Delivery Times" } },
-        "t2": { "type": "text", "settings": { "text": "Standard delivery: 5–7 business days. Express delivery: 2–3 business days (available at checkout for eligible pin codes). Metro cities (Mumbai, Delhi, Bangalore, Chennai, Hyderabad, Pune) typically receive orders in 3–5 business days on standard shipping." } },
-        "d2": { "type": "divider", "settings": {} },
-        "h3": { "type": "heading", "settings": { "text": "Shipping Charges" } },
-        "t3": { "type": "text", "settings": { "text": "Free shipping on all prepaid orders above ₹1,990. Orders below ₹1,990 incur a flat shipping fee of ₹99. Express delivery is charged at ₹199 per order regardless of order value. Cash on delivery (COD) is available at an additional fee of ₹49." } },
-        "d3": { "type": "divider", "settings": {} },
-        "h4": { "type": "heading", "settings": { "text": "Order Processing" } },
-        "t4": { "type": "text", "settings": { "text": "Orders placed before 12 PM IST on weekdays are typically dispatched the same day. Orders placed after 12 PM, on weekends, or on public holidays are dispatched the next business day. You will receive a shipping confirmation email with a tracking number once your order is dispatched." } },
-        "d4": { "type": "divider", "settings": {} },
-        "h5": { "type": "heading", "settings": { "text": "Payment Methods" } },
-        "t5": { "type": "text", "settings": { "text": "We accept all major credit cards (Visa, Mastercard, Amex), debit cards, UPI (Google Pay, PhonePe, Paytm), net banking from all major Indian banks, EMI (on select cards), and Cash on Delivery (COD) on eligible pin codes." } },
-        "d5": { "type": "divider", "settings": {} },
-        "h6": { "type": "heading", "settings": { "text": "Payment Security" } },
-        "t6": { "type": "text", "settings": { "text": "All transactions are secured with 256-bit SSL encryption. We do not store card details on our servers. Payments are processed through RBI-compliant payment gateways." } },
-        "d6": { "type": "divider", "settings": {} },
-        "h7": { "type": "heading", "settings": { "text": "Failed or Declined Payments" } },
-        "t7": { "type": "text", "settings": { "text": "If your payment is declined, please verify your card details and billing address. Contact your bank if the issue persists. For any payment-related queries, email us at support@bluer.com." } }
+        "h_details": { "type": "heading", "settings": { "text": "Shipping Details" } },
+        "t_details": { "type": "text", "settings": { "text": "Bluer's Shipping Policy (Updated as of January 16th, 2026):\nThank you for choosing Bluer. We strive to ensure a smooth and reliable delivery experience for all our customers. Please read our shipping policy carefully to understand our processes and timelines:" } },
+        "h_cancel": { "type": "heading", "settings": { "text": "Purchases or Cancellation process:" } },
+        "l_cancel": { "type": "list", "settings": { "items": "All prepaid purchases are final. No cancellations on those orders will be accepted.\nPattern/ colour may vary from the image shown on the website.\nNo changes or deletion of items is possible once you have completed your purchase. If you are unsatisfied with your purchase, you can manage a return.\nIf a prepaid order is denied at the time of delivery, if the customer is unavailable to receive it, or if the provided details are incorrect, the parcel will be returned to us. Once we receive the returned parcel, we will issue a coupon code valid for 6 months after deducting ₹200 towards shipping charges.\nPlease note that Partial COD amounts are non-refundable under any circumstances." } },
+        "h_processing": { "type": "heading", "settings": { "text": "Order Processing:" } },
+        "t_processing": { "type": "text", "settings": { "text": "Orders are typically processed and shipped within 24 working hours of being placed. Please note that processing times may vary during high-demand periods or sales. No orders will be processed on Sundays and public holidays." } },
+        "h_costs": { "type": "heading", "settings": { "text": "Shipping Costs:" } },
+        "sh_standard": { "type": "subheading", "settings": { "text": "Standard Orders" } },
+        "l_standard": { "type": "list", "settings": { "items": "We offer free shipping on prepaid orders above 1990/-\nA flat fee of rupees 50 will be charged on any orders below 1990/-\nCash on delivery charges are rupees 150 for all orders." } },
+        "sh_sale": { "type": "subheading", "settings": { "text": "Sale Orders" } },
+        "l_sale": { "type": "list", "settings": { "items": "A flat fee of rupees 100 will be charged on all prepaid orders.\nCash on delivery charges are rupees 200 for all orders." } },
+        "h_delivery_times": { "type": "heading", "settings": { "text": "Delivery Times:" } },
+        "l_delivery_times": { "type": "list", "settings": { "items": "Estimated delivery times vary based on your location and the selected shipping method. Typically, shipping to metro cities takes 3-4 working days, and to tier 1 cities takes 5-7 working days.\nHowever, please note that it may sometimes take longer as we rely on third-party delivery services." } },
+        "h_delivery_address": { "type": "heading", "settings": { "text": "Delivery Address:" } },
+        "l_delivery_address": { "type": "list", "settings": { "items": "Verify that the delivery address provided at checkout is accurate and complete. We are not accountable for any delays or non-delivery due to incorrect address information.\nOnce an order is placed, the shipping address cannot be changed or edited. Please double-check your details before confirming your order to ensure smooth and timely delivery." } },
+        "h_tracking": { "type": "heading", "settings": { "text": "Order Tracking:" } },
+        "t_tracking": { "type": "text", "settings": { "text": "After your order is shipped, we will send a shipping confirmation email and a message to your registered WhatsApp number containing a tracking number. Use this tracking number to check the status and location of your order." } },
+        "h_partners": { "type": "heading", "settings": { "text": "Shipping Partners:" } },
+        "t_partners": { "type": "text", "settings": { "text": "We work with reputable shipping partners to ensure the safe and timely delivery of your orders. Our partners are committed to providing a reliable service. We primarily use Bluedart to ship the majority of our parcels." } },
+        "h_lost": { "type": "heading", "settings": { "text": "Lost or Delayed Shipments:" } },
+        "t_lost": { "type": "text", "settings": { "text": "Once your order has been carefully handed over to our shipping partner, the delivery process is managed by them during transit. In the rare instance that a shipment is delayed, misplaced, or marked as undelivered, the responsibility for transit lies with the courier partner.\nShould you experience any such concern, please contact our customer support team at support@bluer.co.in. They will gladly assist by coordinating with the courier partner and sharing all relevant shipment details to help bring the matter to a resolution as smoothly and efficiently as possible." } },
+        "h_questions": { "type": "heading", "settings": { "text": "Questions or Concerns:" } },
+        "t_questions": { "type": "text", "settings": { "text": "If you have any questions or concerns about shipping or need assistance with your order, please don't hesitate to contact our customer support team at support@bluer.co.in.\nAt Bluer, our commitment to quality products and outstanding service ensures your satisfaction. We are excited to be your fashion partner." } }
       },
-      "block_order": ["h1","t1","d1","h2","t2","d2","h3","t3","d3","h4","t4","d4","h5","t5","d5","h6","t6","d6","h7","t7"],
+      "block_order": ["h_details","t_details","h_cancel","l_cancel","h_processing","t_processing","h_costs","sh_standard","l_standard","sh_sale","l_sale","h_delivery_times","l_delivery_times","h_delivery_address","l_delivery_address","h_tracking","t_tracking","h_partners","t_partners","h_lost","t_lost","h_questions","t_questions"],
       "settings": {
-        "title": "Shipping & Payments",
-        "intro": "Everything you need to know about how we ship your order and the payment options available."
+        "title": "Shipping And Payments",
+        "intro": ""
       }
     }
   },
