@@ -14,16 +14,16 @@
   <!-- Intro: full width -->
   <div class="careers-intro">
     <h1 class="careers-intro__heading">
-      {{ section.settings.heading | default: 'INSPIRING BOLD IDEAS' }}
+      {{ section.settings.heading | default: 'Inspiring Bold Ideas' }}
     </h1>
     <p class="careers-intro__body">
-      {{ section.settings.body | default: "Bluer is built on purpose, creativity, and a drive to move fashion forward. We're not here to follow trends — we're here to set them. That takes people who think differently and want their work to matter. We're looking for individuals who can help bring our vision to life. We celebrate collaboration and growth, creating an environment where ideas thrive." }}
+      {{ section.settings.body | default: "Bluer is built on purpose, creativity, and a drive to move fashion forward. We're not here to follow trends - we're here to set them. That takes people who think differently and want their work to matter. We're looking for individuals who can help bring our vision to life. We celebrate collaboration and growth, creating an environment where ideas thrive." }}
     </p>
   </div>
 
   <!-- Jobs -->
   <div class="careers-jobs">
-    <p class="careers-join-label">JOIN US</p>
+    <h2 class="careers-join-heading">{{ section.settings.join_heading | default: 'Join Us' }}</h2>
     <div class="roles-grid">
       {%- for block in section.blocks -%}
         {%- if block.type == 'role' -%}
@@ -34,7 +34,7 @@
               <p class="role-meta">{{ block.settings.type }}</p>
             </div>
             <a
-              href="mailto:{{ section.settings.careers_email | default: 'careers@bluer.com' }}?subject=Application — {{ block.settings.title | url_encode }}"
+              href="mailto:{{ section.settings.careers_email | default: 'careers@bluer.co.in' }}?subject=Application — {{ block.settings.title | url_encode }}"
               class="role-apply-btn"
             >
               APPLY
@@ -50,6 +50,9 @@
 <style>
 /* ---- Careers Page ---------------------------------------- */
 .careers-page {
+  --careers-font: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: var(--careers-font);
+  color: #000;
   padding-bottom: 80px;
 }
 
@@ -70,117 +73,109 @@
 
 /* Intro */
 .careers-intro {
-  padding: 40px 24px 48px;
-  max-width: 760px;
+  padding: 40px 24px 0;
 }
 @media (min-width: 768px) {
-  .careers-intro { padding: 64px 40px 56px; }
+  .careers-intro { padding: 64px 40px 0; }
 }
 
 .careers-intro__heading {
-  font-size: 11px;
-  letter-spacing: var(--tracking-editorial);
+  font-family: var(--careers-font);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  font-weight: 600;
-  margin-bottom: 20px;
+  color: #000;
+  margin-bottom: 24px;
 }
 
 .careers-intro__body {
-  font-size: 14px;
-  line-height: 1.8;
-  color: rgba(26,26,26,0.8);
+  font-family: var(--careers-font);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 25px;
+  letter-spacing: 0.1em;
+  text-transform: capitalize;
+  color: #000;
+  max-width: 1024px;
 }
 
 /* Jobs layout */
 .careers-jobs {
-  padding: 0 24px 0;
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
+  padding: 0 24px;
 }
 @media (min-width: 768px) {
-  .careers-jobs {
-    padding: 0 40px 0;
-    flex-direction: row;
-    gap: 60px;
-    align-items: flex-start;
-  }
+  .careers-jobs { padding: 0 40px; }
 }
 
-.careers-join-label {
-  font-size: 11px;
-  letter-spacing: var(--tracking-editorial);
-  text-transform: uppercase;
+.careers-join-heading {
+  font-family: var(--careers-font);
+  font-size: 20px;
   font-weight: 500;
-  white-space: nowrap;
-  padding-top: 6px;
-  flex-shrink: 0;
-}
-@media (min-width: 768px) {
-  .careers-join-label { min-width: 80px; }
+  line-height: 1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #000;
+  margin: 56px 0 32px;
 }
 
 /* Roles grid */
 .roles-grid {
-  flex: 1;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0;
 }
 @media (min-width: 600px) {
-  .roles-grid { grid-template-columns: 1fr 1fr; gap: 0; }
+  .roles-grid { grid-template-columns: 1fr 1fr; column-gap: 60px; }
 }
 
 .role-card {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
   padding: 28px 0;
   border-bottom: 1px solid var(--color-border);
 }
-@media (min-width: 600px) {
-  .role-card {
-    padding: 28px 24px 28px 0;
-    border-right: 1px solid var(--color-border);
-    border-bottom: 1px solid var(--color-border);
-  }
-  .role-card:nth-child(even) {
-    padding: 28px 0 28px 24px;
-    border-right: none;
-  }
-}
 
-.role-card__info { display: flex; flex-direction: column; gap: 6px; }
+.role-card__info { display: flex; flex-direction: column; gap: 4px; }
 
 .role-title {
-  font-size: 11px;
-  letter-spacing: var(--tracking-editorial);
+  font-family: var(--careers-font);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 25px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  font-weight: 600;
+  color: #000;
+  margin-bottom: 4px;
 }
 
 .role-meta {
-  font-size: 13px;
-  color: var(--color-muted-fg);
-  line-height: 1.5;
+  font-family: var(--careers-font);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 25px;
+  letter-spacing: 0.1em;
+  text-transform: capitalize;
+  color: #000;
 }
 
 .role-apply-btn {
   display: inline-block;
-  background: var(--color-fg);
-  color: var(--color-bg);
+  background: #000;
+  color: #fff;
   text-align: center;
-  padding: 12px 24px;
-  font-size: 11px;
-  letter-spacing: var(--tracking-editorial);
+  padding: 12px 28px;
+  font-family: var(--careers-font);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   align-self: flex-start;
+  margin-top: 8px;
   transition: opacity var(--transition);
 }
-.role-apply-btn:hover { opacity: 0.75; }
-@media (min-width: 768px) {
-  .role-apply-btn { align-self: flex-start; }
-}
+.role-apply-btn:hover { opacity: 0.8; }
 </style>
 
 {% schema %}
@@ -196,19 +191,25 @@
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "INSPIRING BOLD IDEAS"
+      "default": "Inspiring Bold Ideas"
     },
     {
       "type": "textarea",
       "id": "body",
       "label": "Intro text",
-      "default": "Bluer is built on purpose, creativity, and a drive to move fashion forward. We're not here to follow trends — we're here to set them. That takes people who think differently and want their work to matter. We're looking for individuals who can help bring our vision to life. We celebrate collaboration and growth, creating an environment where ideas thrive."
+      "default": "Bluer is built on purpose, creativity, and a drive to move fashion forward. We're not here to follow trends - we're here to set them. That takes people who think differently and want their work to matter. We're looking for individuals who can help bring our vision to life. We celebrate collaboration and growth, creating an environment where ideas thrive."
+    },
+    {
+      "type": "text",
+      "id": "join_heading",
+      "label": "Roles section heading",
+      "default": "Join Us"
     },
     {
       "type": "text",
       "id": "careers_email",
       "label": "Careers email address",
-      "default": "careers@bluer.com"
+      "default": "careers@bluer.co.in"
     }
   ],
   "blocks": [
