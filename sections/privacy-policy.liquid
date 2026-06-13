@@ -1,0 +1,167 @@
+<div class="policy-page policy-page--privacy">
+  <div class="policy-page__inner">
+
+    <h1 class="policy-page__title">{{ section.settings.title | default: page.title }}</h1>
+
+    {%- if section.settings.intro != blank -%}
+      {%- assign intro_html = section.settings.intro | newline_to_br | replace: 'support@bluer.co.in', '<a href="mailto:support@bluer.co.in">support@bluer.co.in</a>' -%}
+      <p class="policy-page__intro">{{ intro_html }}</p>
+    {%- endif -%}
+
+    <div class="policy-body">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'heading' -%}
+          <h2 class="policy-section-heading" {{ block.shopify_attributes }}>{{ block.settings.text }}</h2>
+
+        {%- elsif block.type == 'text' -%}
+          {%- assign text_html = block.settings.text | newline_to_br | replace: 'support@bluer.co.in', '<a href="mailto:support@bluer.co.in">support@bluer.co.in</a>' -%}
+          <p class="policy-text" {{ block.shopify_attributes }}>{{ text_html }}</p>
+
+        {%- elsif block.type == 'list' -%}
+          <ul class="policy-list" {{ block.shopify_attributes }}>
+            {%- assign items = block.settings.items | newline_to_br | split: '<br />' -%}
+            {%- for item in items -%}
+              {%- assign trimmed = item | strip -%}
+              {%- if trimmed != blank -%}
+                {%- assign item_html = trimmed | replace: '|', '<br>' | replace: 'support@bluer.co.in', '<a href="mailto:support@bluer.co.in">support@bluer.co.in</a>' -%}
+                <li>{{ item_html }}</li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+
+        {%- elsif block.type == 'divider' -%}
+          <hr class="policy-divider" {{ block.shopify_attributes }}>
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- if section.blocks.size == 0 and page.content != blank -%}
+        <div class="rte">{{ page.content }}</div>
+      {%- endif -%}
+    </div>
+
+  </div>
+</div>
+
+<style>
+.policy-page--privacy {
+  --privacy-font: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: var(--privacy-font);
+  color: #000;
+}
+@media (min-width: 768px) { .policy-page--privacy { padding-top: 105px; } }
+.policy-page--privacy .policy-page__inner { max-width: 1096px; }
+
+.policy-page--privacy .policy-page__title {
+  font-family: var(--privacy-font);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #000;
+  margin-bottom: 20px;
+}
+
+.policy-page--privacy .policy-page__intro,
+.policy-page--privacy .policy-text,
+.policy-page--privacy .policy-list li,
+.policy-page--privacy .rte p,
+.policy-page--privacy .rte li {
+  font-family: var(--privacy-font);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 25px;
+  letter-spacing: 0.1em;
+  text-transform: capitalize;
+  color: #000;
+}
+.policy-page--privacy .policy-page__intro { max-width: none; }
+
+.policy-page--privacy a { color: #000; text-decoration: underline; text-underline-offset: 2px; }
+
+.policy-page--privacy .policy-body { margin-top: 0; }
+.policy-page--privacy .policy-section-heading,
+.policy-page--privacy .rte h2 {
+  font-family: var(--privacy-font);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 25px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #000;
+  margin: 50px 0 25px;
+}
+.policy-page--privacy .policy-section-heading:first-child { margin-top: 50px; }
+
+.policy-page--privacy .policy-text,
+.policy-page--privacy .rte p { margin-bottom: 25px; }
+.policy-page--privacy .policy-text:has(+ .policy-list) { margin-bottom: 0; }
+.policy-page--privacy .policy-list,
+.policy-page--privacy .rte ul,
+.policy-page--privacy .rte ol { padding-left: 20px; margin-bottom: 25px; list-style: disc; }
+.policy-page--privacy .policy-list li,
+.policy-page--privacy .rte li { margin-bottom: 0; }
+
+.policy-page--privacy .policy-divider { border: none; border-top: 1px solid var(--color-border); margin: 32px 0; }
+</style>
+
+{% schema %}
+{
+  "name": "Privacy Policy",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Page title (leave blank to use Shopify page title)"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro paragraph"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Section heading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Heading"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text paragraph",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "name": "Bullet list",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "items",
+          "label": "List items (one per line, use | for a line break inside an item)"
+        }
+      ]
+    },
+    {
+      "type": "divider",
+      "name": "Divider",
+      "settings": []
+    }
+  ],
+  "presets": [
+    { "name": "Privacy Policy" }
+  ]
+}
+{% endschema %}
