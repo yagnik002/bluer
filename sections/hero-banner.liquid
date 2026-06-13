@@ -1,5 +1,20 @@
 <section class="hero-section">
-  {%- if section.settings.image != blank -%}
+  {%- if section.settings.video != blank -%}
+    <video
+      class="hero-media"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+      {% if section.settings.image != blank %}poster="{{ section.settings.image | image_url: width: 1600 }}"{% endif %}
+      aria-label="{{ section.settings.title | default: shop.name }}"
+    >
+      {%- for source in section.settings.video.sources -%}
+        <source src="{{ source.url }}" type="{{ source.mime_type }}">
+      {%- endfor -%}
+    </video>
+  {%- elsif section.settings.image != blank -%}
     <img
       src="{{ section.settings.image | image_url: width: 1600 }}"
       srcset="{{ section.settings.image | image_url: width: 800 }} 800w, {{ section.settings.image | image_url: width: 1200 }} 1200w, {{ section.settings.image | image_url: width: 1600 }} 1600w"
@@ -11,7 +26,7 @@
       fetchpriority="high"
     >
   {%- else -%}
-    <div style="width:100%;height:88vh;background:var(--color-muted)"></div>
+    <div class="hero-placeholder"></div>
   {%- endif -%}
 
   {%- if section.settings.title != blank -%}
@@ -25,14 +40,40 @@
   {%- endif -%}
 </section>
 
+<style>
+.hero-section video.hero-media {
+  width: 100%;
+  height: 78vh;
+  object-fit: cover;
+  display: block;
+}
+@media (min-width: 768px) {
+  .hero-section video.hero-media { height: 88vh; }
+}
+.hero-section .hero-placeholder {
+  width: 100%;
+  height: 78vh;
+  background: var(--color-muted);
+}
+@media (min-width: 768px) {
+  .hero-section .hero-placeholder { height: 88vh; }
+}
+</style>
+
 {% schema %}
 {
   "name": "Hero banner",
   "settings": [
     {
+      "type": "video",
+      "id": "video",
+      "label": "Hero video (autoplays muted, loops)",
+      "info": "Upload an MP4. When set, it replaces the hero image. Use the image below as the poster/fallback."
+    },
+    {
       "type": "image_picker",
       "id": "image",
-      "label": "Hero image"
+      "label": "Hero image (also used as video poster / fallback)"
     },
     {
       "type": "text",
