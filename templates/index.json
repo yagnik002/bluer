@@ -1,8 +1,18 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
       "type": "hero-banner",
       "settings": {
+        "video": "shopify://files/videos/Bluer Web App Collection 2 Final.mp4",
         "title": "BLUER",
         "label": "CRAFTE"
       }
@@ -11,32 +21,41 @@
       "type": "editorial-grid",
       "settings": {
         "layout": "full",
+        "image_1": "shopify://shop_images/Bluer_Web_App_Design_15.png",
         "label_1": "NEW ARRIVALS"
       }
     },
     "editorial_2": {
       "type": "editorial-grid",
       "settings": {
-        "layout": "two-col"
+        "layout": "two-col",
+        "image_1": "shopify://shop_images/Bluer_Web_App_Design_24.png",
+        "label_1": "",
+        "image_2": "shopify://shop_images/Bluer_Web_App_Design_16.png"
       }
     },
     "editorial_3": {
       "type": "editorial-grid",
       "settings": {
         "layout": "full",
+        "image_1": "shopify://shop_images/Bluer_Web_App_Design_17.png",
         "label_1": "SUMMER '26"
       }
     },
     "editorial_4": {
       "type": "editorial-grid",
       "settings": {
-        "layout": "two-col"
+        "layout": "two-col",
+        "image_1": "shopify://shop_images/Bluer_Web_App_Design_18.png",
+        "label_1": "",
+        "image_2": "shopify://shop_images/Bluer_Web_App_Design_21.png"
       }
     },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
         "heading": "SHOP THE EDIT",
+        "collection": "",
         "products_to_show": 8
       }
     }
