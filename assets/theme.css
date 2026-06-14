@@ -72,6 +72,15 @@ ul, ol { list-style: none; }
   height: var(--header-height);
 }
 
+/* All pages except the homepage: solid white sticky header with a bottom border.
+   The homepage (.header--overlay) is excluded so it stays exactly as is. */
+.site-header:not(.header--overlay) {
+  position: sticky;
+  top: 0;
+  background: #ffffff;
+  border-bottom: 1px solid var(--color-border);
+}
+
 .header-inner {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
