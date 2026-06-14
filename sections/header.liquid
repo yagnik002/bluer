@@ -191,31 +191,39 @@
 
 <script>
 (function () {
-  var header = document.getElementById('site-header');
-  if (!header) return;
+  function init() {
+    var header = document.getElementById('site-header');
+    if (!header) return;
+    if (!header.classList.contains('header--overlay')) return; // homepage overlay only
 
-  var isHome = header.classList.contains('header--overlay');
-  if (!isHome) return; // other templates use the default solid sticky header
+    var heroLogo = document.getElementById('hero-logo');
+    var headerLogo = document.getElementById('header-logo');
 
-  var heroLogo = document.getElementById('hero-logo');
-  var headerLogo = document.getElementById('header-logo');
+    // Homepage without a hero logo: fall back to a normal solid header.
+    if (!heroLogo || !headerLogo) {
+      header.classList.remove('header--overlay', 'is-top');
+      header.style.position = '';
+      return;
+    }
 
-  // Homepage without a hero logo: just behave like a normal solid header.
-  if (!heroLogo || !headerLogo) {
-    header.classList.remove('header--overlay', 'is-top');
-    header.style.position = '';
-    return;
+    // The header stays transparent at all times. Past ~80px of scroll, the
+    // centred BLUER logo fades out and the header's top-left logo fades in
+    // (both via CSS transitions on the `.home-scrolled` class).
+    var root = document.documentElement;
+    function onScroll() {
+      root.classList.toggle('home-scrolled', window.scrollY > 80);
+    }
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
   }
 
-  // The header stays transparent at all times. Past ~80px of scroll, the
-  // centred BLUER logo fades out and the header's top-left logo fades in
-  // (both via CSS transitions on the `.home-scrolled` class).
-  var root = document.documentElement;
-  function onScroll() {
-    root.classList.toggle('home-scrolled', window.scrollY > 80);
+  // The header is rendered before the hero section, so wait until the DOM is
+  // parsed — otherwise #hero-logo isn't found yet and the overlay gets removed.
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
   }
-  onScroll();
-  window.addEventListener('scroll', onScroll, { passive: true });
 })();
 </script>
 
