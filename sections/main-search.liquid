@@ -1,0 +1,127 @@
+<div class="search-page">
+
+  <form action="{{ routes.search_url }}" method="get" role="search" class="search-page__form">
+    <input
+      type="search"
+      name="q"
+      value="{{ search.terms | escape }}"
+      placeholder="{{ section.settings.placeholder | default: 'Search' }}"
+      class="search-page__input"
+      autocomplete="off"
+      aria-label="Search"
+      autofocus
+    >
+    <input type="hidden" name="type" value="product">
+  </form>
+
+  {%- if search.performed and search.terms != blank -%}
+    {%- if search.results_count > 0 -%}
+      <p class="search-page__label">{{ search.results_count }} result{% if search.results_count != 1 %}s{% endif %} for "{{ search.terms }}"</p>
+      <div class="product-grid">
+        {%- for item in search.results -%}
+          {%- if item.object_type == 'product' -%}
+            {%- render 'product-card', product: item -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <p class="search-page__label">No results for "{{ search.terms }}"</p>
+      <p class="search-page__empty">Try a different search, or explore what's featured below.</p>
+    {%- endif -%}
+  {%- endif -%}
+
+  {%- unless search.performed and search.results_count > 0 -%}
+    {%- if section.settings.recommended_terms != blank -%}
+      <p class="search-page__label">Recommended</p>
+      <ul class="search-page__recommended">
+        {%- assign terms = section.settings.recommended_terms | split: ',' -%}
+        {%- for term in terms -%}
+          {%- assign t = term | strip -%}
+          {%- if t != blank -%}
+            <li><a href="{{ routes.search_url }}?q={{ t | url_encode }}&type=product">{{ t }}</a></li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {%- assign featured = collections[section.settings.featured_collection] -%}
+    {%- if featured != blank and featured.products_count > 0 -%}
+      <p class="search-page__label">Featured</p>
+      <div class="product-grid">
+        {%- for product in featured.products limit: 9 -%}
+          {%- render 'product-card', product: product -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  {%- endunless -%}
+
+</div>
+
+<style>
+.search-page { padding: 32px 24px 80px; }
+@media (min-width: 768px) { .search-page { padding: 40px 40px 100px; } }
+
+.search-page__form { margin-bottom: 8px; }
+.search-page__input {
+  width: 100%;
+  max-width: 520px;
+  border: none;
+  border-bottom: 1px solid var(--color-fg);
+  background: transparent;
+  outline: none;
+  padding: 10px 0;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  color: var(--color-fg);
+}
+.search-page__input::placeholder { color: var(--color-muted-fg); }
+
+.search-page__label {
+  font-size: 11px;
+  letter-spacing: var(--tracking-editorial);
+  text-transform: uppercase;
+  color: var(--color-muted-fg);
+  margin: 36px 0 18px;
+}
+
+.search-page__recommended {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.search-page__recommended a {
+  font-size: 14px;
+  color: var(--color-fg);
+  opacity: 0.7;
+  transition: opacity var(--transition);
+}
+.search-page__recommended a:hover { opacity: 1; }
+
+.search-page__empty { font-size: 14px; color: var(--color-muted-fg); margin-top: 8px; }
+</style>
+
+{% schema %}
+{
+  "name": "Search",
+  "settings": [
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Input placeholder",
+      "default": "Search"
+    },
+    {
+      "type": "text",
+      "id": "recommended_terms",
+      "label": "Recommended search terms (comma-separated)",
+      "default": "Dresses, Denim, Tops, New Arrivals"
+    },
+    {
+      "type": "collection",
+      "id": "featured_collection",
+      "label": "Featured products (shown before searching)"
+    }
+  ]
+}
+{% endschema %}
