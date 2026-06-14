@@ -7,13 +7,19 @@
 
     <div class="header-logo" id="header-logo">
       <a href="{{ routes.root_url }}" aria-label="{{ shop.name }} home">
-        {%- if template.name == 'index' and settings.logo_light != blank -%}
-          {%- comment -%}Homepage header stays transparent over the video, so use the white logo.{%- endcomment -%}
-          <img class="header-logo__img" src="{{ settings.logo_light | image_url: width: 480 }}" alt="{{ shop.name }}" width="{{ settings.logo_light.width }}" height="{{ settings.logo_light.height }}">
+        {%- if template.name == 'index' -%}
+          {%- comment -%}Homepage header sits over the video — use the white logo.{%- endcomment -%}
+          {%- assign home_logo = settings.logo_light | default: settings.logo -%}
+          {%- if home_logo != blank -%}
+            <img class="header-logo__img" src="{{ home_logo | image_url: width: 480 }}" alt="{{ shop.name }}" width="{{ home_logo.width }}" height="{{ home_logo.height }}">
+          {%- else -%}
+            <span class="header-logo__text">{{ shop.name | upcase }}</span>
+          {%- endif -%}
         {%- elsif settings.logo != blank -%}
           <img class="header-logo__img" src="{{ settings.logo | image_url: width: 480 }}" alt="{{ shop.name }}" width="{{ settings.logo.width }}" height="{{ settings.logo.height }}">
         {%- elsif settings.logo_light != blank -%}
-          <img class="header-logo__img" src="{{ settings.logo_light | image_url: width: 480 }}" alt="{{ shop.name }}" width="{{ settings.logo_light.width }}" height="{{ settings.logo_light.height }}">
+          {%- comment -%}Only a light logo exists — invert it so it shows on the solid white header.{%- endcomment -%}
+          <img class="header-logo__img header-logo__img--invert" src="{{ settings.logo_light | image_url: width: 480 }}" alt="{{ shop.name }}" width="{{ settings.logo_light.width }}" height="{{ settings.logo_light.height }}">
         {%- else -%}
           <span class="header-logo__text">{{ shop.name | upcase }}</span>
         {%- endif -%}
@@ -140,6 +146,8 @@
 /* ---- Logo ------------------------------------------------ */
 .header-logo__img { display: block; width: var(--logo-w-mobile, 90px); height: auto; }
 @media (min-width: 768px) { .header-logo__img { width: var(--logo-w, 110px); } }
+/* A white logo inverted to black so it's visible on the solid (non-homepage) header */
+.header-logo__img--invert { filter: invert(1); }
 .header-logo__text {
   font-family: var(--font-display);
   font-size: 24px;
