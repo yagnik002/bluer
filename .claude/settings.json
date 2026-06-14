@@ -27,10 +27,23 @@
       "Bash(git rm *)",
       "Bash(rm -rf node_modules/ .lovable/ .tanstack/)",
       "WebFetch(domain:www.figma.com)",
-      "WebFetch(domain:embed.figma.com)"
+      "WebFetch(domain:embed.figma.com)",
+      "Bash(git commit *)",
+      "Bash(python3 -c \"import json; json.load\\(open\\('templates/page.terms-and-conditions.json'\\)\\); print\\('JSON valid'\\)\")",
+      "Bash(python3 -c \"import json; json.load\\(open\\('/Users/yagnikshaparia/Downloads/Shopify Storefront Builder11/templates/page.terms-and-conditions.json'\\)\\); print\\('JSON valid'\\)\")",
+      "Bash(rm \"/Users/yagnikshaparia/Downloads/Shopify Storefront Builder11/sections/start-a-return.liquid\" \"/Users/yagnikshaparia/Downloads/Shopify Storefront Builder11/templates/page.start-a-return.json\")",
+      "Bash(python3 -m json.tool templates/page.return-policy.json)",
+      "Bash(echo \"grep exit: $?\")",
+      "Bash(python3 -m json.tool templates/page.privacy-policy.json)",
+      "Bash(python3 -m json.tool templates/page.shipping-and-payments.json)",
+      "Bash(python3 -m json.tool templates/page.careers.json)",
+      "Bash(git rev-list *)",
+      "Bash(xargs git log -1 --oneline)",
+      "Bash(git config *)"
     ],
     "additionalDirectories": [
-      "/Users/yagnikshaparia/Downloads/Shopify Storefront Builder11/src/assets"
+      "/Users/yagnikshaparia/Downloads/Shopify Storefront Builder11/src/assets",
+      "/Users/yagnikshaparia/Downloads/Shopify Storefront Builder11/sections"
     ]
   }
 }
