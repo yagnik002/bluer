@@ -81,6 +81,15 @@ ul, ol { list-style: none; }
   border-bottom: 1px solid var(--color-border);
 }
 
+/* Shopify wraps the header in a section <div> that's only header-height tall,
+   which prevents position: sticky on the header from staying pinned. Pin the
+   wrapper itself (non-homepage) so the header stays fixed while scrolling. */
+body:not(.template-index) #shopify-section-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
 .header-inner {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
