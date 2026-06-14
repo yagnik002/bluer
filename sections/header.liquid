@@ -189,7 +189,19 @@
   pointer-events: auto;
 }
 
-/* The homepage header stays transparent at all times — no solid state. */
+/* Over the hero the header is transparent; once scrolled past it the header
+   becomes a solid, visible sticky bar (dark logo + dark text) like other pages. */
+html.home-scrolled .site-header.header--overlay {
+  background: var(--color-bg);
+  color: var(--color-fg);
+}
+html.home-scrolled .site-header.header--overlay .header-logo__img { filter: invert(1); }
+html.home-scrolled .site-header.header--overlay .header-search-input {
+  color: var(--color-fg);
+  border-bottom-color: rgba(26,26,26,0.8);
+}
+html.home-scrolled .site-header.header--overlay .header-search-input::placeholder { color: var(--color-muted-fg); }
+html.home-scrolled .site-header.header--overlay .cart-count { background: var(--color-fg); color: var(--color-bg); }
 
 @media (prefers-reduced-motion: reduce) {
   .site-header.header--overlay { transition: none; }
