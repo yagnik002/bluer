@@ -9,6 +9,7 @@
  */
 {
   "current": {
+    "logo": "shopify://shop_images/New_Logo_Black.png",
     "color_background": "#ffffff",
     "color_foreground": "#1a1a1a",
     "color_border": "#e5e5e5",
@@ -25,13 +26,16 @@
       "footer": {
         "type": "footer",
         "settings": {
-          "menu_1": "footer",
-          "menu_2": "",
-          "menu_3": "",
           "instagram_url": "https://www.instagram.com/bluer.co.in",
           "facebook_url": "https://www.facebook.com/people/Bluer/100083943947675/?mibextid=LQQJ4d&rdid=KB3KcBzfn9LhslG7&share_url=https%253A%252F%252Fwww.facebook.com%252Fshare%252FtPVsyB72KYUWRBY4%252F%253Fmibextid%253DLQQJ4d",
-          "twitter_url": "https://www.threads.com/@bluer.co.in",
+          "threads_url": "",
           "linkedin_url": "https://www.linkedin.com/company/blueronyou/"
+        }
+      },
+      "announcement-bar": {
+        "type": "announcement-bar",
+        "settings": {
+          "text": "Free shipping on prepaid orders above ₹1,990"
         }
       }
     },
