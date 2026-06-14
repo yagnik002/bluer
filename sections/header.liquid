@@ -16,12 +16,11 @@
             <span class="header-logo__text">{{ shop.name | upcase }}</span>
           {%- endif -%}
         {%- elsif settings.logo != blank -%}
+          {%- comment -%}A dark logo set in Theme settings overrides the project default.{%- endcomment -%}
           <img class="header-logo__img" src="{{ settings.logo | image_url: width: 480 }}" alt="{{ shop.name }}" width="{{ settings.logo.width }}" height="{{ settings.logo.height }}">
-        {%- elsif settings.logo_light != blank -%}
-          {%- comment -%}Only a light logo exists — invert it so it shows on the solid white header.{%- endcomment -%}
-          <img class="header-logo__img header-logo__img--invert" src="{{ settings.logo_light | image_url: width: 480 }}" alt="{{ shop.name }}" width="{{ settings.logo_light.width }}" height="{{ settings.logo_light.height }}">
         {%- else -%}
-          <span class="header-logo__text">{{ shop.name | upcase }}</span>
+          {%- comment -%}Project default dark logo for all non-homepage pages.{%- endcomment -%}
+          <img class="header-logo__img" src="{{ 'bluer-logo-for-not-home-page-header-logo.png' | asset_url }}" alt="{{ shop.name }}">
         {%- endif -%}
       </a>
     </div>
