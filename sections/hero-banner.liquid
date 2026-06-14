@@ -60,12 +60,9 @@
 }
 .hero-logo img {
   display: block;
-  width: 220px;
-  max-width: 60vw;
-  height: auto;
-}
-@media (min-width: 768px) {
-  .hero-logo img { width: {{ settings.hero_logo_width | default: 360 }}px; max-width: 42vw; }
+  height: 5rem; /* h-20 — 80px on all screen sizes */
+  width: auto;
+  max-width: 80vw;
 }
 .hero-logo .font-display {
   color: #fff;
