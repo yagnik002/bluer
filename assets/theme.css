@@ -2004,3 +2004,23 @@ body { padding-bottom: 60px; }
   border: 1px solid var(--color-fg);
 }
 .btn--outline:hover { background: var(--color-muted); }
+
+/* ---- Wishlist heart on product cards -------------------- */
+.product-card__wishlist {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  background: rgba(255,255,255,0.85);
+  border-radius: 50%;
+  color: var(--color-fg);
+  transition: background var(--transition), color var(--transition);
+}
+.product-card__wishlist svg { width: 18px; height: 18px; transition: fill var(--transition); }
+.product-card__wishlist:hover { background: #fff; }
+.product-card__wishlist.is-active { background: var(--color-fg); color: #fff; }
+.product-card__wishlist.is-active svg { fill: currentColor; }

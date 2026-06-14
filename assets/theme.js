@@ -694,3 +694,93 @@ function initPincodeChecker() {
     }, 800);
   });
 }
+
+/* ---- Wishlist (localStorage) ---------------------------- */
+(function () {
+  var KEY = 'bluer_wishlist';
+
+  function read() {
+    try { return JSON.parse(localStorage.getItem(KEY)) || []; }
+    catch (e) { return []; }
+  }
+  function write(list) {
+    localStorage.setItem(KEY, JSON.stringify(list));
+    document.querySelectorAll('[data-wishlist-count]').forEach(function (el) {
+      el.textContent = list.length;
+      el.style.display = list.length ? '' : 'none';
+    });
+  }
+  function has(list, handle) {
+    return list.some(function (i) { return i.handle === handle; });
+  }
+
+  function syncButtons() {
+    var list = read();
+    document.querySelectorAll('[data-wishlist-toggle]').forEach(function (btn) {
+      var on = has(list, btn.getAttribute('data-handle'));
+      btn.classList.toggle('is-active', on);
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+
+  function toggle(btn) {
+    var list = read();
+    var handle = btn.getAttribute('data-handle');
+    if (has(list, handle)) {
+      list = list.filter(function (i) { return i.handle !== handle; });
+    } else {
+      list.push({
+        handle: handle,
+        title: btn.getAttribute('data-title'),
+        url: btn.getAttribute('data-url'),
+        price: btn.getAttribute('data-price'),
+        image: btn.getAttribute('data-image')
+      });
+    }
+    write(list);
+    syncButtons();
+    if (window.renderWishlist) window.renderWishlist();
+  }
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-wishlist-toggle]');
+    if (!btn) return;
+    e.preventDefault();
+    toggle(btn);
+  });
+
+  // Render the wishlist page grid, if present
+  window.renderWishlist = function () {
+    var grid = document.getElementById('wishlist-grid');
+    var empty = document.getElementById('wishlist-empty');
+    if (!grid) return;
+    var list = read();
+    if (!list.length) {
+      grid.innerHTML = '';
+      if (empty) empty.style.display = '';
+      grid.style.display = 'none';
+      return;
+    }
+    if (empty) empty.style.display = 'none';
+    grid.style.display = '';
+    grid.innerHTML = list.map(function (i) {
+      return '' +
+        '<div class="product-card">' +
+          '<a href="' + i.url + '" class="product-card__img-wrap" style="display:block">' +
+            (i.image ? '<img class="product-card__img" src="' + i.image + '" alt="' + (i.title || '') + '" loading="lazy">' : '<div style="width:100%;aspect-ratio:3/4;background:var(--color-muted)"></div>') +
+          '</a>' +
+          '<button class="product-card__wishlist is-active btn-reset" data-wishlist-toggle data-handle="' + i.handle + '" data-title="' + (i.title || '') + '" data-url="' + i.url + '" data-price="' + (i.price || '') + '" data-image="' + (i.image || '') + '" aria-pressed="true" aria-label="Remove from wishlist">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21s-6.716-4.297-9.193-7.07C.96 12.06 1.06 9.36 2.81 7.86c1.6-1.37 3.99-1.13 5.46.36L12 11.94l3.73-3.72c1.47-1.49 3.86-1.73 5.46-.36 1.75 1.5 1.85 4.2.003 6.07C18.716 16.703 12 21 12 21z"/></svg>' +
+          '</button>' +
+          '<div class="product-card__info">' +
+            '<p class="product-card__title"><a href="' + i.url + '">' + (i.title || '') + '</a></p>' +
+            '<p class="product-card__price">' + (i.price || '') + '</p>' +
+          '</div>' +
+        '</div>';
+    }).join('');
+  };
+
+  syncButtons();
+  write(read());
+  if (window.renderWishlist) window.renderWishlist();
+})();

@@ -48,6 +48,20 @@
   </a>
 
   <button
+    class="product-card__wishlist btn-reset"
+    data-wishlist-toggle
+    data-handle="{{ product.handle }}"
+    data-title="{{ product.title | escape }}"
+    data-url="{{ product.url }}"
+    data-price="{{ product.price | money }}"
+    data-image="{{ product.featured_image | image_url: width: 600 }}"
+    aria-label="Add {{ product.title | escape }} to wishlist"
+    aria-pressed="false"
+  >
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21s-6.716-4.297-9.193-7.07C.96 12.06 1.06 9.36 2.81 7.86c1.6-1.37 3.99-1.13 5.46.36L12 11.94l3.73-3.72c1.47-1.49 3.86-1.73 5.46-.36 1.75 1.5 1.85 4.2.003 6.07C18.716 16.703 12 21 12 21z"/></svg>
+  </button>
+
+  <button
     class="product-card__quick-add btn-reset"
     data-quick-add="{{ quick_variant.id }}"
     aria-label="Quick add {{ product.title }}"

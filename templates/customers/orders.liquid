@@ -1,80 +1,56 @@
 {% layout 'theme' %}
 
-<div class="policy-page">
-  <div class="policy-page__inner" style="max-width:860px">
+<div class="orders-page">
+  <div class="orders-page__inner">
 
-    <a href="{{ routes.account_url }}" class="policy-back">
+    <a href="{{ routes.account_url }}" class="orders-back" aria-label="Back to account">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
-      Account
     </a>
 
-    <h1 class="policy-page__title font-display">My Purchases</h1>
-
     {%- if customer.orders.size == 0 -%}
-      <div style="padding:60px 0;text-align:center;border-top:1px solid var(--color-border);margin-top:32px">
-        <p class="text-editorial-sm" style="color:var(--color-muted-fg)">No orders yet</p>
-        <a href="{{ routes.root_url }}" class="btn" style="margin-top:24px;display:inline-flex">Start Shopping</a>
+      <div class="orders-empty">
+        <p class="text-editorial-sm">You have no orders yet</p>
+        <a href="{{ routes.root_url }}" class="btn orders-empty__cta">Start Shopping</a>
       </div>
 
     {%- else -%}
-      <div class="orders-table-wrap">
-        <table class="orders-table">
-          <thead>
-            <tr>
-              <th class="orders-th">Order</th>
-              <th class="orders-th">Date</th>
-              <th class="orders-th">Status</th>
-              <th class="orders-th orders-th--right">Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            {%- for order in customer.orders -%}
-              <tr class="orders-row">
-                <td class="orders-td">
-                  <a href="{{ order.customer_url }}" class="orders-link">
-                    {{ order.name }}
-                  </a>
-                </td>
-                <td class="orders-td orders-td--muted">
-                  {{ order.created_at | date: '%d %b %Y' }}
-                </td>
-                <td class="orders-td">
-                  <span class="order-status order-status--{{ order.financial_status }}">
-                    {{ order.financial_status_label }}
-                  </span>
-                </td>
-                <td class="orders-td orders-td--right">
-                  {{ order.total_price | money }}
-                </td>
-              </tr>
+      <div class="orders-list">
+        {%- for order in customer.orders -%}
+          <article class="order-card">
+            <div class="order-card__id">
+              <span class="order-card__id-label">Order ID:</span>
+              <span class="order-card__id-value">{{ order.name }}</span>
+            </div>
 
-              {%- for line_item in order.line_items -%}
-                <tr class="orders-item-row">
-                  <td colspan="4" class="orders-item-cell">
-                    <div class="order-line-item">
-                      {%- if line_item.image -%}
-                        <img
-                          src="{{ line_item.image | image_url: width: 80 }}"
-                          alt="{{ line_item.title | escape }}"
-                          class="order-line-img"
-                          loading="lazy"
-                        >
-                      {%- endif -%}
-                      <div>
-                        <p class="order-line-title">{{ line_item.product.title | default: line_item.title }}</p>
-                        {%- unless line_item.variant.title == 'Default Title' -%}
-                          <p class="order-line-meta">{{ line_item.variant.title }}</p>
-                        {%- endunless -%}
-                        <p class="order-line-meta">Qty: {{ line_item.quantity }} &nbsp;·&nbsp; {{ line_item.final_line_price | money }}</p>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-              {%- endfor -%}
+            <div class="order-card__body">
+              <p class="order-card__status">
+                {%- if order.fulfillment_status == 'fulfilled' -%}
+                  {%- assign f = order.fulfillments.first -%}
+                  Delivered{% if f.created_at %} on {{ f.created_at | date: '%d/%m/%y' }}{% endif %}
+                {%- else -%}
+                  {%- assign est = order.created_at | date: '%s' | plus: 604800 -%}
+                  Estimated delivery on {{ est | date: '%d/%m/%y' }}
+                {%- endif -%}
+              </p>
 
-            {%- endfor -%}
-          </tbody>
-        </table>
+              <div class="order-card__imgs">
+                {%- for li in order.line_items limit: 4 -%}
+                  {%- if li.image -%}
+                    <img src="{{ li.image | image_url: width: 240 }}" alt="{{ li.title | escape }}" loading="lazy">
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+
+              <p class="order-card__count">{{ order.line_items.size }} Item(s)</p>
+
+              <div class="order-card__actions">
+                <a href="{{ order.customer_url }}" class="order-btn">ORDER DETAILS</a>
+                {%- assign tracking = order.fulfillments.first.tracking_url -%}
+                <a href="{{ tracking | default: order.customer_url }}" class="order-btn"{% if tracking %} target="_blank" rel="noopener"{% endif %}>TRACK ORDER</a>
+              </div>
+            </div>
+          </article>
+        {%- endfor -%}
       </div>
     {%- endif -%}
 
@@ -82,47 +58,55 @@
 </div>
 
 <style>
-.orders-table-wrap { margin-top: 32px; overflow-x: auto; }
-.orders-table { width: 100%; border-collapse: collapse; }
-.orders-th {
+.orders-page { padding: 32px 24px 80px; }
+@media (min-width: 768px) { .orders-page { padding: 48px 40px 100px; } }
+.orders-page__inner { max-width: 980px; margin: 0 auto; }
+
+.orders-back { display: inline-flex; margin-bottom: 16px; transition: opacity var(--transition); }
+.orders-back:hover { opacity: 0.6; }
+.orders-back svg { width: 22px; height: 22px; }
+
+.orders-empty { padding: 80px 0; text-align: center; border-top: 1px solid var(--color-border); }
+.orders-empty__cta { margin-top: 24px; display: inline-flex; }
+
+.order-card {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  padding: 36px 0;
+  border-top: 1px solid var(--color-border);
+}
+.order-card:last-child { border-bottom: 1px solid var(--color-border); }
+@media (min-width: 768px) {
+  .order-card { grid-template-columns: 180px 1fr; gap: 48px; }
+}
+
+.order-card__id-label { font-size: 12px; color: var(--color-muted-fg); display: block; }
+.order-card__id-value { font-size: 14px; letter-spacing: 0.04em; }
+
+.order-card__status { font-size: 13px; color: var(--color-muted-fg); margin-bottom: 16px; }
+
+.order-card__imgs { display: flex; gap: 10px; flex-wrap: wrap; }
+.order-card__imgs img {
+  width: 110px;
+  height: 150px;
+  object-fit: cover;
+  background: var(--color-muted);
+}
+
+.order-card__count { font-size: 13px; margin: 16px 0 18px; }
+
+.order-card__actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.order-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-fg);
+  padding: 12px 28px;
   font-size: 11px;
   letter-spacing: var(--tracking-editorial);
   text-transform: uppercase;
-  text-align: left;
-  padding: 12px 16px 12px 0;
-  border-bottom: 1px solid var(--color-border);
-  color: var(--color-muted-fg);
-  white-space: nowrap;
+  transition: background var(--transition), color var(--transition);
 }
-.orders-th--right { text-align: right; }
-.orders-row { border-bottom: 1px solid var(--color-border); }
-.orders-row:hover { background: var(--color-muted); }
-.orders-td {
-  padding: 16px 16px 16px 0;
-  font-size: 13px;
-  vertical-align: top;
-}
-.orders-td--muted { color: var(--color-muted-fg); }
-.orders-td--right { text-align: right; }
-.orders-link { text-decoration: underline; text-underline-offset: 3px; }
-.orders-link:hover { opacity: 0.6; }
-
-.order-status {
-  display: inline-block;
-  font-size: 10px;
-  letter-spacing: var(--tracking-editorial);
-  text-transform: uppercase;
-  padding: 3px 8px;
-  background: var(--color-muted);
-}
-.order-status--paid { background: #e8f5e9; }
-.order-status--refunded { background: #fff3e0; }
-.order-status--pending { background: var(--color-muted); }
-
-.orders-item-row { background: var(--color-muted); }
-.orders-item-cell { padding: 12px 16px 12px 0; }
-.order-line-item { display: flex; gap: 12px; align-items: flex-start; }
-.order-line-img { width: 56px; height: 72px; object-fit: cover; background: var(--color-border); flex-shrink: 0; }
-.order-line-title { font-size: 12px; letter-spacing: 0.05em; }
-.order-line-meta { font-size: 12px; color: var(--color-muted-fg); margin-top: 4px; }
+.order-btn:hover { background: var(--color-fg); color: var(--color-bg); }
 </style>

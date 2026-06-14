@@ -1,0 +1,53 @@
+<div class="wishlist-page">
+  <div class="wishlist-page__inner">
+
+    <h1 class="wishlist-page__title">{{ section.settings.title | default: 'Wishlist' }}</h1>
+
+    <div id="wishlist-empty" class="wishlist-empty" style="display:none">
+      <p class="text-editorial-sm">{{ section.settings.empty_title | default: 'Your wishlist is empty' }}</p>
+      <p class="wishlist-empty__sub">{{ section.settings.empty_text | default: 'Save your favourite pieces to revisit them anytime.' }}</p>
+      <a href="{{ section.settings.empty_url | default: '/collections/all' }}" class="btn wishlist-empty__cta">{{ section.settings.empty_cta | default: 'View Collection' }}</a>
+    </div>
+
+    <div id="wishlist-grid" class="product-grid product-grid--4"></div>
+
+  </div>
+</div>
+
+<script>
+  // Render once the wishlist logic (in theme.js) is ready.
+  if (window.renderWishlist) {
+    window.renderWishlist();
+  } else {
+    window.addEventListener('load', function () { if (window.renderWishlist) window.renderWishlist(); });
+  }
+</script>
+
+<style>
+.wishlist-page { padding: 32px 24px 80px; }
+@media (min-width: 768px) { .wishlist-page { padding: 48px 40px 100px; } }
+.wishlist-page__inner { max-width: 1280px; margin: 0 auto; }
+.wishlist-page__title {
+  font-size: 11px;
+  letter-spacing: var(--tracking-editorial);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.wishlist-empty { padding: 80px 0; text-align: center; }
+.wishlist-empty__sub { font-size: 13px; color: var(--color-muted-fg); margin-top: 8px; }
+.wishlist-empty__cta { margin-top: 24px; display: inline-flex; }
+</style>
+
+{% schema %}
+{
+  "name": "Wishlist",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Title", "default": "Wishlist" },
+    { "type": "text", "id": "empty_title", "label": "Empty heading", "default": "Your wishlist is empty" },
+    { "type": "textarea", "id": "empty_text", "label": "Empty text", "default": "Save your favourite pieces to revisit them anytime." },
+    { "type": "text", "id": "empty_cta", "label": "Empty button label", "default": "View Collection" },
+    { "type": "url", "id": "empty_url", "label": "Empty button link" }
+  ],
+  "presets": [ { "name": "Wishlist" } ]
+}
+{% endschema %}
