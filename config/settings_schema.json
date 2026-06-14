@@ -1,1 +1,53 @@
-[]
+[
+  {
+    "name": "Logo",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Upload tightly-cropped logos with a transparent background (PNG or SVG) for best results."
+      },
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo — dark",
+        "info": "Used in the solid header (dark logo on white). Falls back to the light logo, then the shop name."
+      },
+      {
+        "type": "image_picker",
+        "id": "logo_light",
+        "label": "Logo — light / white",
+        "info": "Used over the hero video and the transparent homepage header (white logo on dark)."
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "min": 60,
+        "max": 240,
+        "step": 5,
+        "unit": "px",
+        "label": "Header logo width (desktop)",
+        "default": 110
+      },
+      {
+        "type": "range",
+        "id": "logo_width_mobile",
+        "min": 50,
+        "max": 180,
+        "step": 5,
+        "unit": "px",
+        "label": "Header logo width (mobile)",
+        "default": 90
+      },
+      {
+        "type": "range",
+        "id": "hero_logo_width",
+        "min": 160,
+        "max": 640,
+        "step": 10,
+        "unit": "px",
+        "label": "Hero centre logo width (desktop)",
+        "default": 360
+      }
+    ]
+  }
+]

@@ -29,11 +29,15 @@
     <div class="hero-placeholder"></div>
   {%- endif -%}
 
-  {%- if section.settings.title != blank -%}
-    <h1 class="hero-title font-display" aria-label="{{ section.settings.title }}">
-      {{ section.settings.title }}
-    </h1>
-  {%- endif -%}
+  <h1 class="hero-logo" id="hero-logo">
+    {%- if settings.logo_light != blank -%}
+      <img src="{{ settings.logo_light | image_url: width: 900 }}" alt="{{ section.settings.title | default: shop.name }}">
+    {%- elsif settings.logo != blank -%}
+      <img src="{{ settings.logo | image_url: width: 900 }}" alt="{{ section.settings.title | default: shop.name }}">
+    {%- else -%}
+      <span class="font-display">{{ section.settings.title | default: shop.name }}</span>
+    {%- endif -%}
+  </h1>
 
   {%- if section.settings.label != blank -%}
     <p class="hero-label">{{ section.settings.label }}</p>
@@ -41,6 +45,37 @@
 </section>
 
 <style>
+/* Centred hero logo — travels into the header on scroll (driven by header.liquid JS) */
+.hero-logo {
+  position: absolute;
+  top: 50vh;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 120;
+  margin: 0;
+  line-height: 1;
+  text-align: center;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+.hero-logo img {
+  display: block;
+  width: 220px;
+  max-width: 60vw;
+  height: auto;
+}
+@media (min-width: 768px) {
+  .hero-logo img { width: {{ settings.hero_logo_width | default: 360 }}px; max-width: 42vw; }
+}
+.hero-logo .font-display {
+  color: #fff;
+  font-size: 48px;
+  letter-spacing: var(--tracking-logo);
+}
+@media (min-width: 768px) {
+  .hero-logo .font-display { font-size: 96px; }
+}
+
 .hero-section video.hero-media {
   width: 100%;
   height: 78vh;

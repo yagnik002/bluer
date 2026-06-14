@@ -1,9 +1,19 @@
-<header class="site-header" id="site-header">
+<header
+  class="site-header{% if template.name == 'index' %} header--overlay is-top{% endif %}"
+  id="site-header"
+  style="--logo-w: {{ settings.logo_width | default: 110 }}px; --logo-w-mobile: {{ settings.logo_width_mobile | default: 90 }}px;"
+>
   <div class="header-inner">
 
-    <div class="header-logo">
+    <div class="header-logo" id="header-logo">
       <a href="{{ routes.root_url }}" aria-label="{{ shop.name }} home">
-        {{ shop.name | upcase }}
+        {%- if settings.logo != blank -%}
+          <img class="header-logo__img" src="{{ settings.logo | image_url: width: 480 }}" alt="{{ shop.name }}" width="{{ settings.logo.width }}" height="{{ settings.logo.height }}">
+        {%- elsif settings.logo_light != blank -%}
+          <img class="header-logo__img" src="{{ settings.logo_light | image_url: width: 480 }}" alt="{{ shop.name }}" width="{{ settings.logo_light.width }}" height="{{ settings.logo_light.height }}">
+        {%- else -%}
+          <span class="header-logo__text">{{ shop.name | upcase }}</span>
+        {%- endif -%}
       </a>
     </div>
 
@@ -122,6 +132,139 @@
   {%- endif -%}
 </div>
 <div class="nav-overlay" id="nav-overlay"></div>
+
+<style>
+/* ---- Logo ------------------------------------------------ */
+.header-logo__img { display: block; width: var(--logo-w-mobile, 90px); height: auto; }
+@media (min-width: 768px) { .header-logo__img { width: var(--logo-w, 110px); } }
+.header-logo__text {
+  font-family: var(--font-display);
+  font-size: 24px;
+  letter-spacing: var(--tracking-logo);
+  line-height: 1;
+}
+@media (min-width: 768px) { .header-logo__text { font-size: 28px; } }
+
+/* ---- Transparent overlay header (homepage) --------------- */
+.site-header.header--overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background 0.35s ease, border-color 0.35s ease, color 0.35s ease;
+}
+
+/* At the top of the page: white text, subtle scrim, logo hidden */
+.site-header.header--overlay.is-top {
+  color: #fff;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.30), rgba(0,0,0,0));
+}
+.site-header.header--overlay.is-top .header-search-input {
+  color: #fff;
+  border-bottom-color: rgba(255,255,255,0.7);
+}
+.site-header.header--overlay.is-top .header-search-input::placeholder { color: rgba(255,255,255,0.7); }
+.site-header.header--overlay.is-top .cart-count { background: #fff; color: #1a1a1a; }
+
+/* Header logo fades in as the hero logo travels up (JS sets --logo-in) */
+.site-header.header--overlay .header-logo {
+  opacity: var(--logo-in, 0);
+  transition: opacity 0.3s ease;
+}
+
+/* Once scrolled: solid white header */
+.site-header.header--overlay.is-scrolled {
+  background: var(--color-bg);
+  color: var(--color-fg);
+  border-bottom-color: rgba(229,229,229,0.6);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header.header--overlay { transition: none; }
+}
+</style>
+
+<script>
+(function () {
+  var header = document.getElementById('site-header');
+  if (!header) return;
+
+  var isHome = header.classList.contains('header--overlay');
+  if (!isHome) return; // other templates use the default solid sticky header
+
+  var heroLogo = document.getElementById('hero-logo');
+  var headerLogo = document.getElementById('header-logo');
+
+  // Homepage without a hero logo: just behave like a normal solid header.
+  if (!heroLogo || !headerLogo) {
+    header.classList.remove('header--overlay', 'is-top');
+    header.style.position = '';
+    return;
+  }
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var target = { dx: 0, dy: 0, scale: 0.3 };
+
+  function animDistance() { return Math.min(window.innerHeight * 0.6, 600); }
+
+  function measure() {
+    // Pin the hero logo to the viewport centre so we can measure the travel.
+    heroLogo.style.position = 'fixed';
+    heroLogo.style.top = '50%';
+    heroLogo.style.left = '50%';
+    heroLogo.style.transform = 'translate(-50%, -50%)';
+    var hr = heroLogo.getBoundingClientRect();
+    var tr = headerLogo.getBoundingClientRect();
+    if (!hr.width || !tr.width) return;
+    var heroCx = hr.left + hr.width / 2;
+    var heroCy = hr.top + hr.height / 2;
+    var tgtCx = tr.left + tr.width / 2;
+    var tgtCy = tr.top + tr.height / 2;
+    target.dx = tgtCx - heroCx;
+    target.dy = tgtCy - heroCy;
+    target.scale = Math.max(0.12, Math.min(1, tr.width / hr.width));
+  }
+
+  function clamp(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+
+  function frame() {
+    var p = clamp(window.scrollY / animDistance());
+
+    // Solidify the header near the end of the logo's journey.
+    var solid = p >= 0.85;
+    header.classList.toggle('is-scrolled', solid);
+    header.classList.toggle('is-top', !solid);
+
+    if (reduce) {
+      heroLogo.style.opacity = String(1 - p);
+      header.style.setProperty('--logo-in', String(p));
+    } else {
+      var s = 1 - (1 - target.scale) * p;
+      heroLogo.style.transform =
+        'translate(calc(-50% + ' + (target.dx * p) + 'px), calc(-50% + ' + (target.dy * p) + 'px)) scale(' + s + ')';
+      // Cross-fade the white hero logo out / the dark header logo in at the destination.
+      var heroFade = p < 0.75 ? 1 : 1 - (p - 0.75) / 0.25;
+      heroLogo.style.opacity = String(clamp(heroFade));
+      var headFade = p < 0.6 ? 0 : (p - 0.6) / 0.4;
+      header.style.setProperty('--logo-in', String(clamp(headFade)));
+    }
+    ticking = false;
+  }
+
+  var ticking = false;
+  function onScroll() {
+    if (!ticking) { ticking = true; requestAnimationFrame(frame); }
+  }
+
+  measure();
+  frame();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', function () { measure(); frame(); });
+  window.addEventListener('load', function () { measure(); frame(); });
+})();
+</script>
 
 {% schema %}
 {
