@@ -89,6 +89,19 @@
   </div>
 </div>
 
+{%- if collection.image or collection.description != blank -%}
+  <div class="collection-hero">
+    {%- if collection.image -%}
+      <div class="collection-hero__img">
+        <img src="{{ collection.image | image_url: width: 1600 }}" alt="{{ collection.title | escape }}" loading="lazy">
+      </div>
+    {%- endif -%}
+    {%- if collection.description != blank -%}
+      <div class="collection-hero__desc rte">{{ collection.description }}</div>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
 {%- if collection.products_count == 0 -%}
   <div class="collection-empty">
     <p>No products found</p>
@@ -97,13 +110,69 @@
   <div class="product-grid product-grid--4" id="collection-grid">
     {%- for product in collection.products -%}
       {%- render 'product-card', product: product -%}
+      {%- assign pindex = forloop.index -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'editorial_banner' and block.settings.image != blank and block.settings.after == pindex -%}
+          {%- if block.settings.link != blank -%}
+            <a href="{{ block.settings.link }}" class="collection-banner" {{ block.shopify_attributes }}>
+          {%- else -%}
+            <div class="collection-banner" {{ block.shopify_attributes }}>
+          {%- endif -%}
+            <img src="{{ block.settings.image | image_url: width: 1600 }}" alt="{{ block.settings.label | escape }}" loading="lazy">
+            {%- if block.settings.label != blank -%}<span class="collection-banner__label">{{ block.settings.label }}</span>{%- endif -%}
+          {%- if block.settings.link != blank -%}</a>{%- else -%}</div>{%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
     {%- endfor -%}
   </div>
 {%- endif -%}
 
+<style>
+.collection-hero__img img { width: 100%; display: block; object-fit: cover; max-height: 78vh; }
+.collection-hero__desc {
+  padding: 24px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: rgba(26,26,26,0.8);
+  max-width: 760px;
+}
+@media (min-width: 768px) { .collection-hero__desc { padding: 32px 40px; } }
+
+.collection-banner {
+  position: relative;
+  display: block;
+  grid-column: 1 / -1;
+  background: var(--color-muted);
+}
+.collection-banner img { width: 100%; display: block; object-fit: cover; }
+.collection-banner__label {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  color: #fff;
+  font-size: 11px;
+  letter-spacing: var(--tracking-editorial);
+  text-transform: uppercase;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.4);
+}
+@media (min-width: 768px) { .collection-banner__label { left: 24px; bottom: 24px; } }
+</style>
+
 {% schema %}
 {
   "name": "Collection products",
-  "settings": []
+  "settings": [],
+  "blocks": [
+    {
+      "type": "editorial_banner",
+      "name": "Editorial banner",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Banner image" },
+        { "type": "text", "id": "label", "label": "Overlay label (optional)" },
+        { "type": "url", "id": "link", "label": "Link (optional)" },
+        { "type": "number", "id": "after", "label": "Insert after this many products", "default": 4 }
+      ]
+    }
+  ]
 }
 {% endschema %}
