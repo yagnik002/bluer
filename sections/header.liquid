@@ -171,10 +171,15 @@
 .site-header.header--overlay.is-top .header-search-input::placeholder { color: rgba(255,255,255,0.7); }
 .site-header.header--overlay.is-top .cart-count { background: #fff; color: #1a1a1a; }
 
-/* Header logo fades in as the centred hero logo fades out (JS sets --logo-in) */
+/* Homepage header logo: hidden over the hero, fades in once scrolled past it */
 .site-header.header--overlay .header-logo {
-  opacity: var(--logo-in, 0);
+  opacity: 0;
+  pointer-events: none;
   transition: opacity 0.3s ease;
+}
+.home-scrolled .site-header.header--overlay .header-logo {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 /* The homepage header stays transparent at all times — no solid state. */
@@ -202,28 +207,15 @@
     return;
   }
 
-  function animDistance() { return Math.min(window.innerHeight * 0.6, 600); }
-  function clamp(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
-
-  // The header stays transparent at all times. As the hero scrolls away, the
-  // centred BLUER logo fades out and the header's top-left logo fades in.
-  function frame() {
-    var p = clamp(window.scrollY / animDistance());
-    heroLogo.style.opacity = String(1 - p);
-    header.style.setProperty('--logo-in', String(p));
-  }
-
-  var ticking = false;
+  // The header stays transparent at all times. Past ~80px of scroll, the
+  // centred BLUER logo fades out and the header's top-left logo fades in
+  // (both via CSS transitions on the `.home-scrolled` class).
+  var root = document.documentElement;
   function onScroll() {
-    if (!ticking) {
-      ticking = true;
-      requestAnimationFrame(function () { frame(); ticking = false; });
-    }
+    root.classList.toggle('home-scrolled', window.scrollY > 80);
   }
-
-  frame();
+  onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', frame);
 })();
 </script>
 

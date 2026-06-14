@@ -45,19 +45,22 @@
 </section>
 
 <style>
-/* Centred hero logo — travels into the header on scroll (driven by header.liquid JS) */
+/* Centred hero logo — fades out once the hero is scrolled past (.home-scrolled set by header JS) */
 .hero-logo {
   position: absolute;
-  top: 50vh;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 120;
+  z-index: 90;
   margin: 0;
   line-height: 1;
   text-align: center;
   pointer-events: none;
-  will-change: transform, opacity;
+  opacity: 1;
+  transition: opacity 0.3s ease;
 }
+.home-scrolled .hero-logo { opacity: 0; }
+
 .hero-logo img {
   display: block;
   height: 5rem; /* h-20 — 80px on all screen sizes */
@@ -73,22 +76,19 @@
   .hero-logo .font-display { font-size: 96px; }
 }
 
+/* Full-frame hero video */
 .hero-section video.hero-media {
   width: 100%;
-  height: 78vh;
+  height: 100vh;
+  height: 100dvh;
   object-fit: cover;
   display: block;
 }
-@media (min-width: 768px) {
-  .hero-section video.hero-media { height: 88vh; }
-}
 .hero-section .hero-placeholder {
   width: 100%;
-  height: 78vh;
+  height: 100vh;
+  height: 100dvh;
   background: var(--color-muted);
-}
-@media (min-width: 768px) {
-  .hero-section .hero-placeholder { height: 88vh; }
 }
 </style>
 
