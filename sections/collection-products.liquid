@@ -94,7 +94,7 @@
     <p>No products found</p>
   </div>
 {%- else -%}
-  <div class="product-grid" id="collection-grid">
+  <div class="product-grid product-grid--4" id="collection-grid">
     {%- for product in collection.products -%}
       {%- render 'product-card', product: product -%}
     {%- endfor -%}

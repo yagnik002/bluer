@@ -404,7 +404,7 @@ ul, ol { list-style: none; }
   background: var(--color-border);
 }
 @media (min-width: 768px) { .product-grid { grid-template-columns: repeat(3, 1fr); } }
-@media (min-width: 1200px) { .product-grid--4 { grid-template-columns: repeat(4, 1fr); } }
+@media (min-width: 1024px) { .product-grid--4 { grid-template-columns: repeat(4, 1fr); } }
 
 /* ---- Product Card ---------------------------------------- */
 .product-card { background: var(--color-bg); position: relative; }

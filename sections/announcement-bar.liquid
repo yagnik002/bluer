@@ -1,8 +1,23 @@
 {%- if section.settings.text != blank -%}
-  <div class="announcement-bar">
+  <div class="announcement-bar{% if template.name == 'index' %} announcement-bar--overlay{% endif %}">
     <p>{{ section.settings.text }}</p>
   </div>
 {%- endif -%}
+
+<style>
+/* Homepage: announcement sits over the hero, just below the transparent header, and scrolls away. */
+.announcement-bar--overlay {
+  position: absolute;
+  top: var(--header-height);
+  left: 0;
+  right: 0;
+  z-index: 95;
+  background: transparent;
+  color: #fff;
+  text-transform: none;
+  pointer-events: none;
+}
+</style>
 
 {% schema %}
 {
