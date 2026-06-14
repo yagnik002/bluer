@@ -1,0 +1,121 @@
+<div class="returns-page">
+  <div class="returns-page__inner">
+
+    <a href="{{ routes.account_url }}" class="returns-back" aria-label="Back to account">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
+    </a>
+
+    <h1 class="returns-title">{{ section.settings.title | default: 'Request A Return' }}</h1>
+    <p class="returns-intro">{{ section.settings.intro | default: "Tell us what you'd like to return and why. Our team will review your request and get back to you within 2 business days." }}</p>
+
+    <div class="returns-notice">Original tags should be intact.</div>
+
+    {%- form 'contact', class: 'returns-form' -%}
+      {%- if form.posted_successfully? -%}
+        <p class="returns-success">Thank you — your return request has been received. We'll email you shortly with the next steps.</p>
+      {%- endif -%}
+      {%- if form.errors -%}
+        <div class="form-errors">{{ form.errors | default_errors }}</div>
+      {%- endif -%}
+
+      <input type="hidden" name="contact[subject]" value="Return request">
+
+      <div class="form-field">
+        <label class="form-label" for="ret-order">Order Number</label>
+        <input class="form-input" type="text" name="contact[Order number]" id="ret-order" placeholder="e.g. #B021899137" required>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label" for="ret-email">Email</label>
+        <input class="form-input" type="email" name="contact[email]" id="ret-email" value="{{ customer.email }}" placeholder="Email address" autocomplete="email" required>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label" for="ret-items">Item(s) To Return</label>
+        <input class="form-input" type="text" name="contact[Items to return]" id="ret-items" placeholder="e.g. Blue Fitted Shirt — Size S" required>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label" for="ret-reason">What Is The Reason For Return?</label>
+        <select class="form-input form-select" name="contact[Reason]" id="ret-reason" required>
+          <option value="">Select one</option>
+          <option>Wrong size</option>
+          <option>Item damaged or defective</option>
+          <option>Wrong item received</option>
+          <option>Not as described</option>
+          <option>Quality not as expected</option>
+          <option>Changed my mind</option>
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label" for="ret-desc">Detailed Description</label>
+        <textarea class="form-input returns-textarea" name="contact[body]" id="ret-desc" rows="4" maxlength="500" placeholder="Add any details that help us process your return"></textarea>
+      </div>
+
+      <p class="returns-photos-note">Please email a minimum of 3 photos (tags intact, full product view) to <a href="mailto:support@bluer.co.in">support@bluer.co.in</a> with your order number.</p>
+
+      <button type="submit" class="btn btn--full returns-submit">Submit Request</button>
+    {%- endform -%}
+
+  </div>
+</div>
+
+<style>
+.returns-page { padding: 32px 24px 80px; }
+@media (min-width: 768px) { .returns-page { padding: 48px 40px 100px; } }
+.returns-page__inner { max-width: 620px; margin: 0 auto; }
+
+.returns-back { display: inline-flex; margin-bottom: 16px; transition: opacity var(--transition); }
+.returns-back:hover { opacity: 0.6; }
+.returns-back svg { width: 22px; height: 22px; }
+
+.returns-title {
+  font-size: 16px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+.returns-intro { font-size: 14px; line-height: 1.7; color: rgba(26,26,26,0.8); margin-bottom: 20px; }
+
+.returns-notice {
+  background: var(--color-muted);
+  padding: 12px 16px;
+  font-size: 11px;
+  letter-spacing: var(--tracking-editorial);
+  text-transform: uppercase;
+  color: rgba(26,26,26,0.75);
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.returns-form .form-field { margin-bottom: 18px; }
+.returns-textarea { resize: vertical; min-height: 110px; }
+.returns-photos-note { font-size: 13px; color: var(--color-muted-fg); line-height: 1.6; margin: 4px 0 24px; }
+.returns-photos-note a { text-decoration: underline; text-underline-offset: 2px; }
+.returns-success { background: #f0f7f0; border: 1px solid #b7d8b7; padding: 14px 16px; font-size: 13px; margin-bottom: 20px; }
+.returns-submit { margin-top: 4px; }
+
+.returns-form .form-select {
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%231a1a1a' stroke-width='1.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 36px;
+  cursor: pointer;
+}
+</style>
+
+{% schema %}
+{
+  "name": "Returns",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Title", "default": "Request A Return" },
+    { "type": "textarea", "id": "intro", "label": "Intro text", "default": "Tell us what you'd like to return and why. Our team will review your request and get back to you within 2 business days." }
+  ],
+  "presets": [ { "name": "Returns" } ]
+}
+{% endschema %}
