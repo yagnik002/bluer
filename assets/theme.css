@@ -69,7 +69,6 @@ ul, ol { list-style: none; }
   top: 0;
   z-index: 100;
   background: var(--color-bg);
-  border-bottom: 1px solid rgba(229,229,229,0.6);
   height: var(--header-height);
 }
 
