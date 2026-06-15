@@ -515,27 +515,24 @@ body:not(.template-index) #shopify-section-header {
 }
 @media (min-width: 768px) { .collection-bar { padding: 20px 40px; } }
 
-.collection-bar__back {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
-  transition: opacity var(--transition);
-}
-.collection-bar__back:hover { opacity: 0.6; }
-.collection-bar__back svg { width: 20px; height: 20px; }
+.collection-bar__back { display: none; }
 
 .collection-bar__title {
-  font-size: 11px;
-  letter-spacing: var(--tracking-editorial);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 34px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  display: none;
+  display: block;
 }
-@media (min-width: 768px) { .collection-bar__title { display: block; } }
 
 .collection-bar__filter-btn {
-  font-size: 11px;
-  letter-spacing: var(--tracking-editorial);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 34px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   display: flex;
   align-items: center;
