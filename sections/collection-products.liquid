@@ -1,3 +1,4 @@
+{%- unless section.settings.layout == 'lookbook' -%}
 <!-- Collection bar -->
 <div class="collection-bar">
   <a href="{{ routes.root_url }}" class="collection-bar__back" aria-label="Back to home">
@@ -101,10 +102,43 @@
     {%- endif -%}
   </div>
 {%- endif -%}
+{%- endunless -%}
 
 {%- if collection.products_count == 0 -%}
   <div class="collection-empty">
     <p>No products found</p>
+  </div>
+
+{%- elsif section.settings.layout == 'lookbook' -%}
+  <div class="lookbook" id="collection-grid">
+    <div class="lookbook-intro">
+      <h1 class="lookbook-intro__title">{{ collection.title }}</h1>
+      {%- if collection.description != blank -%}
+        <div class="lookbook-intro__desc rte">{{ collection.description }}</div>
+      {%- endif -%}
+    </div>
+
+    {%- for product in collection.products -%}
+      <div class="lookbook-row">
+        <div class="lookbook-row__strip">
+          {%- for image in product.images -%}
+            <a href="{{ product.url }}" class="lookbook-row__img">
+              <img src="{{ image | image_url: width: 700 }}" alt="{{ product.title | escape }}" loading="lazy">
+            </a>
+          {%- else -%}
+            {%- if product.featured_image -%}
+              <a href="{{ product.url }}" class="lookbook-row__img">
+                <img src="{{ product.featured_image | image_url: width: 700 }}" alt="{{ product.title | escape }}" loading="lazy">
+              </a>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        <div class="lookbook-row__info">
+          <a href="{{ product.url }}" class="lookbook-row__title">{{ product.title }}</a>
+          <p class="lookbook-row__price">{{ product.price | money }}</p>
+        </div>
+      </div>
+    {%- endfor -%}
   </div>
 
 {%- elsif section.settings.layout == 'editorial' -%}
@@ -217,6 +251,61 @@
   text-overflow: ellipsis;
 }
 .ed-card__price { font-size: 11px; color: var(--color-muted-fg); margin-top: 4px; }
+
+/* Lookbook layout — title + description, then a horizontal-scroll image strip per product */
+.lookbook { --lookbook-font: "Helvetica Neue", Helvetica, Arial, sans-serif; padding-bottom: 80px; }
+.lookbook-intro { padding: 24px 24px 4px; }
+@media (min-width: 768px) { .lookbook-intro { padding: 32px 40px 4px; } }
+.lookbook-intro__title {
+  font-family: var(--lookbook-font);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.lookbook-intro__desc {
+  font-family: var(--lookbook-font);
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 20px;
+  letter-spacing: 0.1em;
+  color: rgba(26,26,26,0.8);
+  max-width: 640px;
+}
+.lookbook-intro__desc p { margin: 0; }
+
+.lookbook-row { margin-top: 40px; padding: 0 24px; }
+@media (min-width: 768px) { .lookbook-row { padding: 0 40px; } }
+.lookbook-row__strip {
+  display: flex;
+  gap: 1px;
+  background: var(--color-border);
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+}
+.lookbook-row__img {
+  flex: 0 0 62%;
+  scroll-snap-align: start;
+  aspect-ratio: 354 / 615;
+  overflow: hidden;
+  background: var(--color-muted);
+  display: block;
+}
+@media (min-width: 768px) { .lookbook-row__img { flex: 0 0 calc((100% - 3px) / 4); } }
+.lookbook-row__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.lookbook-row__info { padding: 12px 0 0; }
+.lookbook-row__title {
+  display: block;
+  font-family: var(--lookbook-font);
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.lookbook-row__price { font-family: var(--lookbook-font); font-size: 12px; font-weight: 300; color: var(--color-muted-fg); margin-top: 4px; }
 </style>
 
 {% schema %}
@@ -229,7 +318,8 @@
       "label": "Product layout",
       "options": [
         { "value": "grid", "label": "Grid (4 columns)" },
-        { "value": "editorial", "label": "Editorial (full-width + 2-up)" }
+        { "value": "editorial", "label": "Editorial (full-width + 2-up)" },
+        { "value": "lookbook", "label": "Lookbook (horizontal image strips)" }
       ],
       "default": "grid"
     }
