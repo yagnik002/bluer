@@ -436,12 +436,19 @@ body:not(.template-index) #shopify-section-header {
 /* ---- Product Card ---------------------------------------- */
 .product-card { background: var(--color-bg); position: relative; }
 .product-card__img-wrap {
-  aspect-ratio: 3/4;
-  background: var(--color-muted);
-  overflow: hidden;
   position: relative;
+  overflow: hidden;
+  background: var(--color-muted);
+}
+/* Guaranteed 3:4 box (padding-ratio works even where aspect-ratio doesn't) */
+.product-card__img-wrap::before {
+  content: "";
+  display: block;
+  padding-top: 133.333%;
 }
 .product-card__img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;

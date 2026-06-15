@@ -31,7 +31,7 @@
         height="{{ product.featured_image.height }}"
       >
     {%- else -%}
-      <div style="width:100%;aspect-ratio:3/4;background:var(--color-muted)"></div>
+      <div class="product-card__img" style="background:var(--color-muted)"></div>
     {%- endif -%}
 
     {%- unless product.available -%}
