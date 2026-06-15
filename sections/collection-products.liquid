@@ -141,11 +141,13 @@
     {%- endfor -%}
   </div>
 
-{%- elsif section.settings.layout == 'editorial' -%}
+{%- elsif section.settings.layout == 'editorial' or section.settings.layout == 'editorial-alt' -%}
+  {%- comment -%}editorial = pair,full,pair,pair,full (AFTERHOURS) · editorial-alt = full,pair,full,pair (SETS){%- endcomment -%}
+  {%- if section.settings.layout == 'editorial-alt' -%}{%- assign fmod = 2 -%}{%- assign frem = 0 -%}{%- else -%}{%- assign fmod = 3 -%}{%- assign frem = 1 -%}{%- endif -%}
   <div class="editorial-collection" id="collection-grid">
     {%- for product in collection.products -%}
-      {%- assign mod = forloop.index0 | modulo: 3 -%}
-      {%- if mod == 1 -%}
+      {%- assign mod = forloop.index0 | modulo: fmod -%}
+      {%- if mod == frem -%}
         <div class="ec-block ec-block--full">
           <a href="{{ product.url }}" class="ec-img">
             {%- if product.featured_image -%}<img src="{{ product.featured_image | image_url: width: 1200 }}" alt="{{ product.title | escape }}" loading="lazy">{%- endif -%}
@@ -328,7 +330,8 @@
       "label": "Product layout",
       "options": [
         { "value": "grid", "label": "Grid (4 columns)" },
-        { "value": "editorial", "label": "Editorial (full-width + 2-up)" },
+        { "value": "editorial", "label": "Editorial (pair, full, pair, pair, full)" },
+        { "value": "editorial-alt", "label": "Editorial alternating (full, pair, full, pair)" },
         { "value": "lookbook", "label": "Lookbook (horizontal image strips)" }
       ],
       "default": "grid"
