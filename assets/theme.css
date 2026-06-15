@@ -229,7 +229,7 @@ body:not(.template-index) #shopify-section-header {
 }
 @media (min-width: 768px) {
   .nav-drawer__body {
-    grid-template-columns: 280px minmax(200px, 1fr) minmax(0, 580px);
+    grid-template-columns: 280px minmax(200px, 1fr) minmax(0, 400px);
     gap: 24px 48px;
     align-items: start;
     padding: 8px 40px 48px;
@@ -298,12 +298,12 @@ body:not(.template-index) #shopify-section-header {
 .nav-collections {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px 28px;
+  gap: 30px 8px;
 }
 
 .nav-collection-tile { background: var(--color-bg); }
 .nav-collection-tile__img {
-  aspect-ratio: 196 / 250;
+  aspect-ratio: 2 / 3;
   overflow: hidden;
   background: var(--color-muted);
 }
