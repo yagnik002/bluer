@@ -426,15 +426,15 @@ body:not(.template-index) #shopify-section-header {
 
 .product-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 1px;
   background: var(--color-border);
 }
-@media (min-width: 768px) { .product-grid { grid-template-columns: repeat(3, 1fr); } }
-@media (min-width: 1024px) { .product-grid--4 { grid-template-columns: repeat(4, 1fr); } }
+@media (min-width: 768px) { .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .product-grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 
 /* ---- Product Card ---------------------------------------- */
-.product-card { background: var(--color-bg); position: relative; }
+.product-card { background: var(--color-bg); position: relative; min-width: 0; }
 .product-card__img-wrap {
   position: relative;
   overflow: hidden;
