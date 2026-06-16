@@ -596,21 +596,20 @@ body:not(.template-index) #shopify-section-header {
   padding: 40px 24px;
 }
 @media (min-width: 768px) {
-  .product-layout { grid-template-columns: 1fr 1fr; gap: 64px; padding: 40px 40px; }
+  .product-layout { grid-template-columns: 1.45fr 1fr; gap: 72px; padding: 48px 48px 80px; align-items: start; }
 }
 
 .product-images {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1px;
+  gap: 2px;
   background: var(--color-border);
 }
-@media (min-width: 768px) { .product-images { grid-template-columns: 1fr 1fr; } }
 
 .product-images img {
   width: 100%;
   object-fit: cover;
-  aspect-ratio: 4/5;
+  aspect-ratio: 676 / 912;
   background: var(--color-muted);
 }
 
