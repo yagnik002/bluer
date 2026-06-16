@@ -103,6 +103,19 @@
       </div>
     {%- endif -%}
 
+    {%- assign pd_composition = product.metafields.custom.composition -%}
+    {%- assign pd_color = product.metafields.custom.color -%}
+    {%- assign pd_model = product.metafields.custom.model -%}
+    {%- assign pd_wash = product.metafields.custom.wash_care -%}
+    {%- if pd_composition != blank or pd_color != blank or pd_model != blank or pd_wash != blank -%}
+      <dl class="product-details">
+        {%- if pd_composition != blank -%}<dt class="product-details__label">Composition:</dt><dd class="product-details__value">{{ pd_composition }}</dd>{%- endif -%}
+        {%- if pd_color != blank -%}<dt class="product-details__label">Color:</dt><dd class="product-details__value">{{ pd_color }}</dd>{%- endif -%}
+        {%- if pd_model != blank -%}<dt class="product-details__label">Model:</dt><dd class="product-details__value">{{ pd_model }}</dd>{%- endif -%}
+        {%- if pd_wash != blank -%}<dt class="product-details__label">Wash Care:</dt><dd class="product-details__value">{{ pd_wash }}</dd>{%- endif -%}
+      </dl>
+    {%- endif -%}
+
     <!-- Shipping accordion -->
     <div class="product-accordion">
       <button class="product-accordion__trigger btn-reset" aria-expanded="false">
@@ -267,6 +280,22 @@
   text-transform: uppercase;
 }
 .product-info .product-description { font-family: var(--pp-font); font-size: 14px; line-height: 1.7; letter-spacing: 0.04em; }
+.product-info .product-details {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 6px 16px;
+  margin-top: 20px;
+}
+.product-info .product-details__label,
+.product-info .product-details__value {
+  margin: 0;
+  font-family: var(--pp-font);
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 22px;
+  letter-spacing: 0.04em;
+  color: var(--color-fg);
+}
 .product-info .shipping-features li,
 .product-info .shipping-note {
   font-family: var(--pp-font);
