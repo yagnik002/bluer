@@ -31,6 +31,7 @@
       <p class="product-price" id="product-price">
         {{ current_variant.price | money }}
       </p>
+      <p class="product-tax-note">MRP inclusive of all taxes</p>
     </div>
 
     {%- unless product.has_only_default_variant -%}
@@ -40,9 +41,6 @@
           <div class="product-option">
             <div class="product-option__header">
               <p class="product-variants-label">{{ option.name }}</p>
-              {%- if option_name_lower == 'size' -%}
-                <button class="size-guide-link btn-reset" id="size-guide-btn">SIZE GUIDE</button>
-              {%- endif -%}
             </div>
             <div class="product-variants-list{%- if option_name_lower == 'color' %} product-variants-list--color{%- endif %}">
               {%- for value in option.values -%}
@@ -97,6 +95,8 @@
       {%- endif -%}
     </div>
 
+    <button class="size-guide-link btn-reset" id="size-guide-btn">SIZE GUIDE</button>
+
     {%- if product.description != blank -%}
       <div class="product-description">
         {{ product.description }}
@@ -118,11 +118,11 @@
           <p class="pincode-result" id="pincode-result"></p>
         </div>
         <ul class="shipping-features">
-          <li>Free shipping on orders above ₹2,499</li>
-          <li>Standard delivery: 5–7 business days</li>
-          <li>Express delivery available at checkout</li>
-          <li>Ships from Mumbai</li>
+          <li>Orders are processed within 24 hours of being placed.</li>
+          <li>We offer free shipping on prepaid orders above ₹1,990.</li>
+          <li>Cash on delivery charges are rupees 150 for all orders.</li>
         </ul>
+        <p class="shipping-note">Delivery times are as follows: shipping to metro cities takes 3-4 working days, and to tier 1 cities takes 5-7 working days.</p>
       </div>
     </div>
 
@@ -177,18 +177,116 @@
   {%- endif -%}
 {%- endif -%}
 
-<!-- Recommended products -->
-{%- assign recommended = recommendations.products -%}
-{%- if recommended.size > 0 -%}
-  <div class="recommended-products" data-product-id="{{ product.id }}">
-    <h2 class="section-heading">YOU MAY ALSO LIKE</h2>
-    <div class="product-grid product-grid--4">
-      {%- for rec in recommended limit: 4 -%}
-        {%- render 'product-card', product: rec -%}
-      {%- endfor -%}
+<!-- Featured products -->
+{%- if section.settings.featured_collection != blank -%}
+  {%- assign featured_collection = collections[section.settings.featured_collection] -%}
+  {%- if featured_collection != blank and featured_collection.products_count > 0 -%}
+    <div class="recommended-products">
+      <h2 class="section-heading">FEATURED PRODUCTS</h2>
+      <div class="product-grid product-grid--4">
+        {%- for fp in featured_collection.products limit: 8 -%}
+          {%- render 'product-card', product: fp -%}
+        {%- endfor -%}
+      </div>
     </div>
-  </div>
+  {%- endif -%}
 {%- endif -%}
+
+<style>
+/* ---- Product page typography (Helvetica Neue, per design) ---- */
+.product-info { --pp-font: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+.product-info .product-collection-link { font-family: var(--pp-font); letter-spacing: 0.1em; }
+.product-info .product-title {
+  font-family: var(--pp-font);
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 34px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.product-info .product-price {
+  font-family: var(--pp-font);
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 34px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+.product-tax-note {
+  font-family: var(--pp-font);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted-fg);
+  margin-top: 6px;
+}
+.product-info .product-variants-label {
+  font-family: var(--pp-font);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.product-info .variant-btn { font-family: var(--pp-font); font-weight: 300; letter-spacing: 0.1em; }
+.product-info .product-low-stock {
+  font-family: var(--pp-font);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted-fg);
+}
+.product-info .product-add-btn {
+  font-family: var(--pp-font);
+  font-size: 16px;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  text-transform: capitalize;
+  height: 48px;
+  padding: 0;
+}
+.product-info .size-guide-link {
+  display: inline-block;
+  margin-top: 18px;
+  font-family: var(--pp-font);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  opacity: 1;
+}
+.product-info .product-accordion__trigger {
+  font-family: var(--pp-font);
+  font-size: 18px;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.product-info .product-description { font-family: var(--pp-font); font-size: 14px; line-height: 1.7; letter-spacing: 0.04em; }
+.product-info .shipping-features li,
+.product-info .shipping-note {
+  font-family: var(--pp-font);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 26px;
+  letter-spacing: 0.1em;
+  text-transform: none;
+  color: var(--color-fg);
+}
+.product-info .shipping-note { margin-top: 14px; }
+.complete-the-look .section-heading,
+.recommended-products .section-heading {
+  font-family: var(--pp-font);
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: capitalize;
+}
+</style>
 
 {% schema %}
 {
@@ -198,6 +296,11 @@
       "type": "collection",
       "id": "look_collection",
       "label": "Complete the Look collection"
+    },
+    {
+      "type": "collection",
+      "id": "featured_collection",
+      "label": "Featured products collection"
     }
   ]
 }
