@@ -551,16 +551,13 @@ function initProductAccordions() {
 function initSizeGuideModal() {
   const modal = $('#size-chart-modal');
   const btn = $('#size-guide-btn');
-  const close = $('#size-chart-close');
-  const bg = $('#size-chart-bg');
   if (!modal) return;
 
   function open() { modal.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; }
   function closeFn() { modal.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; }
 
   btn && btn.addEventListener('click', open);
-  close && close.addEventListener('click', closeFn);
-  bg && bg.addEventListener('click', closeFn);
+  $$('[data-size-chart-close]').forEach((el) => el.addEventListener('click', closeFn));
 }
 
 /* ============================================================

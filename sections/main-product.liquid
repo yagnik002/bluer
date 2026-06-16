@@ -178,6 +178,60 @@
 
 </div>
 
+<!-- Size Chart Modal (full-screen) -->
+<div id="size-chart-modal" class="size-modal" aria-hidden="true" role="dialog" aria-label="Size chart">
+  <div class="size-modal__bg" id="size-chart-bg" data-size-chart-close></div>
+  <div class="size-modal__panel">
+    <button class="size-modal__back btn-reset" data-size-chart-close aria-label="Back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
+    </button>
+    <button class="size-modal__close btn-reset" id="size-chart-close" data-size-chart-close aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+
+    <div class="size-modal__media">
+      {%- for image in product.images limit: 3 -%}
+        <img src="{{ image | image_url: width: 900 }}" alt="{{ product.title | escape }}" loading="lazy">
+      {%- endfor -%}
+    </div>
+
+    <div class="size-modal__content">
+      <div class="size-modal__head">
+        <h2 class="size-modal__title">Size Chart</h2>
+        <span class="size-modal__product">{{ product.title }}</span>
+      </div>
+
+      {%- if product.metafields.custom.size_chart != blank and product.metafields.custom.size_chart.type contains 'rich_text' -%}
+        <div class="size-modal__table size-modal__table--rte rte">{{ product.metafields.custom.size_chart }}</div>
+      {%- else -%}
+        <table class="size-modal__table">
+          <thead><tr><th>Size</th><th>Bust</th><th>Length</th></tr></thead>
+          <tbody>
+            <tr><td>XS</td><td>32-34</td><td>15</td></tr>
+            <tr><td>S</td><td>34-36</td><td>15.5</td></tr>
+            <tr><td>M</td><td>36-38</td><td>16</td></tr>
+            <tr><td>L</td><td>38-40</td><td>16</td></tr>
+            <tr><td>XL</td><td>40-42</td><td>16.5</td></tr>
+          </tbody>
+        </table>
+      {%- endif -%}
+
+      <p class="size-modal__note-label">Note:</p>
+      <p class="size-modal__note">All sizes are in inches. All the measurements are taken by hand, please consider a tolerance of 0.5 inches. The sizes mentioned above are body measurements.</p>
+
+      <h3 class="size-modal__measure-heading">How to measure?</h3>
+      <div class="size-modal__measure">
+        <p class="size-modal__measure-label">Bust</p>
+        <p class="size-modal__measure-text">Measure the circumference of your chest at the fullest part, placing the tape under the arms.</p>
+        <p class="size-modal__measure-label">Sleeve</p>
+        <p class="size-modal__measure-text">Measure from the shoulder seam to the cuff edge.</p>
+        <p class="size-modal__measure-label">Length</p>
+        <p class="size-modal__measure-text">Measure from the highest point of the shoulder down to the hem.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Complete the Look -->
 {%- if section.settings.look_collection != blank -%}
   {%- assign look_collection = collections[section.settings.look_collection] -%}
@@ -318,6 +372,60 @@
   letter-spacing: 0.1em;
   text-transform: capitalize;
 }
+
+/* ---- Size chart modal (full-screen) ---- */
+.size-modal { position: fixed; inset: 0; z-index: 600; pointer-events: none; }
+.size-modal[aria-hidden="false"] { pointer-events: all; }
+.size-modal__bg {
+  position: absolute; inset: 0;
+  background: rgba(90,90,90,0.55);
+  opacity: 0; transition: opacity 0.3s ease;
+}
+.size-modal[aria-hidden="false"] .size-modal__bg { opacity: 1; }
+.size-modal__panel {
+  position: absolute; inset: 0;
+  background: var(--color-bg);
+  display: grid;
+  grid-template-columns: 1fr;
+  overflow-y: auto;
+  transform: translateY(16px); opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+@media (min-width: 900px) { .size-modal__panel { grid-template-columns: 1.1fr 1fr; } }
+.size-modal[aria-hidden="false"] .size-modal__panel { transform: translateY(0); opacity: 1; }
+
+.size-modal__back, .size-modal__close { position: absolute; top: 24px; z-index: 3; color: var(--color-fg); transition: opacity var(--transition); }
+.size-modal__back { left: 24px; }
+.size-modal__close { right: 24px; }
+.size-modal__back:hover, .size-modal__close:hover { opacity: 0.6; }
+.size-modal__back svg, .size-modal__close svg { width: 24px; height: 24px; }
+
+.size-modal__media { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--color-border); align-content: start; }
+.size-modal__media img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; background: var(--color-muted); display: block; }
+.size-modal__media img:nth-child(n+3) { grid-column: 1 / -1; aspect-ratio: 676 / 912; }
+
+.size-modal__content {
+  --sc-font: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: var(--sc-font);
+  padding: 72px 56px 56px;
+  color: var(--color-fg);
+}
+@media (max-width: 899px) { .size-modal__content { padding: 72px 24px 48px; } }
+
+.size-modal__head { display: flex; align-items: baseline; gap: 28px; margin-bottom: 40px; flex-wrap: wrap; }
+.size-modal__title { font-family: var(--sc-font); font-size: 28px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; }
+.size-modal__product { font-family: var(--sc-font); font-size: 14px; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; }
+
+.size-modal__table { width: 100%; max-width: 520px; border-collapse: collapse; margin-bottom: 36px; font-family: var(--sc-font); }
+.size-modal__table th, .size-modal__table td { border: 1px solid var(--color-fg); padding: 14px 12px; text-align: center; font-size: 14px; font-weight: 300; letter-spacing: 0.06em; }
+.size-modal__table th { text-transform: uppercase; font-weight: 400; }
+
+.size-modal__note-label { font-family: var(--sc-font); font-size: 14px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
+.size-modal__note { font-family: var(--sc-font); font-size: 14px; font-weight: 300; line-height: 22px; letter-spacing: 0.04em; color: rgba(26,26,26,0.8); max-width: 520px; margin-bottom: 44px; }
+
+.size-modal__measure-heading { font-family: var(--sc-font); font-size: 22px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 24px; }
+.size-modal__measure-label { font-family: var(--sc-font); font-size: 14px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
+.size-modal__measure-text { font-family: var(--sc-font); font-size: 14px; font-weight: 300; line-height: 22px; letter-spacing: 0.04em; color: rgba(26,26,26,0.8); margin-bottom: 22px; max-width: 520px; }
 </style>
 
 {% schema %}
