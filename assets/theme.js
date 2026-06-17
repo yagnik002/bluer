@@ -659,10 +659,14 @@ function initMobileNav() {
   });
 
   searchBtn && searchBtn.addEventListener('click', () => {
-    const searchInput = $('.header-search__input');
-    if (searchInput) {
+    // Focus a visible header search field if there is one; otherwise go to the
+    // dedicated search page (the mobile design's Search screen).
+    const searchInput = $('.header-search-input');
+    if (searchInput && searchInput.offsetParent !== null) {
       searchInput.focus();
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      window.location.href = '/search';
     }
   });
 }

@@ -1,21 +1,32 @@
 {%- if section.settings.text != blank -%}
-  <div class="announcement-bar{% if template.name == 'index' %} announcement-bar--overlay{% endif %}">
+  <div class="announcement-bar" data-announcement>
     <p>{{ section.settings.text }}</p>
   </div>
 {%- endif -%}
 
 <style>
-/* Homepage: announcement sits over the hero, just below the transparent header, and scrolls away. */
-.announcement-bar--overlay {
-  position: absolute;
-  top: var(--header-height);
-  left: 0;
-  right: 0;
-  z-index: 95;
-  background: transparent;
-  color: #fff;
-  text-transform: none;
-  pointer-events: none;
+/* Solid black bar (mobile design). Only shown on storefront-browsing templates;
+   product / cart / account / content pages have their own top bars in the design. */
+.announcement-bar { display: none; }
+body.template-index .announcement-bar,
+body.template-collection .announcement-bar,
+body.template-list-collections .announcement-bar,
+body.template-search .announcement-bar { display: block; }
+
+/* Desktop homepage keeps its immersive overlay header — let the announcement sit
+   transparently over the hero (its original behaviour) instead of a solid bar. */
+@media (min-width: 768px) {
+  body.template-index .announcement-bar {
+    position: absolute;
+    top: var(--header-height);
+    left: 0;
+    right: 0;
+    z-index: 95;
+    background: transparent;
+    color: #fff;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
 }
 </style>
 

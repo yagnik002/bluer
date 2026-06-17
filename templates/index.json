@@ -9,12 +9,16 @@
  */
 {
   "sections": {
+    "home_tabs": {
+      "type": "home-tabs",
+      "settings": {}
+    },
     "hero": {
       "type": "hero-banner",
       "settings": {
         "video": "shopify://files/videos/Bluer Web App Collection 2 Final.mp4",
         "title": "BLUER",
-        "label": "CRAFTE"
+        "label": "CRAFTE'25"
       }
     },
     "editorial_1": {
@@ -51,21 +55,23 @@
         "image_2": "shopify://shop_images/Bluer_Web_App_Design_21.png"
       }
     },
-    "featured_collection": {
-      "type": "featured-collection",
+    "curated": {
+      "type": "curated-feed",
       "settings": {
-        "heading": "SHOP THE EDIT",
+        "heading": "SS'26 SELECTS",
+        "text": "A considered edit of the season — refined silhouettes, quiet detailing and pieces made to last.",
         "collection": "",
         "products_to_show": 8
       }
     }
   },
   "order": [
+    "home_tabs",
     "hero",
     "editorial_1",
     "editorial_2",
     "editorial_3",
     "editorial_4",
-    "featured_collection"
+    "curated"
   ]
 }

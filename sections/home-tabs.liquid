@@ -1,0 +1,38 @@
+{%- comment -%}
+  Home / Curated toggle. Sits at the top of the homepage (below the announcement
+  bar). Switching tabs toggles [data-home-tab] on <html>; CSS in theme.css shows
+  the editorial sections for "home" and the curated feed for "curated".
+{%- endcomment -%}
+<div class="home-tabs" id="home-tabs" role="tablist" aria-label="Homepage view">
+  <button class="home-tab is-active" data-tab="home" role="tab" aria-selected="true">Home</button>
+  <button class="home-tab" data-tab="curated" role="tab" aria-selected="false">Curated</button>
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var bar = document.getElementById('home-tabs');
+  if (!bar) return;
+  root.setAttribute('data-home-tab', 'home');
+  bar.addEventListener('click', function (e) {
+    var btn = e.target.closest('.home-tab');
+    if (!btn) return;
+    var tab = btn.getAttribute('data-tab');
+    root.setAttribute('data-home-tab', tab);
+    bar.querySelectorAll('.home-tab').forEach(function (b) {
+      var active = b === btn;
+      b.classList.toggle('is-active', active);
+      b.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+    window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Home tabs",
+  "settings": [],
+  "presets": [{ "name": "Home tabs" }]
+}
+{% endschema %}

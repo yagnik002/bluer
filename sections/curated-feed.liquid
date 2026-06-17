@@ -1,0 +1,71 @@
+{%- comment -%}
+  "CURATED" view of the homepage — a vertical, full-bleed editorial feed.
+  Hidden until the Curated tab is selected (see [data-home-tab] rules in theme.css).
+  Pulls product images from the chosen collection; falls back to section blocks.
+{%- endcomment -%}
+<section class="curated-feed">
+  <div class="curated-feed__intro">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="curated-feed__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.text != blank -%}
+      <p class="curated-feed__text">{{ section.settings.text }}</p>
+    {%- endif -%}
+  </div>
+
+  <div class="curated-feed__list">
+    {%- assign coll = collections[section.settings.collection] -%}
+    {%- if coll != blank and coll.products.size > 0 -%}
+      {%- for product in coll.products limit: section.settings.products_to_show -%}
+        <a href="{{ product.url }}" class="curated-feed__item">
+          {%- if product.featured_image -%}
+            <img
+              src="{{ product.featured_image | image_url: width: 1200 }}"
+              srcset="{{ product.featured_image | image_url: width: 600 }} 600w, {{ product.featured_image | image_url: width: 1200 }} 1200w"
+              sizes="100vw"
+              alt="{{ product.featured_image.alt | default: product.title | escape }}"
+              loading="lazy"
+            >
+          {%- else -%}
+            <div class="curated-feed__placeholder"></div>
+          {%- endif -%}
+        </a>
+      {%- endfor -%}
+    {%- else -%}
+      {%- for block in section.blocks -%}
+        <div class="curated-feed__item" {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            <img src="{{ block.settings.image | image_url: width: 1200 }}" alt="{{ block.settings.image.alt }}" loading="lazy">
+          {%- else -%}
+            <div class="curated-feed__placeholder"></div>
+          {%- endif -%}
+        </div>
+      {%- else -%}
+        <div class="curated-feed__item"><div class="curated-feed__placeholder"></div></div>
+        <div class="curated-feed__item"><div class="curated-feed__placeholder"></div></div>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Curated feed",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "SS'26 SELECTS" },
+    { "type": "textarea", "id": "text", "label": "Intro text", "default": "A considered edit of the season — refined silhouettes, quiet detailing and pieces made to last." },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "range", "id": "products_to_show", "label": "Items to show", "min": 3, "max": 20, "step": 1, "default": 8 }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Curated feed" }]
+}
+{% endschema %}

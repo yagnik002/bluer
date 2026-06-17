@@ -1176,30 +1176,24 @@ body:not(.template-index) #shopify-section-header {
 }
 
 .footer-links {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px 32px;
-  justify-items: center;
-}
-@media (min-width: 768px) {
-  .footer-links { gap: 24px 80px; }
-}
-
-.footer-links-col {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  align-items: center;
+  gap: 22px;
+}
+@media (min-width: 768px) {
+  .footer-links { gap: 24px; }
 }
 
 .footer-link {
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: var(--tracking-editorial);
   text-transform: uppercase;
   color: var(--color-fg);
-  opacity: 0.75;
+  opacity: 0.9;
   transition: opacity var(--transition);
 }
-.footer-link:hover { opacity: 1; }
+.footer-link:hover { opacity: 0.6; }
 
 .footer-newsletter {
   text-align: center;
@@ -1304,14 +1298,9 @@ body { padding-bottom: 60px; }
 .mobile-nav-item {
   flex: 1;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  font-size: 9px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-muted-fg);
+  color: #b0b0b0;
   transition: color var(--transition);
   text-decoration: none;
   background: none;
@@ -1319,11 +1308,21 @@ body { padding-bottom: 60px; }
   cursor: pointer;
   font-family: var(--font-body);
 }
-.mobile-nav-item svg { width: 22px; height: 22px; }
+.mobile-nav-item svg { width: 24px; height: 24px; }
 .mobile-nav-item.is-active { color: var(--color-fg); }
 .mobile-nav-item:hover { color: var(--color-fg); }
 
-.mobile-nav-bag-wrap { position: relative; display: inline-flex; }
+.mobile-nav-bag-wrap,
+.mobile-nav-account-wrap { position: relative; display: inline-flex; }
+.mobile-nav-dot {
+  position: absolute;
+  top: -1px;
+  right: -3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #e2342d;
+}
 .mobile-nav-bag-count {
   position: absolute;
   top: -6px;
@@ -2061,3 +2060,89 @@ body { padding-bottom: 60px; }
 .product-card__wishlist:hover { background: #fff; }
 .product-card__wishlist.is-active { background: var(--color-fg); color: #fff; }
 .product-card__wishlist.is-active svg { fill: currentColor; }
+
+/* ============================================================
+   HOME PAGE — mobile design (HOME / CURATED tabs + curated feed)
+   ============================================================ */
+
+/* Mobile: the homepage's top chrome is the black announcement + HOME/CURATED
+   tabs, so the desktop overlay header is hidden here (nav lives in the bottom
+   bar). Desktop keeps its immersive overlay header untouched. */
+@media (max-width: 767px) {
+  body.template-index .site-header { display: none; }
+}
+
+/* --- HOME / CURATED tabs (mobile only) --- */
+.home-tabs {
+  display: flex;
+  justify-content: flex-end;
+  gap: 28px;
+  background: #fff;
+  padding: 13px 24px;
+  position: sticky;
+  top: 0;
+  z-index: 96;
+}
+@media (min-width: 768px) { .home-tabs { display: none; } }
+
+.home-tab {
+  background: none;
+  border: none;
+  padding: 2px 0;
+  font-size: 12px;
+  letter-spacing: var(--tracking-editorial);
+  text-transform: uppercase;
+  color: var(--color-muted-fg);
+  position: relative;
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+.home-tab.is-active { color: var(--color-fg); }
+.home-tab.is-active::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -3px;
+  height: 1.5px;
+  background: var(--color-fg);
+}
+
+/* --- Tab toggling (mobile only): show editorial OR curated --- */
+.curated-feed { display: none; }
+@media (max-width: 767px) {
+  html[data-home-tab="curated"] .curated-feed { display: block; }
+  html[data-home-tab="curated"] body.template-index .hero-section,
+  html[data-home-tab="curated"] body.template-index .editorial-banner,
+  html[data-home-tab="curated"] body.template-index .editorial-grid { display: none; }
+
+  /* Hero reveals a peek of the next section, as in the design */
+  .hero-section video.hero-media,
+  .hero-section img,
+  .hero-section .hero-placeholder { height: 82vh; width: 100%; object-fit: cover; }
+}
+
+/* --- Curated feed --- */
+.curated-feed__intro { padding: 26px 24px 20px; }
+.curated-feed__heading {
+  font-size: 12px;
+  letter-spacing: var(--tracking-editorial);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.curated-feed__text {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--color-muted-fg);
+  max-width: 62ch;
+}
+.curated-feed__list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--color-border);
+}
+.curated-feed__item { display: block; }
+.curated-feed__item img { width: 100%; display: block; }
+.curated-feed__placeholder { width: 100%; aspect-ratio: 3/4; background: var(--color-muted); }
+@media (min-width: 768px) {
+  .curated-feed__list { display: grid; grid-template-columns: repeat(3, 1fr); }
+}
