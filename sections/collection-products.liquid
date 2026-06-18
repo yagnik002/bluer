@@ -20,8 +20,10 @@
   <div class="filter-drawer__overlay" id="filter-overlay"></div>
   <div class="filter-drawer__panel">
     <div class="filter-drawer__header">
+      <button class="filter-drawer__back btn-reset" id="filter-close" aria-label="Close filters">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
+      </button>
       <h2 class="filter-drawer__title">FILTERS</h2>
-      <button class="filter-drawer__close btn-reset" id="filter-close" aria-label="Close filters">×</button>
     </div>
 
     <div class="filter-drawer__body">
@@ -82,10 +84,10 @@
     </div>
 
     <div class="filter-drawer__footer">
-      <button class="btn btn--outline filter-clear-btn btn-reset" id="filter-clear">CLEAR ALL</button>
-      <button class="btn filter-show-items-btn" id="filter-show-items">
+      <button class="btn btn--full filter-show-items-btn" id="filter-show-items">
         SHOW ITEMS ({{ collection.products_count }})
       </button>
+      <button class="filter-clear-btn btn-reset" id="filter-clear">CLEAR ALL</button>
     </div>
   </div>
 </div>

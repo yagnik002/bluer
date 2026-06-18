@@ -2,22 +2,32 @@
 
 <div class="product-layout">
 
-  <!-- Images -->
-  <div class="product-images">
-    {%- if product.images.size > 0 -%}
-      {%- for image in product.images -%}
-        <img
-          src="{{ image | image_url: width: 900 }}"
-          srcset="{{ image | image_url: width: 600 }} 600w, {{ image | image_url: width: 900 }} 900w, {{ image | image_url: width: 1200 }} 1200w"
-          sizes="(min-width:768px) 50vw, 100vw"
-          alt="{{ image.alt | default: product.title | escape }}"
-          loading="{{ forloop.first | if: 'eager', 'lazy' }}"
-          width="{{ image.width }}"
-          height="{{ image.height }}"
-        >
-      {%- endfor -%}
-    {%- else -%}
-      <div style="aspect-ratio:4/5;background:var(--color-muted)"></div>
+  <!-- Images: swipeable carousel with dots on mobile; grid on desktop -->
+  <div class="product-images" id="product-gallery">
+    <div class="product-gallery__track" id="product-gallery-track">
+      {%- if product.images.size > 0 -%}
+        {%- for image in product.images -%}
+          <img
+            class="product-gallery__img"
+            src="{{ image | image_url: width: 900 }}"
+            srcset="{{ image | image_url: width: 600 }} 600w, {{ image | image_url: width: 900 }} 900w, {{ image | image_url: width: 1200 }} 1200w"
+            sizes="(min-width:768px) 50vw, 100vw"
+            alt="{{ image.alt | default: product.title | escape }}"
+            loading="{{ forloop.first | if: 'eager', 'lazy' }}"
+            width="{{ image.width }}"
+            height="{{ image.height }}"
+          >
+        {%- endfor -%}
+      {%- else -%}
+        <div class="product-gallery__img" style="aspect-ratio:3/4;background:var(--color-muted)"></div>
+      {%- endif -%}
+    </div>
+    {%- if product.images.size > 1 -%}
+      <div class="product-gallery__dots" id="product-gallery-dots" aria-hidden="true">
+        {%- for image in product.images -%}
+          <span class="product-gallery__dot{% if forloop.first %} is-active{% endif %}"></span>
+        {%- endfor -%}
+      </div>
     {%- endif -%}
   </div>
 
@@ -95,8 +105,6 @@
       {%- endif -%}
     </div>
 
-    <button class="size-guide-link btn-reset" id="size-guide-btn">SIZE GUIDE</button>
-
     {%- if product.description != blank -%}
       <div class="product-description">
         {{ product.description }}
@@ -119,44 +127,7 @@
       <dl class="product-details">{{ product_details }}</dl>
     {%- endif -%}
 
-    <!-- Shipping accordion -->
-    <div class="product-accordion">
-      <button class="product-accordion__trigger btn-reset" aria-expanded="false">
-        <span>SHIPPING</span>
-        <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
-      </button>
-      <div class="product-accordion__body">
-        <div class="pincode-checker">
-          <div class="pincode-row">
-            <input type="text" class="form-input pincode-input" id="pincode-input" placeholder="Enter Pincode" maxlength="6" pattern="[0-9]{6}">
-            <button class="btn pincode-apply-btn" id="pincode-apply">APPLY</button>
-          </div>
-          <p class="pincode-result" id="pincode-result"></p>
-        </div>
-        <ul class="shipping-features">
-          <li>Orders are processed within 24 hours of being placed.</li>
-          <li>We offer free shipping on prepaid orders above ₹1,990.</li>
-          <li>Cash on delivery charges are rupees 150 for all orders.</li>
-        </ul>
-        <p class="shipping-note">Delivery times are as follows: shipping to metro cities takes 3-4 working days, and to tier 1 cities takes 5-7 working days.</p>
-      </div>
-    </div>
-
-    <!-- Returns accordion -->
-    <div class="product-accordion">
-      <button class="product-accordion__trigger btn-reset" aria-expanded="false">
-        <span>RETURNS</span>
-        <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
-      </button>
-      <div class="product-accordion__body">
-        <ul class="shipping-features">
-          <li>Easy returns within 15 days of delivery</li>
-          <li>Items must be unworn, unwashed, and with original tags</li>
-          <li>Refunds processed within 5–7 business days</li>
-          <li><a href="/pages/return-policy">View full return policy</a></li>
-        </ul>
-      </div>
-    </div>
+    <button class="size-guide-btn btn-reset" id="size-guide-btn">SIZE GUIDE</button>
 
     <!-- Structured data -->
     <script type="application/json" id="product-data">
@@ -247,6 +218,46 @@
   {%- endif -%}
 {%- endif -%}
 
+<!-- Shipping / Returns accordions (full-width, after Complete the Look) -->
+<div class="product-accordions">
+  <div class="product-accordion">
+    <button class="product-accordion__trigger btn-reset" aria-expanded="false">
+      <span>SHIPPING</span>
+      <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+    </button>
+    <div class="product-accordion__body">
+      <div class="pincode-checker">
+        <div class="pincode-row">
+          <input type="text" class="form-input pincode-input" id="pincode-input" placeholder="Enter Pincode" maxlength="6" pattern="[0-9]{6}">
+          <button class="btn pincode-apply-btn" id="pincode-apply">APPLY</button>
+        </div>
+        <p class="pincode-result" id="pincode-result"></p>
+      </div>
+      <ul class="shipping-features">
+        <li>Orders are processed within 24 hours of being placed.</li>
+        <li>We offer free shipping on prepaid orders above ₹1,990.</li>
+        <li>Cash on delivery charges are rupees 150 for all orders.</li>
+      </ul>
+      <p class="shipping-note">Delivery times are as follows: shipping to metro cities takes 3-4 working days, and to tier 1 cities takes 5-7 working days.</p>
+    </div>
+  </div>
+
+  <div class="product-accordion">
+    <button class="product-accordion__trigger btn-reset" aria-expanded="false">
+      <span>RETURNS</span>
+      <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+    </button>
+    <div class="product-accordion__body">
+      <ul class="shipping-features">
+        <li>Easy returns within 15 days of delivery</li>
+        <li>Items must be unworn, unwashed, and with original tags</li>
+        <li>Refunds processed within 5–7 business days</li>
+        <li><a href="/pages/return-policy">View full return policy</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
 <!-- Featured products -->
 {%- if section.settings.featured_collection != blank -%}
   {%- assign featured_collection = collections[section.settings.featured_collection] -%}
@@ -317,18 +328,26 @@
   height: 48px;
   padding: 0;
 }
-.product-info .size-guide-link {
-  display: inline-block;
-  margin-top: 18px;
+.product-info .size-guide-btn {
+  display: block;
+  width: 100%;
+  margin-top: 4px;
+  padding: 14px;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
   font-family: var(--pp-font);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 400;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  opacity: 1;
+  text-align: center;
+  transition: background var(--transition);
 }
+.product-info .size-guide-btn:hover { background: var(--color-muted); }
+
+/* Full-width Shipping/Returns accordions below Complete the Look */
+.product-accordions { padding: 0 24px; max-width: 760px; margin: 0 auto; }
+@media (min-width: 768px) { .product-accordions { padding: 0 48px; } }
 .product-info .product-accordion__trigger {
   font-family: var(--pp-font);
   font-size: 18px;

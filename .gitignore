@@ -7,3 +7,6 @@ Thumbs.db
 .vscode
 *.suo
 *.sw?
+
+# Local design-preview harness (not part of the Shopify theme)
+preview/

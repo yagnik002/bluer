@@ -15,9 +15,11 @@
 
 <!-- Looks / Wishlist tab -->
 <div data-tab-panel="looks" style="display:none">
-  <div class="cart-empty-page">
-    <p class="text-editorial-sm">YOUR LOOKS ARE EMPTY</p>
-    <p style="font-size:13px;opacity:0.6;margin-top:8px">Save your favourite items to create outfits.</p>
+  <div class="wishlist-grid product-grid product-grid--2" id="cart-looks-grid" data-wishlist-grid style="display:none"></div>
+  <div class="cart-empty-page" id="cart-looks-empty" data-wishlist-empty>
+    <p class="cart-empty-title">YOUR WISHLIST IS EMPTY</p>
+    <p class="cart-empty-sub">Save pieces that speak to your style</p>
+    <a href="/collections/all" class="btn cart-empty-cta">DISCOVER WHAT'S NEW</a>
   </div>
 </div>
 
@@ -25,7 +27,7 @@
 <div data-tab-panel="bag" class="cart-page">
   {%- if cart.item_count == 0 -%}
     <div class="cart-empty-page">
-      <p class="text-editorial-sm">YOUR BAG IS EMPTY</p>
+      <p class="cart-empty-title">YOUR BAG IS EMPTY</p>
       <p class="cart-empty-sub">Explore the latest arrivals and more</p>
       <a href="/collections/all" class="btn cart-empty-cta">VIEW COLLECTION</a>
     </div>
@@ -50,27 +52,27 @@
                 {%- endif -%}
               </a>
             </div>
+            {%- comment -%}Work out which option is Size and which is Colour so we can show
+              colour as a text line and Size as a dropdown that swaps the variant.{%- endcomment -%}
+            {%- assign size_pos = 0 -%}
+            {%- assign color_value = '' -%}
+            {%- for option in item.product.options_with_values -%}
+              {%- assign on = option.name | downcase -%}
+              {%- if option.position == 1 -%}{%- assign opt_val = item.variant.option1 -%}
+              {%- elsif option.position == 2 -%}{%- assign opt_val = item.variant.option2 -%}
+              {%- else -%}{%- assign opt_val = item.variant.option3 -%}{%- endif -%}
+              {%- if on contains 'size' -%}{%- assign size_pos = option.position -%}{%- endif -%}
+              {%- if on contains 'colour' or on contains 'color' -%}{%- assign color_value = opt_val -%}{%- endif -%}
+            {%- endfor -%}
+            {%- if size_pos == 1 -%}{%- assign current_size = item.variant.option1 -%}
+            {%- elsif size_pos == 2 -%}{%- assign current_size = item.variant.option2 -%}
+            {%- elsif size_pos == 3 -%}{%- assign current_size = item.variant.option3 -%}{%- endif -%}
+
             <div class="cart-item__details">
               <div class="cart-item__top">
                 <div>
                   <a href="{{ item.url }}" class="cart-item__title">{{ item.product.title }}</a>
                   <p class="cart-item__price">{{ item.final_line_price | money }}</p>
-                  {%- unless item.variant.title == 'Default Title' -%}
-                    <p class="cart-item__variant">{{ item.variant.title }}</p>
-                  {%- endunless -%}
-                  {%- if item.variant.option1 != 'Default Title' -%}
-                    <div class="cart-item__options">
-                      {%- for option in item.product.options_with_values -%}
-                        {%- assign opt_val = '' -%}
-                        {%- if option.position == 1 -%}{%- assign opt_val = item.variant.option1 -%}{%- endif -%}
-                        {%- if option.position == 2 -%}{%- assign opt_val = item.variant.option2 -%}{%- endif -%}
-                        {%- if option.position == 3 -%}{%- assign opt_val = item.variant.option3 -%}{%- endif -%}
-                        {%- if opt_val != blank and opt_val != 'Default Title' -%}
-                          <span class="cart-item__opt-label">{{ option.name }}: <span class="cart-item__opt-val">{{ opt_val }}</span></span>
-                        {%- endif -%}
-                      {%- endfor -%}
-                    </div>
-                  {%- endif -%}
                 </div>
                 <button
                   class="cart-item__remove btn-reset"
@@ -83,20 +85,42 @@
                 </button>
               </div>
 
-              <div class="quantity-control">
-                <button
-                  class="qty-btn btn-reset"
-                  data-variant="{{ item.variant_id }}"
-                  data-action="decrease"
-                  aria-label="Decrease quantity"
-                >−</button>
-                <span class="qty-display">{{ item.quantity }}</span>
-                <button
-                  class="qty-btn btn-reset"
-                  data-variant="{{ item.variant_id }}"
-                  data-action="increase"
-                  aria-label="Increase quantity"
-                >+</button>
+              {%- if color_value != blank and color_value != 'Default Title' -%}
+                <p class="cart-item__color">{{ color_value }}</p>
+              {%- endif -%}
+
+              <div class="cart-item__controls">
+                <div class="quantity-control">
+                  <button class="qty-btn btn-reset" data-variant="{{ item.variant_id }}" data-action="decrease" aria-label="Decrease quantity">−</button>
+                  <span class="qty-display">{{ item.quantity }}</span>
+                  <button class="qty-btn btn-reset" data-variant="{{ item.variant_id }}" data-action="increase" aria-label="Increase quantity">+</button>
+                </div>
+
+                {%- if size_pos > 0 -%}
+                  <div class="cart-size-select">
+                    <select
+                      class="cart-item__size"
+                      data-line-variant="{{ item.variant_id }}"
+                      data-qty="{{ item.quantity }}"
+                      aria-label="Change size"
+                    >
+                      {%- for v in item.product.variants -%}
+                        {%- if size_pos == 1 -%}{%- assign v_size = v.option1 -%}{%- elsif size_pos == 2 -%}{%- assign v_size = v.option2 -%}{%- else -%}{%- assign v_size = v.option3 -%}{%- endif -%}
+                        {%- assign v_color = '' -%}
+                        {%- for option in item.product.options_with_values -%}
+                          {%- assign on2 = option.name | downcase -%}
+                          {%- if on2 contains 'colour' or on2 contains 'color' -%}
+                            {%- if option.position == 1 -%}{%- assign v_color = v.option1 -%}{%- elsif option.position == 2 -%}{%- assign v_color = v.option2 -%}{%- else -%}{%- assign v_color = v.option3 -%}{%- endif -%}
+                          {%- endif -%}
+                        {%- endfor -%}
+                        {%- if color_value == blank or v_color == color_value -%}
+                          <option value="{{ v.id }}"{% if v.id == item.variant_id %} selected{% endif %}{% unless v.available %} disabled{% endunless %}>{{ v_size }}</option>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </select>
+                    <svg class="cart-size-select__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+                  </div>
+                {%- endif -%}
               </div>
             </div>
           </div>
@@ -105,17 +129,9 @@
 
       <!-- Summary -->
       <aside class="cart-summary">
-        <div class="cart-summary-row">
-          <span>Subtotal</span>
-          <span>{{ cart.total_price | money }}</span>
-        </div>
-        <div class="cart-summary-row cart-summary-row--muted">
-          <span>Delivery</span>
-          <span>Calculated at checkout</span>
-        </div>
         <div class="cart-total">
           <div class="cart-total__row">
-            <span>Total</span>
+            <span>TOTAL</span>
             <span>{{ cart.total_price | money }}</span>
           </div>
           <p class="cart-tax-note">MRP inclusive of all taxes</p>

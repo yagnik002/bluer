@@ -392,6 +392,21 @@ function initCartPage() {
       } catch (err) {}
     });
   });
+
+  // Size dropdown: swap the line to the chosen size's variant (remove old + add new)
+  $$('.cart-item__size').forEach(sel => {
+    sel.addEventListener('change', async () => {
+      const oldVariant = sel.dataset.lineVariant;
+      const newVariant = sel.value;
+      const qty = parseInt(sel.dataset.qty || '1', 10);
+      if (!newVariant || newVariant === oldVariant) return;
+      try {
+        await Cart.change(oldVariant, 0);
+        await Cart.add(newVariant, qty);
+      } catch (err) {}
+      window.location.reload();
+    });
+  });
 }
 
 /* ---- Collection Filter ---------------------------------- */
@@ -463,10 +478,32 @@ function initCartTrigger() {
 }
 
 /* ---- Bootstrap ------------------------------------------ */
+/* ============================================================
+   PRODUCT IMAGE GALLERY (mobile carousel dots)
+   ============================================================ */
+function initProductGallery() {
+  const track = $('#product-gallery-track');
+  const dotsWrap = $('#product-gallery-dots');
+  if (!track || !dotsWrap) return;
+  const dots = $$('.product-gallery__dot', dotsWrap);
+  if (!dots.length) return;
+
+  let ticking = false;
+  function update() {
+    ticking = false;
+    const i = Math.round(track.scrollLeft / track.clientWidth);
+    dots.forEach((d, idx) => d.classList.toggle('is-active', idx === i));
+  }
+  track.addEventListener('scroll', () => {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }, { passive: true });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   CartDrawer.init();
   NavDrawer.init();
   initProductPage();
+  initProductGallery();
   initQuickAdd();
   initCartPage();
   initCollectionFilter();
