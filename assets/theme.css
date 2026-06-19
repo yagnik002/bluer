@@ -215,15 +215,16 @@ body:not(.template-index) #shopify-section-header {
 }
 .nav-drawer.is-open { transform: translateY(0); }
 
-/* Desktop: full-page end-to-end menu (covers the header). Its own "Discover" + X
-   act as the chrome, and everything fits in one view with no scrolling. */
+/* Desktop: full-width menu opens BELOW the site header (which stays visible),
+   with NO "Discover" row — the site header is the chrome. */
 @media (min-width: 768px) {
   .nav-drawer {
-    top: 0;
-    height: 100vh;
-    height: 100dvh;
-    overflow: hidden;
+    top: var(--header-height);
+    height: calc(100vh - var(--header-height));
+    overflow-y: auto;
   }
+  /* keep the header bright (don't dim it) while the menu is open */
+  .nav-overlay { top: var(--header-height); }
 }
 
 .nav-drawer__header {
@@ -232,14 +233,17 @@ body:not(.template-index) #shopify-section-header {
   justify-content: space-between;
   padding: 32px 24px 0;
 }
-@media (min-width: 768px) { .nav-drawer__header { padding: 28px 40px 4px; } }
+/* No "Discover" / close row on desktop — the site header handles it */
+@media (min-width: 768px) { .nav-drawer__header { display: none; } }
 
+/* Mobile menu heading — "DISCOVER" in capitals (design) */
 .nav-drawer__title {
-  font-family: var(--font-display);
-  font-size: 28px;
-  letter-spacing: var(--tracking-logo);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
-@media (min-width: 768px) { .nav-drawer__title { font-size: 22px; } }
 
 .nav-drawer__close {
   font-size: 28px;
