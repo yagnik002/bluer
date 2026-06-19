@@ -39,7 +39,21 @@
       "Bash(python3 -m json.tool templates/page.careers.json)",
       "Bash(git rev-list *)",
       "Bash(xargs git log -1 --oneline)",
-      "Bash(git config *)"
+      "Bash(git config *)",
+      "mcp__claude_ai_Figma__get_screenshot",
+      "Bash(curl -s -o fig_start.png \"https://www.figma.com/api/mcp/asset/4e93d340-8a18-4cf2-a5b1-5198a463b43d\")",
+      "Bash(curl -s -o fig_full.png \"https://www.figma.com/api/mcp/asset/3c1c689e-ea81-449a-8f88-316840e55c1f\")",
+      "Read(//tmp/**)",
+      "mcp__claude_ai_Figma__get_metadata",
+      "Bash(curl -s -o col_mobile.png \"https://www.figma.com/api/mcp/asset/edcbab61-cb9c-40a3-b8d1-337aa4da13c4\")",
+      "Bash(curl -s -o col_desktop.png \"https://www.figma.com/api/mcp/asset/3803a95b-f71b-4a71-be49-4296aad3db07\")",
+      "Bash(curl -s -o pdp_desktop.png \"https://www.figma.com/api/mcp/asset/1de92386-2c9e-4fea-b1f7-8d9bb7519cfb\")",
+      "Bash(curl -s -o pdp_mobile.png \"https://www.figma.com/api/mcp/asset/01d14419-9121-48bd-a1c7-6c549f2be6d3\")",
+      "Bash(curl -s -o bag_desktop.png \"https://www.figma.com/api/mcp/asset/e7c2418d-7a55-458b-8359-451b624681ec\")",
+      "Bash(curl -s -o bag_empty_mobile.png \"https://www.figma.com/api/mcp/asset/bc5352cc-6b77-4e53-ae88-a4ed1765ec44\")",
+      "Bash(curl -s -o search_desktop.png \"https://www.figma.com/api/mcp/asset/a7816274-b233-423a-9394-63a83b7c527a\")",
+      "Bash(curl -s -o categories_m.png \"https://www.figma.com/api/mcp/asset/fb94a432-f2e1-417e-8fd0-46b96d30a446\")",
+      "Bash(curl -s -o filters_m.png \"https://www.figma.com/api/mcp/asset/6858f33d-255d-4990-888b-d8700342cb91\")"
     ],
     "additionalDirectories": [
       "/Users/yagnikshaparia/Downloads/Shopify Storefront Builder11/src/assets",
