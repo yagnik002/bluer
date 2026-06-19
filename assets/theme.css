@@ -750,7 +750,9 @@ body.template-list-collections .site-header:not(.header--overlay) { border-botto
   padding: 40px 24px;
 }
 @media (min-width: 768px) {
-  .product-layout { grid-template-columns: 1.45fr 1fr; gap: 72px; padding: 48px 48px 80px; align-items: start; }
+  /* Wider side margins + narrower info bar to match the Figma proportions
+     (gallery ~48%, info ~28%). Keeps the gallery/Complete-the-Look from oversizing. */
+  .product-layout { grid-template-columns: 1.6fr 1fr; gap: 64px; padding: 40px 7vw 80px; align-items: start; }
 }
 
 /* Product gallery: swipeable carousel + dots on mobile, image grid on desktop */

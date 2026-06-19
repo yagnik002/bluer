@@ -29,6 +29,79 @@
         {%- endfor -%}
       </div>
     {%- endif -%}
+
+    {%- comment -%}Below the gallery (left column): description, details, Complete the Look, Shipping/Returns.{%- endcomment -%}
+    <div class="product-aside">
+      {%- if product.description != blank -%}
+        <div class="product-description">{{ product.description }}</div>
+      {%- endif -%}
+
+      {%- assign pd_composition = product.metafields.custom.composition -%}
+      {%- assign pd_color = product.metafields.custom.color -%}
+      {%- assign pd_model = product.metafields.custom.model -%}
+      {%- assign pd_wash = product.metafields.custom.wash_care -%}
+      {%- capture product_details -%}
+        {%- if pd_composition != blank and pd_composition.type contains 'text' -%}<dt class="product-details__label">Composition:</dt><dd class="product-details__value">{{ pd_composition.value }}</dd>{%- endif -%}
+        {%- if pd_color != blank and pd_color.type contains 'text' -%}<dt class="product-details__label">Color:</dt><dd class="product-details__value">{{ pd_color.value }}</dd>{%- endif -%}
+        {%- if pd_model != blank and pd_model.type contains 'text' -%}<dt class="product-details__label">Model:</dt><dd class="product-details__value">{{ pd_model.value }}</dd>{%- endif -%}
+        {%- if pd_wash != blank and pd_wash.type contains 'text' -%}<dt class="product-details__label">Wash Care:</dt><dd class="product-details__value">{{ pd_wash.value }}</dd>{%- endif -%}
+      {%- endcapture -%}
+      {%- assign product_details_clean = product_details | strip -%}
+      {%- if product_details_clean != blank -%}
+        <dl class="product-details">{{ product_details }}</dl>
+      {%- endif -%}
+
+      {%- if section.settings.look_collection != blank -%}
+        {%- assign look_collection = collections[section.settings.look_collection] -%}
+        {%- if look_collection != blank and look_collection.products_count > 0 -%}
+          <div class="complete-the-look">
+            <h2 class="section-heading">COMPLETE THE LOOK</h2>
+            <div class="product-grid product-grid--2">
+              {%- for look_product in look_collection.products limit: 2 -%}
+                {%- render 'product-card', product: look_product -%}
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+
+      <div class="product-accordion">
+        <button class="product-accordion__trigger btn-reset" aria-expanded="false">
+          <span>SHIPPING</span>
+          <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+        </button>
+        <div class="product-accordion__body">
+          <div class="pincode-checker">
+            <div class="pincode-row">
+              <input type="text" class="form-input pincode-input" id="pincode-input" placeholder="Enter Pincode" maxlength="6" pattern="[0-9]{6}">
+              <button class="btn pincode-apply-btn" id="pincode-apply">APPLY</button>
+            </div>
+            <p class="pincode-result" id="pincode-result"></p>
+          </div>
+          <ul class="shipping-features">
+            <li>Orders are processed within 24 hours of being placed.</li>
+            <li>We offer free shipping on prepaid orders above ₹1,990.</li>
+            <li>Cash on delivery charges are rupees 150 for all orders.</li>
+          </ul>
+          <p class="shipping-note">Delivery times are as follows: shipping to metro cities takes 3-4 working days, and to tier 1 cities takes 5-7 working days.</p>
+        </div>
+      </div>
+
+      <div class="product-accordion">
+        <button class="product-accordion__trigger btn-reset" aria-expanded="false">
+          <span>RETURNS</span>
+          <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+        </button>
+        <div class="product-accordion__body">
+          <ul class="shipping-features">
+            <li>Easy returns within 15 days of delivery</li>
+            <li>Items must be unworn, unwashed, and with original tags</li>
+            <li>Refunds processed within 5–7 business days</li>
+            <li><a href="/pages/return-policy">View full return policy</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Info -->
@@ -106,66 +179,6 @@
 
     <button class="size-guide-link btn-reset" id="size-guide-btn">SIZE GUIDE</button>
 
-    {%- if product.description != blank -%}
-      <div class="product-description">
-        {{ product.description }}
-      </div>
-    {%- endif -%}
-
-    {%- assign pd_composition = product.metafields.custom.composition -%}
-    {%- assign pd_color = product.metafields.custom.color -%}
-    {%- assign pd_model = product.metafields.custom.model -%}
-    {%- assign pd_wash = product.metafields.custom.wash_care -%}
-    {%- comment -%}Only render plain-text metafields so reference/metaobject types never dump raw IDs.{%- endcomment -%}
-    {%- capture product_details -%}
-      {%- if pd_composition != blank and pd_composition.type contains 'text' -%}<dt class="product-details__label">Composition:</dt><dd class="product-details__value">{{ pd_composition.value }}</dd>{%- endif -%}
-      {%- if pd_color != blank and pd_color.type contains 'text' -%}<dt class="product-details__label">Color:</dt><dd class="product-details__value">{{ pd_color.value }}</dd>{%- endif -%}
-      {%- if pd_model != blank and pd_model.type contains 'text' -%}<dt class="product-details__label">Model:</dt><dd class="product-details__value">{{ pd_model.value }}</dd>{%- endif -%}
-      {%- if pd_wash != blank and pd_wash.type contains 'text' -%}<dt class="product-details__label">Wash Care:</dt><dd class="product-details__value">{{ pd_wash.value }}</dd>{%- endif -%}
-    {%- endcapture -%}
-    {%- assign product_details_clean = product_details | strip -%}
-    {%- if product_details_clean != blank -%}
-      <dl class="product-details">{{ product_details }}</dl>
-    {%- endif -%}
-
-    <!-- Shipping / Returns accordions — inside the info bar; the bar ends here (design) -->
-    <div class="product-accordion">
-      <button class="product-accordion__trigger btn-reset" aria-expanded="false">
-        <span>SHIPPING</span>
-        <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
-      </button>
-      <div class="product-accordion__body">
-        <div class="pincode-checker">
-          <div class="pincode-row">
-            <input type="text" class="form-input pincode-input" id="pincode-input" placeholder="Enter Pincode" maxlength="6" pattern="[0-9]{6}">
-            <button class="btn pincode-apply-btn" id="pincode-apply">APPLY</button>
-          </div>
-          <p class="pincode-result" id="pincode-result"></p>
-        </div>
-        <ul class="shipping-features">
-          <li>Orders are processed within 24 hours of being placed.</li>
-          <li>We offer free shipping on prepaid orders above ₹1,990.</li>
-          <li>Cash on delivery charges are rupees 150 for all orders.</li>
-        </ul>
-        <p class="shipping-note">Delivery times are as follows: shipping to metro cities takes 3-4 working days, and to tier 1 cities takes 5-7 working days.</p>
-      </div>
-    </div>
-
-    <div class="product-accordion">
-      <button class="product-accordion__trigger btn-reset" aria-expanded="false">
-        <span>RETURNS</span>
-        <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
-      </button>
-      <div class="product-accordion__body">
-        <ul class="shipping-features">
-          <li>Easy returns within 15 days of delivery</li>
-          <li>Items must be unworn, unwashed, and with original tags</li>
-          <li>Refunds processed within 5–7 business days</li>
-          <li><a href="/pages/return-policy">View full return policy</a></li>
-        </ul>
-      </div>
-    </div>
-
     <!-- Structured data -->
     <script type="application/json" id="product-data">
       {
@@ -240,21 +253,6 @@
   </div>
 </div>
 
-<!-- Complete the Look -->
-{%- if section.settings.look_collection != blank -%}
-  {%- assign look_collection = collections[section.settings.look_collection] -%}
-  {%- if look_collection != blank and look_collection.products_count > 0 -%}
-    <div class="complete-the-look">
-      <h2 class="section-heading">COMPLETE THE LOOK</h2>
-      <div class="product-grid product-grid--2">
-        {%- for look_product in look_collection.products limit: 2 -%}
-          {%- render 'product-card', product: look_product -%}
-        {%- endfor -%}
-      </div>
-    </div>
-  {%- endif -%}
-{%- endif -%}
-
 <!-- Featured products -->
 {%- if section.settings.featured_collection != blank -%}
   {%- assign featured_collection = collections[section.settings.featured_collection] -%}
@@ -272,7 +270,7 @@
 
 <style>
 /* ---- Product page typography (Helvetica Neue, per design) ---- */
-.product-info { --pp-font: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+.product-layout { --pp-font: "Helvetica Neue", Helvetica, Arial, sans-serif; }
 .product-info .product-collection-link { font-family: var(--pp-font); letter-spacing: 0.1em; }
 .product-info .product-title {
   font-family: var(--pp-font);
@@ -344,24 +342,20 @@
 }
 .product-info .size-guide-link:hover { opacity: 0.6; }
 
-/* Shipping/Returns accordions live inside the info bar; the bar ends with Returns */
-.product-info .product-accordion { border-top: 1px solid var(--color-border); }
-.product-info .product-accordion__trigger {
-  font-family: var(--pp-font);
-  font-size: 18px;
-  font-weight: 300;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-.product-info .product-description { font-family: var(--pp-font); font-size: 14px; line-height: 1.7; letter-spacing: 0.04em; }
-.product-info .product-details {
+/* ---- Left column below the gallery (description, details, Complete the Look, Shipping/Returns) ---- */
+.product-aside { margin-top: 28px; }
+@media (min-width: 768px) { .product-aside { margin-top: 36px; } }
+
+.product-aside .product-description { font-family: var(--pp-font); font-size: 14px; line-height: 1.7; letter-spacing: 0.04em; max-width: 560px; }
+.product-aside .product-details {
   display: grid;
   grid-template-columns: 150px 1fr;
   gap: 6px 16px;
-  margin-top: 20px;
+  margin-top: 24px;
+  max-width: 560px;
 }
-.product-info .product-details__label,
-.product-info .product-details__value {
+.product-aside .product-details__label,
+.product-aside .product-details__value {
   margin: 0;
   font-family: var(--pp-font);
   font-size: 14px;
@@ -370,17 +364,34 @@
   letter-spacing: 0.04em;
   color: var(--color-fg);
 }
-.product-info .shipping-features li,
-.product-info .shipping-note {
+
+/* Complete the Look — sits in the left column, two smaller cards */
+.product-aside .complete-the-look { margin-top: 40px; }
+.product-aside .complete-the-look .section-heading { padding: 0 0 18px; }
+.product-aside .complete-the-look .product-grid { grid-template-columns: 1fr 1fr; gap: 2px; background: transparent; }
+
+/* Shipping / Returns accordions (left column) */
+.product-aside .product-accordion { border-top: 1px solid var(--color-border); margin-top: 0; }
+.product-aside .complete-the-look + .product-accordion { margin-top: 36px; }
+.product-aside .product-accordion__trigger {
   font-family: var(--pp-font);
-  font-size: 16px;
+  font-size: 18px;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.product-aside .shipping-features li,
+.product-aside .shipping-note {
+  font-family: var(--pp-font);
+  font-size: 15px;
   font-weight: 300;
   line-height: 26px;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.05em;
   text-transform: none;
   color: var(--color-fg);
 }
-.product-info .shipping-note { margin-top: 14px; }
+.product-aside .shipping-note { margin-top: 14px; }
+
 .complete-the-look .section-heading,
 .recommended-products .section-heading {
   font-family: var(--pp-font);
