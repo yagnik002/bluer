@@ -1366,8 +1366,17 @@ body.template-list-collections .site-header:not(.header--overlay) { border-botto
   gap: 22px;
 }
 @media (min-width: 768px) {
-  /* Two columns, left-aligned, centred as a group (desktop design) */
-  .footer-links { flex-direction: row; align-items: flex-start; justify-content: center; gap: 120px; }
+  /* Two columns pushed to a shared left/right guide; the newsletter row below
+     uses the same width so every edge lines up (design). */
+  .footer-links {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 60px;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+  }
   .footer-links-col { align-items: flex-start; gap: 18px; }
 }
 
@@ -1400,7 +1409,8 @@ body.template-list-collections .site-header:not(.header--overlay) { border-botto
   margin-bottom: 24px;
 }
 
-.footer-email-form { max-width: 420px; margin: 0 auto; }
+/* Same width as the link columns above so left/right edges align (design) */
+.footer-email-form { max-width: 500px; margin: 0 auto; }
 
 /* Underline-style email field + solid SUBSCRIBE button (design) */
 .footer-email-row {
