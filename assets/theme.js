@@ -485,6 +485,37 @@ function initCollectionFilter() {
   });
 }
 
+/* ---- Grid view toggle (collection page: cycle 4 / 2 / 1 columns) ---- */
+function initGridView() {
+  const toggle = $('#grid-view-toggle');
+  const grid = $('#collection-grid');
+  if (!toggle || !grid) return;
+
+  const views = [4, 2, 1];
+  let idx = 0;
+  try {
+    const saved = parseInt(localStorage.getItem('bluer-grid-view') || '4', 10);
+    if (views.indexOf(saved) !== -1) idx = views.indexOf(saved);
+  } catch (e) {}
+
+  function apply() {
+    const v = views[idx];
+    grid.classList.remove('gv-4', 'gv-2', 'gv-1');
+    grid.classList.add('gv-' + v);
+    toggle.dataset.view = String(v);
+    $$('.gvi', toggle).forEach(ic => { ic.style.display = 'none'; });
+    const ic = toggle.querySelector('.gvi-' + v);
+    if (ic) ic.style.display = 'block';
+    try { localStorage.setItem('bluer-grid-view', String(v)); } catch (e) {}
+  }
+  apply();
+
+  toggle.addEventListener('click', () => {
+    idx = (idx + 1) % views.length;
+    apply();
+  });
+}
+
 function sortProducts(sort) {
   const grid = $('#collection-grid');
   if (!grid) return;
@@ -628,6 +659,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initQuickAdd();
   initCartPage();
   initCollectionFilter();
+  initGridView();
   initNewsletter();
   initHeaderSearch();
   initCartTrigger();
