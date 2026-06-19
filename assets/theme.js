@@ -827,7 +827,9 @@ function initMobileNav() {
 
   menuBtn && menuBtn.addEventListener('click', () => {
     const navDrawer = $('#nav-drawer');
-    if (navDrawer) NavDrawer.open();
+    if (!navDrawer) return;
+    // Toggle: tapping MENU opens the drawer, tapping again closes it (mobile has no X)
+    navDrawer.classList.contains('is-open') ? NavDrawer.close() : NavDrawer.open();
   });
 
   searchBtn && searchBtn.addEventListener('click', () => {

@@ -232,8 +232,14 @@ body:not(.template-index) #shopify-section-header {
   justify-content: space-between;
   padding: 32px 24px 0;
 }
-/* No "Discover" / close row on desktop — the site header handles it */
-@media (min-width: 768px) { .nav-drawer__header { display: none; } }
+/* Mobile: "DISCOVER" shown, NO close button — the MENU button toggles open/close */
+.nav-drawer__close { display: none; }
+/* Desktop: no "Discover" title; show the close (X) at the top-right of the menu */
+@media (min-width: 768px) {
+  .nav-drawer__header { justify-content: flex-end; padding: 18px 40px 0; }
+  .nav-drawer__title { display: none; }
+  .nav-drawer__close { display: block; }
+}
 
 /* Mobile menu heading — "DISCOVER" in capitals (design) */
 .nav-drawer__title {
