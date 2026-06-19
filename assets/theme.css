@@ -85,7 +85,6 @@ ul, ol { list-style: none; }
   position: sticky;
   top: 0;
   background: #ffffff;
-  border-bottom: 1px solid var(--color-border);
 }
 
 /* Shopify wraps the header in a section <div> that's only header-height tall,
