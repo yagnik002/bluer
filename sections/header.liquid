@@ -156,6 +156,11 @@
   transition: background 0.35s ease,  color 0.35s ease;
 }
 
+/* Desktop homepage: header sits just below the fixed black announcement bar (32px) */
+@media (min-width: 768px) {
+  .site-header.header--overlay { top: 32px; }
+}
+
 /* At the top of the page: white text, subtle scrim, logo hidden */
 .site-header.header--overlay.is-top {
   color: #fff;

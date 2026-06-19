@@ -13,19 +13,20 @@ body.template-collection .announcement-bar,
 body.template-list-collections .announcement-bar,
 body.template-search .announcement-bar { display: block; }
 
-/* Desktop homepage keeps its immersive overlay header — let the announcement sit
-   transparently over the hero (its original behaviour) instead of a solid bar. */
+/* Desktop homepage: solid black announcement bar pinned at the very top, with
+   the transparent overlay header sitting just below it (design). */
 @media (min-width: 768px) {
   body.template-index .announcement-bar {
-    position: absolute;
-    top: var(--header-height);
+    position: fixed;
+    top: 0;
     left: 0;
     right: 0;
-    z-index: 95;
-    background: transparent;
-    color: #fff;
-    text-transform: uppercase;
-    pointer-events: none;
+    z-index: 110;
+    height: 32px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 </style>
