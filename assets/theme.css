@@ -478,8 +478,8 @@ body:not(.template-index) #shopify-section-header {
 .product-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 1px;
-  background: var(--color-border);
+  gap: 6px;
+
 }
 @media (min-width: 768px) { .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (min-width: 1024px) { .product-grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
@@ -1720,19 +1720,20 @@ body { padding-bottom: 60px; }
 }
 .product-accordion__body.is-open { display: block; }
 
-.pincode-checker { margin-bottom: 16px; }
-.pincode-row { display: flex; gap: 0; border: 1px solid var(--color-border); }
+/* Pincode checker — grey panel with a white field + black APPLY (design) */
+.pincode-checker { background: var(--color-muted); padding: 14px; margin-bottom: 22px; }
+.pincode-row { display: flex; gap: 0; }
 .pincode-input {
   flex: 1;
-  padding: 10px 12px;
+  padding: 12px 14px;
   font-size: 13px;
   border: none;
   outline: none;
-  background: transparent;
+  background: var(--color-bg);
 }
 .pincode-apply-btn {
-  padding: 10px 16px;
-  font-size: 10px;
+  padding: 12px 24px;
+  font-size: 11px;
   letter-spacing: var(--tracking-editorial);
   text-transform: uppercase;
   background: var(--color-fg);
