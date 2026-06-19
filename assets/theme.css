@@ -85,7 +85,7 @@ ul, ol { list-style: none; }
   position: sticky;
   top: 0;
   background: #ffffff;
-  /* No bottom border / shadow on the inner-page header (design) */
+  border-bottom: 1px solid var(--color-border);
 }
 
 /* Shopify wraps the header in a section <div> that's only header-height tall,
@@ -130,26 +130,25 @@ body:not(.template-index) #shopify-section-header {
     display: flex;
     align-items: baseline;
     justify-content: center;
-    gap: 8px;
-    font-size: 16px;
-    letter-spacing: 0.1em;
+    gap: 12px;
+    font-size: 12px;
+    letter-spacing: var(--tracking-editorial);
     text-transform: uppercase;
   }
-  /* "SEARCH" label baseline-aligns with the underline next to it (design) */
-  .header-search form { display: flex; align-items: baseline; gap: 8px; }
-  /* Homepage hero header keeps the longer line over the video */
-  .site-header.header--overlay .header-search-input { width: clamp(220px, 26vw, 400px); }
+  /* "SEARCH" label baseline-aligns with the underline next to it (desktop design) */
+  .header-search form { display: flex; align-items: baseline; gap: 12px; }
+  .header-search label { line-height: 1; }
 }
 
 .header-search-input {
-  width: 128px;
+  width: 150px;
   border: none;
   border-bottom: 1px solid var(--color-fg);
   background: transparent;
   outline: none;
-  font-size: 16px;
+  font-size: 12px;
   line-height: 1;
-  padding: 0 0 2px;
+  padding: 0 0 3px;
   color: var(--color-fg);
   cursor: pointer;
 }
@@ -166,19 +165,12 @@ body:not(.template-index) #shopify-section-header {
 }
 @media (min-width: 768px) { .header-nav { gap: 40px; } }
 
-/* Desktop design header = BLUER | SEARCH | MENU  YOUR BAG (no account link).
-   Helvetica Neue 16px / 0.1em tracking, per Figma. */
+/* Desktop design header = BLUER | SEARCH | MENU  YOUR BAG (no account link). */
 @media (min-width: 768px) {
   .header-nav__account { display: none; }
   .header-nav a,
   .header-nav button,
-  .header-search label {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 16px;
-    font-weight: 400;
-    letter-spacing: 0.1em;
-    line-height: 34px;
-  }
+  .header-search label { font-size: 12px; letter-spacing: 0.16em; }
 }
 
 .header-nav a,
