@@ -1412,22 +1412,25 @@ body.template-list-collections .site-header:not(.header--overlay) { border-botto
 /* Same width as the link columns above so left/right edges align (design) */
 .footer-email-form { max-width: 500px; margin: 0 auto; }
 
-/* Underline-style email field + solid SUBSCRIBE button (design) */
+/* Email field underline sits under the input only, with a gap before the
+   solid SUBSCRIBE button (design) */
 .footer-email-row {
   display: flex;
-  align-items: center;
-  border-bottom: 1px solid var(--color-fg);
+  align-items: stretch;
+  gap: 14px;
 }
 
 .footer-email-input {
   flex: 1;
-  padding: 10px 4px;
+  padding: 10px 2px;
   font-size: 12px;
   letter-spacing: 0.06em;
   border: none;
+  border-bottom: 1px solid var(--color-fg);
   outline: none;
   background: transparent;
 }
+.footer-email-input::placeholder { color: var(--color-muted-fg); }
 
 .footer-email-btn {
   padding: 12px 20px;
