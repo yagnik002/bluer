@@ -1,14 +1,22 @@
 <footer class="site-footer">
   <div class="footer-inner">
 
-    <!-- Link column (single, centered — matches mobile design) -->
+    <!-- Link columns: two columns on desktop (design), single column on mobile -->
     <nav class="footer-links" aria-label="Footer">
-      <a href="/pages/help-centre" class="footer-link">Help Centre</a>
-      <a href="/pages/about" class="footer-link">About the Brand</a>
-      <a href="/pages/careers" class="footer-link">Career</a>
-      <a href="/pages/terms-and-conditions" class="footer-link">Terms and Conditions</a>
-      <a href="/pages/return-policy" class="footer-link">Return Policy</a>
-      <a href="/pages/shipping-and-payments" class="footer-link">Shipping and Payments</a>
+      <ul class="footer-links-col">
+        <li><a href="{{ routes.account_url }}" class="footer-link">Account Details</a></li>
+        <li><a href="{{ routes.account_url }}" class="footer-link">Purchases</a></li>
+        <li><a href="/pages/returns" class="footer-link">Returns</a></li>
+        <li><a href="/pages/about" class="footer-link">About the Brand</a></li>
+        <li><a href="/pages/careers" class="footer-link">Career</a></li>
+      </ul>
+      <ul class="footer-links-col">
+        <li><a href="/pages/help-centre" class="footer-link">Help Centre</a></li>
+        <li><a href="/pages/terms-and-conditions" class="footer-link">Terms and Conditions</a></li>
+        <li><a href="/pages/return-policy" class="footer-link">Return Policy</a></li>
+        <li><a href="/pages/privacy-policy" class="footer-link">Privacy Policy</a></li>
+        <li><a href="/pages/shipping-and-payments" class="footer-link">Shipping and Payments</a></li>
+      </ul>
     </nav>
 
     <!-- Newsletter -->

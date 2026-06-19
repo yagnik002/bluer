@@ -192,7 +192,9 @@ const NavDrawer = {
 
     const openBtn = $('#menu-toggle');
     const closeBtn = $('#menu-close');
-    if (openBtn) openBtn.addEventListener('click', () => this.open());
+    if (openBtn) openBtn.addEventListener('click', () => {
+      this.drawer && this.drawer.classList.contains('is-open') ? this.close() : this.open();
+    });
     if (closeBtn) closeBtn.addEventListener('click', () => this.close());
     if (this.overlay) this.overlay.addEventListener('click', () => this.close());
 

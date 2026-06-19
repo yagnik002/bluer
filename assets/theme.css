@@ -24,7 +24,7 @@
 }
 
 @media (min-width: 768px) {
-  :root { --header-height: 80px; }
+  :root { --header-height: 92px; }
 }
 
 /* ---- Reset ------------------------------------------------ */
@@ -129,21 +129,24 @@ body:not(.template-index) #shopify-section-header {
   .header-search {
     display: flex;
     align-items: center;
-    gap: 12px;
-    font-size: 11px;
+    justify-content: center;
+    gap: 14px;
+    font-size: 12px;
     letter-spacing: var(--tracking-editorial);
     text-transform: uppercase;
   }
+  /* "SEARCH" label sits left of the underline (desktop design) */
+  .header-search form { display: flex; align-items: center; gap: 14px; }
 }
 
 .header-search-input {
-  width: 180px;
+  width: 150px;
   border: none;
-  border-bottom: 1px solid rgba(26,26,26,0.8);
+  border-bottom: 1px solid var(--color-fg);
   background: transparent;
   outline: none;
-  font-size: 13px;
-  padding: 4px;
+  font-size: 12px;
+  padding: 2px 0 4px;
   color: var(--color-fg);
 }
 .header-search-input:focus { border-bottom-color: var(--color-fg); }
@@ -153,11 +156,19 @@ body:not(.template-index) #shopify-section-header {
   align-items: center;
   justify-content: flex-end;
   gap: 24px;
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: var(--tracking-editorial);
   text-transform: uppercase;
 }
 @media (min-width: 768px) { .header-nav { gap: 40px; } }
+
+/* Desktop design header = BLUER | SEARCH | MENU  YOUR BAG (no account link). */
+@media (min-width: 768px) {
+  .header-nav__account { display: none; }
+  .header-nav a,
+  .header-nav button,
+  .header-search label { font-size: 12px; letter-spacing: 0.16em; }
+}
 
 .header-nav a,
 .header-nav button {
@@ -205,13 +216,23 @@ body:not(.template-index) #shopify-section-header {
 }
 .nav-drawer.is-open { transform: translateY(0); }
 
+/* Desktop: the menu opens BELOW the site header (which stays visible), as a
+   full-width takeover. The "Discover" row is dropped — the site header is the chrome. */
+@media (min-width: 768px) {
+  .nav-drawer {
+    top: var(--header-height);
+    height: calc(100vh - var(--header-height));
+  }
+}
+
 .nav-drawer__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 32px 24px 0;
 }
-@media (min-width: 768px) { .nav-drawer__header { padding: 32px 40px 0; } }
+/* Desktop: drop the "Discover" row — the site header above is the chrome. */
+@media (min-width: 768px) { .nav-drawer__header { display: none; } }
 
 .nav-drawer__title {
   font-family: var(--font-display);
@@ -860,6 +881,11 @@ body:not(.template-index) #shopify-section-header {
   .cart-summary { position: sticky; top: calc(var(--header-height) + 32px); align-self: start; }
 }
 
+/* Subtotal/Delivery rows: desktop only (mobile shows just TOTAL) */
+.cart-summary-rows { display: none; }
+@media (min-width: 768px) {
+  .cart-summary-rows { display: flex; flex-direction: column; gap: 10px; }
+}
 .cart-summary-row {
   display: flex;
   justify-content: space-between;
@@ -1015,13 +1041,23 @@ body:not(.template-index) #shopify-section-header {
 @media (min-width: 768px) { .page-content { padding: 80px 40px; } }
 
 .page-content h1 {
-  font-family: var(--font-display);
-  font-size: 36px;
-  letter-spacing: 0.04em;
-  margin-bottom: 32px;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 28px;
 }
+@media (min-width: 768px) { .page-content h1 { font-size: 18px; } }
 .page-content p { font-size: 14px; line-height: 1.75; color: rgba(26,26,26,0.85); margin-bottom: 16px; }
-.page-content h2 { font-size: 16px; font-weight: 500; margin: 32px 0 12px; }
+.page-content h2 {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 32px 0 12px;
+}
 
 /* ---- Customer (login / register / account) --------------- */
 .customer-layout {
@@ -1256,8 +1292,16 @@ body:not(.template-index) #shopify-section-header {
   align-items: center;
   gap: 22px;
 }
+.footer-links-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
 @media (min-width: 768px) {
-  .footer-links { gap: 24px; }
+  /* Two columns, left-aligned, centred as a group (desktop design) */
+  .footer-links { flex-direction: row; align-items: flex-start; justify-content: center; gap: 120px; }
+  .footer-links-col { align-items: flex-start; gap: 18px; }
 }
 
 .footer-link {
@@ -2052,32 +2096,36 @@ body { padding-bottom: 60px; }
    LOGIN PAGE REDESIGN
    ============================================================ */
 .login-page {
-  min-height: calc(100vh - var(--header-height) - 60px);
-  display: grid;
-  place-items: center;
-  padding: 40px 24px 80px;
+  padding: 64px 24px 100px;
 }
+@media (min-width: 768px) { .login-page { padding: 110px 40px 160px; } }
 
 .login-card {
   width: 100%;
   max-width: 400px;
+  margin: 0 auto;
 }
+@media (min-width: 768px) { .login-card { max-width: 660px; } }
 
+/* Account/content page headings: sans-serif, bold, uppercase, left-aligned */
 .login-heading {
-  font-family: var(--font-display);
-  font-size: 40px;
-  letter-spacing: 0.04em;
-  text-align: center;
-  margin-bottom: 12px;
+  font-family: var(--font-body);
+  font-size: 16px;
   font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: left;
+  margin-bottom: 22px;
 }
+@media (min-width: 768px) { .login-heading { font-size: 18px; } }
 
 .login-sub {
-  font-size: 13px;
-  color: var(--color-muted-fg);
-  text-align: center;
-  margin-bottom: 32px;
+  font-size: 14px;
+  color: var(--color-fg);
+  text-align: left;
+  margin-bottom: 40px;
   line-height: 1.6;
+  max-width: 460px;
 }
 
 .form-input--gray {

@@ -129,6 +129,16 @@
 
       <!-- Summary -->
       <aside class="cart-summary">
+        <div class="cart-summary-rows">
+          <div class="cart-summary-row">
+            <span>Subtotal</span>
+            <span>{{ cart.total_price | money }}</span>
+          </div>
+          <div class="cart-summary-row cart-summary-row--muted">
+            <span>Delivery</span>
+            <span>Calculated at checkout</span>
+          </div>
+        </div>
         <div class="cart-total">
           <div class="cart-total__row">
             <span>TOTAL</span>
