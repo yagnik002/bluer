@@ -106,7 +106,14 @@
   padding: 0 24px;
 }
 @media (min-width: 768px) {
-  .careers-jobs { padding: 0 40px; }
+  /* Desktop: JOIN US as a left label, roles grid on the right (design) */
+  .careers-jobs {
+    padding: 64px 40px 0;
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 0 64px;
+    align-items: start;
+  }
 }
 
 .careers-join-heading {
@@ -119,6 +126,7 @@
   color: #000;
   margin: 56px 0 32px;
 }
+@media (min-width: 768px) { .careers-join-heading { margin: 0; } }
 
 /* Roles grid */
 .roles-grid {
