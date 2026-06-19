@@ -685,17 +685,27 @@ body.template-list-collections .site-header:not(.header--overlay) { border-botto
   .grid-view-toggle svg { width: 19px; height: 19px; display: block; }
 }
 .gvi { display: none; }
-.grid-view-toggle .gvi-4 { display: block; } /* default until JS runs */
+.grid-view-toggle .gvi[data-for="4"] { display: block; } /* default until JS runs */
 
-/* Grid view modes (desktop) — set by the toggle */
+/* Grid view modes (desktop) — set by the toggle.
+   4-col = full width; 2-col & 1-col = centred, narrower blocks w/ larger images. */
 @media (min-width: 768px) {
   #collection-grid.gv-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  #collection-grid.gv-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  #collection-grid.gv-1 {
-    grid-template-columns: 1fr;
-    max-width: 760px;
+  #collection-grid.gv-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 960px;
     margin-left: auto;
     margin-right: auto;
+    background: transparent;
+    gap: 2px;
+  }
+  #collection-grid.gv-1 {
+    grid-template-columns: 1fr;
+    max-width: 880px;
+    margin-left: auto;
+    margin-right: auto;
+    background: transparent;
+    gap: 2px;
   }
 }
 

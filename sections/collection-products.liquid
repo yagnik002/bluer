@@ -15,9 +15,10 @@
     {%- assign coll_layout = section.settings.layout | default: 'grid' -%}
     {%- if coll_layout == 'grid' -%}
       <button class="grid-view-toggle btn-reset" id="grid-view-toggle" data-view="4" aria-label="Change grid view">
-        <svg class="gvi gvi-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="2.5" y="4" width="3" height="16"/><rect x="8" y="4" width="3" height="16"/><rect x="13.5" y="4" width="3" height="16"/><rect x="19" y="4" width="3" height="16"/></svg>
-        <svg class="gvi gvi-2" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="4" width="6.5" height="16"/><rect x="13.5" y="4" width="6.5" height="16"/></svg>
-        <svg class="gvi gvi-1" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4" width="12" height="16"/></svg>
+        <!-- icon shows the view you'll switch TO -->
+        <svg class="gvi" data-for="4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="3.5" y="4.5" width="7" height="15"/><rect x="13.5" y="4.5" width="7" height="15"/></svg>
+        <svg class="gvi" data-for="2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="5" y="4.5" width="14" height="15"/></svg>
+        <svg class="gvi" data-for="1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7"/><rect x="13.5" y="3.5" width="7" height="7"/><rect x="3.5" y="13.5" width="7" height="7"/><rect x="13.5" y="13.5" width="7" height="7"/></svg>
       </button>
     {%- endif -%}
   </div>

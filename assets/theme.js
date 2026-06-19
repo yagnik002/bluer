@@ -503,9 +503,10 @@ function initGridView() {
     grid.classList.remove('gv-4', 'gv-2', 'gv-1');
     grid.classList.add('gv-' + v);
     toggle.dataset.view = String(v);
-    $$('.gvi', toggle).forEach(ic => { ic.style.display = 'none'; });
-    const ic = toggle.querySelector('.gvi-' + v);
-    if (ic) ic.style.display = 'block';
+    // show the icon tagged for the current view (it depicts the next view)
+    $$('.gvi', toggle).forEach(ic => {
+      ic.style.display = ic.dataset.for === String(v) ? 'block' : 'none';
+    });
     try { localStorage.setItem('bluer-grid-view', String(v)); } catch (e) {}
   }
   apply();
