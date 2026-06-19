@@ -13,6 +13,13 @@
   {%- if tag_lower == 'new' -%}{%- assign is_new = true -%}{%- endif -%}
 {%- endfor -%}
 
+{%- comment -%}Find the size option so quick-add can require a size before adding.{%- endcomment -%}
+{%- assign size_option_position = 0 -%}
+{%- for option in product.options_with_values -%}
+  {%- assign on = option.name | downcase -%}
+  {%- if on contains 'size' -%}{%- assign size_option_position = option.position -%}{%- endif -%}
+{%- endfor -%}
+
 <div
   class="product-card"
   data-index="{{ forloop.index0 }}"
@@ -48,17 +55,32 @@
   </a>
 
   {%- comment -%}
-    The mobile comps show only a "+" quick-add on cards (no wishlist heart), so the
-    heart was removed here to match. Wishlist remains a feature/page; if an add
-    entry point on cards is wanted later, re-add a button here.
+    Quick add: "+" reveals a size picker (design requires choosing a size before
+    the item is added to the bag). Single-variant products add directly.
+    No wishlist heart — the comps show only the "+".
   {%- endcomment -%}
-  <button
-    class="product-card__quick-add btn-reset"
-    data-quick-add="{{ quick_variant.id }}"
-    aria-label="Quick add {{ product.title }}"
-  >
-    +
-  </button>
+  {%- if product.has_only_default_variant -%}
+    <button
+      class="product-card__quick-add btn-reset"
+      data-quick-add="{{ quick_variant.id }}"
+      aria-label="Quick add {{ product.title }}"
+    >+</button>
+  {%- else -%}
+    <button
+      class="product-card__quick-add btn-reset"
+      data-quick-add-toggle
+      aria-label="Choose a size for {{ product.title }}"
+    >+</button>
+    <div class="product-card__sizes" hidden>
+      {%- for v in product.variants -%}
+        {%- if size_option_position == 2 -%}{%- assign v_size = v.option2 -%}
+        {%- elsif size_option_position == 3 -%}{%- assign v_size = v.option3 -%}
+        {%- elsif size_option_position == 1 -%}{%- assign v_size = v.option1 -%}
+        {%- else -%}{%- assign v_size = v.title -%}{%- endif -%}
+        <button class="product-card__size-btn btn-reset" data-add-variant="{{ v.id }}"{% unless v.available %} disabled{% endunless %}>{{ v_size }}</button>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
 
   <div class="product-card__info">
     <p class="product-card__title">

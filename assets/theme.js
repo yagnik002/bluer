@@ -53,10 +53,17 @@ const Cart = {
 
 /* ---- Cart Count ------------------------------------------ */
 function updateCartCount(count) {
+  // Header bag: render as bracketed text — "Your Bag (2)" — hidden when empty
   const el = $('#cart-count');
-  if (!el) return;
-  el.textContent = count;
-  el.style.display = count > 0 ? 'inline-flex' : 'none';
+  if (el) {
+    el.innerHTML = count > 0 ? ' (' + count + ')' : '';
+  }
+  // Mobile bottom-nav bag badge
+  const badge = $('.mobile-nav-bag-count');
+  if (badge) {
+    badge.textContent = count;
+    badge.style.display = count > 0 ? '' : 'none';
+  }
 }
 
 /* ---- ATB Toast ------------------------------------------- */
@@ -210,10 +217,10 @@ const NavDrawer = {
       });
     });
 
-    // Activate first panel by default
-    const firstBtn = $('.nav-sidebar-btn');
-    if (firstBtn) {
-      this.setPanel(firstBtn.dataset.panel, firstBtn);
+    // Open the "Clothing" panel by default (design), falling back to the first.
+    const defaultBtn = $('.nav-sidebar-btn[data-default="true"]') || $('.nav-sidebar-btn');
+    if (defaultBtn) {
+      this.setPanel(defaultBtn.dataset.panel, defaultBtn);
     }
   },
 
@@ -264,11 +271,20 @@ function initProductPage() {
       priceEl.textContent = formatMoney(parseInt(btn.dataset.price, 10));
     }
 
-    // Update availability
+    // Update availability — sold-out variants switch the button to "Notify me"
     const available = btn.dataset.available === 'true';
     if (addBtn) {
-      addBtn.textContent = available ? 'ADD TO BAG' : 'SOLD OUT';
-      addBtn.disabled = !available;
+      if (available) {
+        addBtn.textContent = 'ADD TO BAG';
+        addBtn.disabled = false;
+        addBtn.dataset.notify = '';
+        addBtn.classList.remove('product-add-btn--notify');
+      } else {
+        addBtn.textContent = 'NOTIFY ME WHEN AVAILABLE';
+        addBtn.disabled = false;
+        addBtn.dataset.notify = 'true';
+        addBtn.classList.add('product-add-btn--notify');
+      }
     }
 
     // Update low stock
@@ -299,6 +315,11 @@ function initProductPage() {
   if (addBtn) {
     addBtn.addEventListener('click', async (e) => {
       e.preventDefault();
+      // Sold-out / notify mode: open the Get Notified popup instead of adding
+      if (addBtn.dataset.notify === 'true') {
+        if (window.openNotifyModal) window.openNotifyModal(selectedVariantId);
+        return;
+      }
       const btn = addBtn;
       const originalText = btn.textContent;
       btn.disabled = true;
@@ -325,27 +346,60 @@ function initProductPage() {
 }
 
 /* ---- Quick Add (Collection / Homepage grids) ------------ */
+async function quickAddVariant(variantId, btn) {
+  if (!variantId) return;
+  if (btn) btn.disabled = true;
+  try {
+    const addedItem = await Cart.add(variantId, 1);
+    const cart = await Cart.get();
+    updateCartCount(cart.item_count);
+    if (btn) btn.disabled = false;
+    if (AtbModal.el) {
+      AtbModal.open(addedItem);
+    } else {
+      showToast('Added to bag');
+    }
+  } catch (err) {
+    if (btn) btn.disabled = false;
+  }
+}
+
 function initQuickAdd() {
+  // Single-variant: "+" adds directly
   $$('[data-quick-add]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      quickAddVariant(btn.dataset.quickAdd, btn);
+    });
+  });
+
+  // Multi-variant: "+" reveals a size picker; a size must be chosen before adding
+  $$('[data-quick-add-toggle]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const sizes = btn.parentElement.querySelector('.product-card__sizes');
+      if (!sizes) return;
+      const isOpen = !sizes.hidden;
+      // Close any other open size pickers first
+      $$('.product-card__sizes').forEach(s => { s.hidden = true; });
+      sizes.hidden = isOpen;
+    });
+  });
+
+  // Choosing a size adds that variant
+  $$('.product-card__size-btn').forEach(btn => {
     btn.addEventListener('click', async (e) => {
       e.preventDefault();
-      const variantId = btn.dataset.quickAdd;
-      if (!variantId) return;
-      btn.disabled = true;
-      try {
-        const addedItem = await Cart.add(variantId, 1);
-        const cart = await Cart.get();
-        updateCartCount(cart.item_count);
-        btn.disabled = false;
-        if (AtbModal.el) {
-          AtbModal.open(addedItem);
-        } else {
-          showToast('Added to bag');
-        }
-      } catch (err) {
-        btn.disabled = false;
-      }
+      await quickAddVariant(btn.dataset.addVariant, btn);
+      const sizes = btn.closest('.product-card__sizes');
+      if (sizes) sizes.hidden = true;
     });
+  });
+
+  // Click outside closes any open size picker
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('.product-card__quick-add') || e.target.closest('.product-card__sizes')) return;
+    $$('.product-card__sizes').forEach(s => { s.hidden = true; });
   });
 }
 
@@ -469,6 +523,21 @@ function initNewsletter() {
   });
 }
 
+/* ---- Header search → dedicated search page -------------- */
+/* Per design: clicking SEARCH opens the full search page (recommendations +
+   featured below), rather than searching inline from the header. */
+function initHeaderSearch() {
+  const input = $('#header-search-input');
+  if (!input) return;
+  function go(e) {
+    if (location.pathname.indexOf('/search') === 0) return; // already on search page
+    e.preventDefault();
+    window.location.href = '/search';
+  }
+  input.addEventListener('mousedown', go);
+  input.addEventListener('focus', go);
+}
+
 /* ---- Cart page open drawer link ------------------------- */
 function initCartTrigger() {
   $$('[data-open-cart]').forEach(el => {
@@ -501,15 +570,66 @@ function initProductGallery() {
   }, { passive: true });
 }
 
+/* Full-screen image zoom (click a product image to open, click to zoom in/out) */
+function initProductZoom() {
+  const imgs = $$('.product-gallery__img');
+  if (!imgs.length) return;
+
+  const overlay = document.createElement('div');
+  overlay.className = 'product-zoom';
+  overlay.setAttribute('aria-hidden', 'true');
+  overlay.innerHTML =
+    '<button class="product-zoom__close btn-reset" aria-label="Close">&times;</button>' +
+    '<div class="product-zoom__stage" id="product-zoom-stage"></div>';
+  document.body.appendChild(overlay);
+
+  const stage = overlay.querySelector('#product-zoom-stage');
+  const closeBtn = overlay.querySelector('.product-zoom__close');
+
+  function openAt(src) {
+    stage.innerHTML = '';
+    const img = document.createElement('img');
+    img.src = src;
+    img.className = 'product-zoom__img';
+    img.addEventListener('click', (e) => {
+      const zoomed = img.classList.toggle('is-zoomed');
+      if (zoomed) {
+        const r = img.getBoundingClientRect();
+        const ox = ((e.clientX - r.left) / r.width) * 100;
+        const oy = ((e.clientY - r.top) / r.height) * 100;
+        img.style.transformOrigin = ox + '% ' + oy + '%';
+      } else {
+        img.style.transformOrigin = 'center center';
+      }
+    });
+    stage.appendChild(img);
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function close() {
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  imgs.forEach((im) => {
+    im.addEventListener('click', () => openAt(im.currentSrc || im.src));
+  });
+  closeBtn.addEventListener('click', close);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay || e.target === stage) close(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   CartDrawer.init();
   NavDrawer.init();
   initProductPage();
   initProductGallery();
+  initProductZoom();
   initQuickAdd();
   initCartPage();
   initCollectionFilter();
   initNewsletter();
+  initHeaderSearch();
   initCartTrigger();
   initFilterDrawer();
   initProductAccordions();
@@ -609,31 +729,44 @@ function initNotifyModal() {
   const bg = $('#notify-bg');
   const submit = $('#notify-submit');
   const sizeSelect = $('#notify-size');
+  const productEl = $('#notify-product');
   if (!modal) return;
 
-  function open() {
-    // Populate size options from product variants
+  function open(preselectVariantId) {
+    // Product name (design shows the product title above the size dropdown)
+    const form = $('#product-form');
+    if (productEl) productEl.textContent = form ? (form.dataset.productTitle || '') : '';
+
+    // Populate size options from product variants (sold-out ones flagged)
     if (sizeSelect) {
       sizeSelect.innerHTML = '';
       $$('.variant-btn').forEach(vBtn => {
         const opt = document.createElement('option');
         opt.value = vBtn.dataset.variantId;
-        opt.textContent = vBtn.textContent.trim();
+        opt.textContent = vBtn.textContent.trim() + (vBtn.dataset.available === 'true' ? '' : ' — Sold out');
+        if (preselectVariantId && String(vBtn.dataset.variantId) === String(preselectVariantId)) opt.selected = true;
         sizeSelect.appendChild(opt);
       });
     }
+    if (submit) { submit.textContent = 'GET NOTIFIED'; submit.disabled = false; }
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
   }
   function closeFn() { modal.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; }
 
-  btn && btn.addEventListener('click', open);
+  // Expose so the product page (sold-out / variant-change) can open it
+  window.openNotifyModal = open;
+
+  btn && btn.addEventListener('click', () => open());
   close && close.addEventListener('click', closeFn);
   bg && bg.addEventListener('click', closeFn);
 
   submit && submit.addEventListener('click', () => {
     const email = $('#notify-email');
-    if (!email || !email.value) return;
+    if (!email || !email.value) {
+      if (email) email.focus();
+      return;
+    }
     submit.textContent = 'Done!';
     submit.disabled = true;
     setTimeout(() => closeFn(), 1500);

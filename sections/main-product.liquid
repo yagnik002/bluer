@@ -96,14 +96,15 @@
       <p class="product-low-stock" id="product-low-stock">Only {{ current_variant.inventory_quantity }} units left</p>
     {%- endif -%}
 
-    <div id="product-form" data-default-variant="{{ current_variant.id }}">
+    <div id="product-form" data-default-variant="{{ current_variant.id }}" data-product-title="{{ product.title | escape }}">
       {%- if current_variant.available -%}
         <button id="add-to-cart-btn" class="product-add-btn">ADD TO BAG</button>
       {%- else -%}
-        <button id="add-to-cart-btn" class="product-add-btn product-add-btn--sold-out" disabled>SOLD OUT</button>
-        <button class="product-notify-btn btn-reset" id="notify-me-btn">NOTIFY ME WHEN AVAILABLE</button>
+        <button id="add-to-cart-btn" class="product-add-btn product-add-btn--notify" data-notify="true">NOTIFY ME WHEN AVAILABLE</button>
       {%- endif -%}
     </div>
+
+    <button class="size-guide-link btn-reset" id="size-guide-btn">SIZE GUIDE</button>
 
     {%- if product.description != blank -%}
       <div class="product-description">
@@ -127,7 +128,43 @@
       <dl class="product-details">{{ product_details }}</dl>
     {%- endif -%}
 
-    <button class="size-guide-btn btn-reset" id="size-guide-btn">SIZE GUIDE</button>
+    <!-- Shipping / Returns accordions — inside the info bar; the bar ends here (design) -->
+    <div class="product-accordion">
+      <button class="product-accordion__trigger btn-reset" aria-expanded="false">
+        <span>SHIPPING</span>
+        <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+      </button>
+      <div class="product-accordion__body">
+        <div class="pincode-checker">
+          <div class="pincode-row">
+            <input type="text" class="form-input pincode-input" id="pincode-input" placeholder="Enter Pincode" maxlength="6" pattern="[0-9]{6}">
+            <button class="btn pincode-apply-btn" id="pincode-apply">APPLY</button>
+          </div>
+          <p class="pincode-result" id="pincode-result"></p>
+        </div>
+        <ul class="shipping-features">
+          <li>Orders are processed within 24 hours of being placed.</li>
+          <li>We offer free shipping on prepaid orders above ₹1,990.</li>
+          <li>Cash on delivery charges are rupees 150 for all orders.</li>
+        </ul>
+        <p class="shipping-note">Delivery times are as follows: shipping to metro cities takes 3-4 working days, and to tier 1 cities takes 5-7 working days.</p>
+      </div>
+    </div>
+
+    <div class="product-accordion">
+      <button class="product-accordion__trigger btn-reset" aria-expanded="false">
+        <span>RETURNS</span>
+        <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+      </button>
+      <div class="product-accordion__body">
+        <ul class="shipping-features">
+          <li>Easy returns within 15 days of delivery</li>
+          <li>Items must be unworn, unwashed, and with original tags</li>
+          <li>Refunds processed within 5–7 business days</li>
+          <li><a href="/pages/return-policy">View full return policy</a></li>
+        </ul>
+      </div>
+    </div>
 
     <!-- Structured data -->
     <script type="application/json" id="product-data">
@@ -218,46 +255,6 @@
   {%- endif -%}
 {%- endif -%}
 
-<!-- Shipping / Returns accordions (full-width, after Complete the Look) -->
-<div class="product-accordions">
-  <div class="product-accordion">
-    <button class="product-accordion__trigger btn-reset" aria-expanded="false">
-      <span>SHIPPING</span>
-      <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
-    </button>
-    <div class="product-accordion__body">
-      <div class="pincode-checker">
-        <div class="pincode-row">
-          <input type="text" class="form-input pincode-input" id="pincode-input" placeholder="Enter Pincode" maxlength="6" pattern="[0-9]{6}">
-          <button class="btn pincode-apply-btn" id="pincode-apply">APPLY</button>
-        </div>
-        <p class="pincode-result" id="pincode-result"></p>
-      </div>
-      <ul class="shipping-features">
-        <li>Orders are processed within 24 hours of being placed.</li>
-        <li>We offer free shipping on prepaid orders above ₹1,990.</li>
-        <li>Cash on delivery charges are rupees 150 for all orders.</li>
-      </ul>
-      <p class="shipping-note">Delivery times are as follows: shipping to metro cities takes 3-4 working days, and to tier 1 cities takes 5-7 working days.</p>
-    </div>
-  </div>
-
-  <div class="product-accordion">
-    <button class="product-accordion__trigger btn-reset" aria-expanded="false">
-      <span>RETURNS</span>
-      <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
-    </button>
-    <div class="product-accordion__body">
-      <ul class="shipping-features">
-        <li>Easy returns within 15 days of delivery</li>
-        <li>Items must be unworn, unwashed, and with original tags</li>
-        <li>Refunds processed within 5–7 business days</li>
-        <li><a href="/pages/return-policy">View full return policy</a></li>
-      </ul>
-    </div>
-  </div>
-</div>
-
 <!-- Featured products -->
 {%- if section.settings.featured_collection != blank -%}
   {%- assign featured_collection = collections[section.settings.featured_collection] -%}
@@ -328,26 +325,27 @@
   height: 48px;
   padding: 0;
 }
-.product-info .size-guide-btn {
+/* SIZE GUIDE — centred underlined link directly under ADD TO BAG (design) */
+.product-info .size-guide-link {
   display: block;
   width: 100%;
-  margin-top: 4px;
-  padding: 14px;
-  border: 1px solid var(--color-border);
-  background: var(--color-bg);
+  margin: -8px 0 4px;
+  padding: 4px;
+  background: transparent;
   font-family: var(--pp-font);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 400;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   text-align: center;
-  transition: background var(--transition);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: opacity var(--transition);
 }
-.product-info .size-guide-btn:hover { background: var(--color-muted); }
+.product-info .size-guide-link:hover { opacity: 0.6; }
 
-/* Full-width Shipping/Returns accordions below Complete the Look */
-.product-accordions { padding: 0 24px; max-width: 760px; margin: 0 auto; }
-@media (min-width: 768px) { .product-accordions { padding: 0 48px; } }
+/* Shipping/Returns accordions live inside the info bar; the bar ends with Returns */
+.product-info .product-accordion { border-top: 1px solid var(--color-border); }
 .product-info .product-accordion__trigger {
   font-family: var(--pp-font);
   font-size: 18px;

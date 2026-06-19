@@ -94,16 +94,16 @@
         <button class="modal-panel__close btn-reset" id="notify-close" aria-label="Close">×</button>
       </div>
       <div class="modal-panel__body">
-        <p style="font-size:13px;margin-bottom:20px;opacity:0.7">We'll let you know when this item is back in stock.</p>
+        <p class="notify-sub">We'll email you as soon as the item is available</p>
+        <p class="notify-product" id="notify-product"></p>
         <div class="form-field">
-          <label class="form-label" for="notify-size">Size</label>
-          <select class="form-input" id="notify-size" name="notify-size"></select>
+          <select class="form-input notify-size-select" id="notify-size" name="notify-size" aria-label="Size"></select>
         </div>
         <div class="form-field">
-          <label class="form-label" for="notify-email">Email Address</label>
-          <input class="form-input" type="email" id="notify-email" placeholder="your@email.com" autocomplete="email">
+          <label class="notify-field-label" for="notify-email">Email*</label>
+          <input class="notify-email-input" type="email" id="notify-email" placeholder="" autocomplete="email">
         </div>
-        <button class="btn btn--full" id="notify-submit">NOTIFY ME</button>
+        <button class="btn btn--full" id="notify-submit">GET NOTIFIED</button>
       </div>
     </div>
   </div>

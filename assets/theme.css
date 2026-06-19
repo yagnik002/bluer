@@ -128,15 +128,16 @@ body:not(.template-index) #shopify-section-header {
 @media (min-width: 768px) {
   .header-search {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     justify-content: center;
-    gap: 14px;
+    gap: 12px;
     font-size: 12px;
     letter-spacing: var(--tracking-editorial);
     text-transform: uppercase;
   }
-  /* "SEARCH" label sits left of the underline (desktop design) */
-  .header-search form { display: flex; align-items: center; gap: 14px; }
+  /* "SEARCH" label baseline-aligns with the underline next to it (desktop design) */
+  .header-search form { display: flex; align-items: baseline; gap: 12px; }
+  .header-search label { line-height: 1; }
 }
 
 .header-search-input {
@@ -146,8 +147,10 @@ body:not(.template-index) #shopify-section-header {
   background: transparent;
   outline: none;
   font-size: 12px;
-  padding: 2px 0 4px;
+  line-height: 1;
+  padding: 0 0 3px;
   color: var(--color-fg);
+  cursor: pointer;
 }
 .header-search-input:focus { border-bottom-color: var(--color-fg); }
 
@@ -178,16 +181,12 @@ body:not(.template-index) #shopify-section-header {
 .header-nav a:hover,
 .header-nav button:hover { opacity: 0.6; }
 
+/* Cart count rendered as plain bracketed text — "Your Bag (2)" — not a box */
+.header-nav__bag { display: inline-flex; align-items: center; white-space: nowrap; }
 .cart-count {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-fg);
-  color: var(--color-bg);
-  font-size: 10px;
-  line-height: 1;
-  padding: 2px 5px;
-  min-width: 18px;
+  font-size: inherit;
+  letter-spacing: inherit;
+  color: inherit;
 }
 
 /* ---- Nav Drawer ------------------------------------------ */
@@ -216,12 +215,14 @@ body:not(.template-index) #shopify-section-header {
 }
 .nav-drawer.is-open { transform: translateY(0); }
 
-/* Desktop: the menu opens BELOW the site header (which stays visible), as a
-   full-width takeover. The "Discover" row is dropped — the site header is the chrome. */
+/* Desktop: full-page end-to-end menu (covers the header). Its own "Discover" + X
+   act as the chrome, and everything fits in one view with no scrolling. */
 @media (min-width: 768px) {
   .nav-drawer {
-    top: var(--header-height);
-    height: calc(100vh - var(--header-height));
+    top: 0;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
   }
 }
 
@@ -231,14 +232,14 @@ body:not(.template-index) #shopify-section-header {
   justify-content: space-between;
   padding: 32px 24px 0;
 }
-/* Desktop: drop the "Discover" row — the site header above is the chrome. */
-@media (min-width: 768px) { .nav-drawer__header { display: none; } }
+@media (min-width: 768px) { .nav-drawer__header { padding: 28px 40px 4px; } }
 
 .nav-drawer__title {
   font-family: var(--font-display);
   font-size: 28px;
   letter-spacing: var(--tracking-logo);
 }
+@media (min-width: 768px) { .nav-drawer__title { font-size: 22px; } }
 
 .nav-drawer__close {
   font-size: 28px;
@@ -257,11 +258,21 @@ body:not(.template-index) #shopify-section-header {
 }
 @media (min-width: 768px) {
   .nav-drawer__body {
-    grid-template-columns: 280px minmax(200px, 1fr) minmax(0, 400px);
-    gap: 24px 48px;
+    grid-template-columns: 230px minmax(180px, 1fr) minmax(0, 380px);
+    gap: 16px 56px;
     align-items: start;
-    padding: 8px 40px 48px;
+    padding: 14px 40px 40px;
   }
+  /* Reduced type so the whole menu fits one view, no scroll (design) */
+  .nav-sidebar-btn,
+  .nav-extra-link { font-size: 13px; line-height: 1; padding-top: 9px; padding-bottom: 9px; }
+  .nav-sidebar-btn { padding-left: 14px; padding-right: 14px; }
+  .nav-extra-link { padding-left: 14px; padding-right: 14px; }
+  .nav-sidebar-extras { padding-top: 18px; margin-top: 16px; }
+  .nav-link { font-size: 13px; line-height: 34px; }
+  .nav-collection-tile__img { aspect-ratio: 3 / 4; }
+  .nav-collection-tile__label { font-size: 12px; padding-top: 8px; }
+  .nav-collections { gap: 18px 8px; }
 }
 
 .nav-sidebar { display: flex; flex-direction: column; gap: 0; }
@@ -436,11 +447,14 @@ body:not(.template-index) #shopify-section-header {
 }
 @media (min-width: 768px) { .editorial-grid { grid-template-columns: 1fr 1fr; } }
 
-.editorial-grid img {
+.editorial-grid__cell { position: relative; display: block; }
+.editorial-grid img,
+.editorial-grid__cell img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   aspect-ratio: 4/5;
+  display: block;
 }
 
 /* ---- Product Grid ---------------------------------------- */
@@ -468,11 +482,11 @@ body:not(.template-index) #shopify-section-header {
   overflow: hidden;
   background: var(--color-muted);
 }
-/* Guaranteed 3:4 box (padding-ratio works even where aspect-ratio doesn't) */
+/* Taller 2:3 box so full-length garment shots aren't cropped top & bottom (design) */
 .product-card__img-wrap::before {
   content: "";
   display: block;
-  padding-top: 133.333%;
+  padding-top: 150%;
 }
 .product-card__img {
   position: absolute;
@@ -480,10 +494,9 @@ body:not(.template-index) #shopify-section-header {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center top;
-  transition: transform var(--transition-slow);
+  object-position: center;
 }
-.product-card:hover .product-card__img { transform: scale(1.02); }
+/* Hover zoom removed per design (no zoom-in interaction on collection images) */
 
 .product-card__sold-out {
   position: absolute;
@@ -520,33 +533,76 @@ body:not(.template-index) #shopify-section-header {
   color: var(--color-bg);
 }
 
+/* Reduced gap between image and product name (design) */
 .product-card__info {
-  padding: 12px 12px;
+  padding: 8px 10px 14px;
 }
-@media (min-width: 768px) { .product-card__info { padding: 12px 16px; } }
+@media (min-width: 768px) { .product-card__info { padding: 8px 14px 16px; } }
 
+/* Unified product-name typography across every layout (grid, editorial, lookbook,
+   search) — Helvetica Neue, 11px, 0.08em tracking — so it reads the same site-wide. */
 .product-card__title {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 11px;
-  letter-spacing: var(--tracking-editorial);
+  font-weight: 400;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .product-card__price {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.08em;
   color: var(--color-muted-fg);
   margin-top: 4px;
 }
 
+/* Quick-add size picker (revealed by "+") */
+.product-card__sizes {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 64px;
+  z-index: 4;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 6px;
+  background: rgba(255,255,255,0.97);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+}
+.product-card__sizes[hidden] { display: none; }
+.product-card__size-btn {
+  min-width: 30px;
+  height: 28px;
+  padding: 0 6px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  transition: background var(--transition), color var(--transition);
+}
+.product-card__size-btn:not(:disabled):hover { background: var(--color-fg); color: var(--color-bg); }
+.product-card__size-btn:disabled { opacity: 0.35; text-decoration: line-through; cursor: not-allowed; }
+
 /* ---- Collection Page ------------------------------------- */
+/* Remove the line directly below the header on collection/search pages (design) */
+body.template-collection .site-header:not(.header--overlay),
+body.template-search .site-header:not(.header--overlay),
+body.template-list-collections .site-header:not(.header--overlay) { border-bottom: none; }
+
 .collection-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 24px;
+  padding: 16px 24px 10px;
 }
-@media (min-width: 768px) { .collection-bar { padding: 20px 40px; } }
+@media (min-width: 768px) { .collection-bar { padding: 14px 40px 8px; } }
 
 /* Back arrow: shown on mobile (design), hidden on desktop where the site header handles nav. */
 .collection-bar__back { display: inline-flex; align-items: center; }
@@ -561,6 +617,10 @@ body:not(.template-index) #shopify-section-header {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   display: block;
+}
+/* Smaller "NEW ARRIVALS" on desktop (design) */
+@media (min-width: 768px) {
+  .collection-bar__title { font-size: 11px; font-weight: 500; line-height: 1; letter-spacing: var(--tracking-editorial); }
 }
 /* The standard grid comp shows no title in the bar — keep it for a11y/SEO but
    visually hide it on mobile so the bar reads as back + FILTERS. */
@@ -587,6 +647,10 @@ body:not(.template-index) #shopify-section-header {
   align-items: center;
   gap: 8px;
   transition: opacity var(--transition);
+}
+/* Smaller "FILTERS" + grid icon on desktop (design) */
+@media (min-width: 768px) {
+  .collection-bar__filter-btn { font-size: 11px; line-height: 1; letter-spacing: var(--tracking-editorial); }
 }
 .collection-bar__filter-btn:hover { opacity: 0.6; }
 .filter-icon {
@@ -682,8 +746,9 @@ body:not(.template-index) #shopify-section-header {
     overflow: visible;
     background: var(--color-border);
   }
-  .product-gallery__img { aspect-ratio: 4 / 5; }
-  .product-gallery__img:nth-child(n+3) { grid-column: 1 / -1; aspect-ratio: 676 / 912; }
+  /* Taller images (fit the full garment) in a repeating "2 and 1" grid (design) */
+  .product-gallery__img { aspect-ratio: 3 / 4; cursor: zoom-in; }
+  .product-gallery__img:nth-child(3n) { grid-column: 1 / -1; aspect-ratio: 3 / 4; }
   .product-gallery__dots { display: none; }
 }
 
@@ -766,10 +831,10 @@ body:not(.template-index) #shopify-section-header {
 .cart-header {
   display: flex;
   align-items: center;
-  padding: 24px 24px;
+  padding: 14px 24px 8px;
   position: relative;
 }
-@media (min-width: 768px) { .cart-header { padding: 24px 40px; } }
+@media (min-width: 768px) { .cart-header { padding: 16px 40px 10px; } }
 
 .cart-header__back {
   display: inline-flex;
@@ -804,8 +869,8 @@ body:not(.template-index) #shopify-section-header {
 }
 @media (min-width: 768px) { .cart-layout { grid-template-columns: 1.4fr 1fr; gap: 64px; } }
 
-.cart-items { display: flex; flex-direction: column; gap: 40px; }
-.cart-item { display: grid; grid-template-columns: 140px 1fr; gap: 24px; }
+.cart-items { display: flex; flex-direction: column; gap: 28px; }
+.cart-item { display: grid; grid-template-columns: 104px 1fr; gap: 20px; align-items: start; }
 
 .cart-item__img {
   aspect-ratio: 3/4;
@@ -814,14 +879,15 @@ body:not(.template-index) #shopify-section-header {
 }
 .cart-item__img img { width: 100%; height: 100%; object-fit: cover; }
 
-.cart-item__details { display: flex; flex-direction: column; gap: 16px; }
+.cart-item__details { display: flex; flex-direction: column; gap: 8px; }
 
-.cart-item__top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+/* Cross sits right next to the product name (design) */
+.cart-item__top { display: flex; align-items: center; gap: 12px; }
 .cart-item__title { font-size: 12px; letter-spacing: var(--tracking-editorial); text-transform: uppercase; }
-.cart-item__price { font-size: 12px; margin-top: 4px; }
-.cart-item__remove { color: var(--color-muted-fg); transition: color var(--transition); }
+.cart-item__price { font-size: 12px; margin-top: -2px; }
+.cart-item__remove { color: var(--color-muted-fg); transition: color var(--transition); flex: 0 0 auto; line-height: 0; }
 .cart-item__remove:hover { color: var(--color-fg); }
-.cart-item__remove svg { width: 16px; height: 16px; }
+.cart-item__remove svg { width: 15px; height: 15px; }
 
 .quantity-control {
   display: inline-flex;
@@ -877,8 +943,9 @@ body:not(.template-index) #shopify-section-header {
   flex-direction: column;
   gap: 16px;
 }
+/* Right column bottom-aligned with the items list (design) */
 @media (min-width: 768px) {
-  .cart-summary { position: sticky; top: calc(var(--header-height) + 32px); align-self: start; }
+  .cart-summary { align-self: end; }
 }
 
 /* Subtotal/Delivery rows: desktop only (mobile shows just TOTAL) */
@@ -1314,11 +1381,10 @@ body:not(.template-index) #shopify-section-header {
 }
 .footer-link:hover { opacity: 0.6; }
 
+/* Extra divider lines removed (design) */
 .footer-newsletter {
   text-align: center;
-  border-top: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
-  padding: 40px 0;
+  padding: 8px 0;
 }
 
 .footer-newsletter__heading {
@@ -1334,16 +1400,18 @@ body:not(.template-index) #shopify-section-header {
   margin-bottom: 24px;
 }
 
-.footer-email-form { max-width: 480px; margin: 0 auto; }
+.footer-email-form { max-width: 420px; margin: 0 auto; }
 
+/* Underline-style email field + solid SUBSCRIBE button (design) */
 .footer-email-row {
   display: flex;
-  border: 1px solid var(--color-fg);
+  align-items: center;
+  border-bottom: 1px solid var(--color-fg);
 }
 
 .footer-email-input {
   flex: 1;
-  padding: 12px 16px;
+  padding: 10px 4px;
   font-size: 12px;
   letter-spacing: 0.06em;
   border: none;
@@ -1461,17 +1529,19 @@ body { padding-bottom: 60px; }
    ============================================================ */
 .product-badge {
   position: absolute;
-  top: 12px;
-  left: 12px;
-  font-size: 9px;
-  letter-spacing: var(--tracking-editorial);
-  text-transform: uppercase;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.06em;
   padding: 4px 8px;
   pointer-events: none;
 }
+/* Translucent dark corner label (design) */
 .product-badge--bestseller {
-  background: var(--color-fg);
-  color: var(--color-bg);
+  background: rgba(0,0,0,0.55);
+  color: #fff;
 }
 .product-badge--new {
   background: var(--color-bg);
@@ -1936,6 +2006,90 @@ body { padding-bottom: 60px; }
 .modal-panel__close:hover { opacity: 1; }
 
 .modal-panel__body { padding: 24px; }
+
+/* ---- Get Notified modal (design) ---- */
+#notify-modal .modal-panel { max-width: 420px; }
+#notify-modal .modal-panel__header { border-bottom: none; padding-bottom: 0; }
+#notify-modal .modal-panel__body { padding-top: 4px; }
+.notify-sub { font-size: 12px; line-height: 1.5; color: var(--color-muted-fg); margin: 0 0 22px; }
+.notify-product {
+  font-size: 11px;
+  letter-spacing: var(--tracking-editorial);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.notify-size-select {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  border: 1px solid var(--color-border);
+  background: var(--color-muted);
+  padding: 13px 36px 13px 14px;
+  font-size: 13px;
+  color: var(--color-fg);
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a1a1a' stroke-width='1.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+}
+.notify-field-label { font-size: 12px; color: var(--color-muted-fg); }
+.notify-email-input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid var(--color-border);
+  background: transparent;
+  padding: 8px 0;
+  font-size: 14px;
+  color: var(--color-fg);
+}
+.notify-email-input:focus { outline: none; border-bottom-color: var(--color-fg); }
+
+/* Grey "Notify me when available" state of the add-to-bag button (design) */
+.product-add-btn--notify {
+  background: #8c8c8c;
+  color: #fff;
+  opacity: 1;
+  cursor: pointer;
+}
+.product-add-btn--notify:hover { opacity: 0.92; }
+
+/* ---- Full-screen product image zoom (click to open, click to zoom) ---- */
+.product-zoom {
+  position: fixed;
+  inset: 0;
+  z-index: 700;
+  background: rgba(255,255,255,0.98);
+  display: none;
+}
+.product-zoom[aria-hidden="false"] { display: block; }
+.product-zoom__stage {
+  position: absolute;
+  inset: 0;
+  overflow: auto;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+.product-zoom__img {
+  max-width: 100%;
+  max-height: calc(100vh - 48px);
+  object-fit: contain;
+  cursor: zoom-in;
+  transition: transform 0.25s ease;
+}
+.product-zoom__img.is-zoomed { transform: scale(2.2); cursor: zoom-out; }
+.product-zoom__close {
+  position: fixed;
+  top: 18px;
+  right: 24px;
+  z-index: 2;
+  font-size: 30px;
+  line-height: 1;
+  color: var(--color-fg);
+  transition: opacity var(--transition);
+}
+.product-zoom__close:hover { opacity: 0.6; }
 
 /* Size chart table */
 .size-chart-table {

@@ -56,18 +56,10 @@
 
       <a
         href="{{ routes.cart_url }}"
-        class="text-editorial-xs"
-        style="display:flex;align-items:center;gap:6px;"
+        class="text-editorial-xs header-nav__bag"
         aria-label="Cart ({{ cart.item_count }} items)"
       >
-        Your Bag
-        <span
-          class="cart-count"
-          id="cart-count"
-          {%- if cart.item_count == 0 -%}style="display:none"{%- endif -%}
-        >
-          {{- cart.item_count -}}
-        </span>
+        Your Bag<span class="cart-count" id="cart-count">{%- if cart.item_count > 0 %}&nbsp;({{ cart.item_count }}){% endif -%}</span>
       </a>
     </nav>
 
@@ -86,9 +78,11 @@
     <div class="nav-sidebar">
       {%- assign menu = linklists[section.settings.menu] -%}
       {%- for link in menu.links -%}
+        {%- assign link_title_lower = link.title | downcase -%}
         <button
-          class="nav-sidebar-btn btn-reset{% if forloop.first %} is-active{% endif %}"
+          class="nav-sidebar-btn btn-reset"
           data-panel="nav-panel-{{ forloop.index }}"
+          {% if link_title_lower == 'clothing' %}data-default="true"{% endif %}
         >
           {{ link.title }}
         </button>
@@ -172,7 +166,6 @@
   border-bottom-color: rgba(255,255,255,0.7);
 }
 .site-header.header--overlay.is-top .header-search-input::placeholder { color: rgba(255,255,255,0.7); }
-.site-header.header--overlay.is-top .cart-count { background: #fff; color: #1a1a1a; }
 
 /* Homepage header logo: hidden over the hero, fades in once scrolled past it */
 .site-header.header--overlay .header-logo {

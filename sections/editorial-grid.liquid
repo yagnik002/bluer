@@ -1,5 +1,7 @@
 {%- if section.settings.layout == 'full' -%}
-  <div class="editorial-banner">
+  {%- assign tag1 = 'div' -%}
+  {%- if section.settings.link_1 != blank -%}{%- assign tag1 = 'a' -%}{%- endif -%}
+  <{{ tag1 }} class="editorial-banner"{% if section.settings.link_1 != blank %} href="{{ section.settings.link_1 }}"{% endif %}>
     {%- if section.settings.image_1 != blank -%}
       <img
         src="{{ section.settings.image_1 | image_url: width: 1920 }}"
@@ -14,28 +16,31 @@
     {%- if section.settings.label_1 != blank -%}
       <p class="hero-label">{{ section.settings.label_1 }}</p>
     {%- endif -%}
-  </div>
+  </{{ tag1 }}>
 
 {%- elsif section.settings.layout == 'two-col' -%}
   <div class="editorial-grid">
-    {%- if section.settings.image_1 != blank -%}
-      <img
-        src="{{ section.settings.image_1 | image_url: width: 960 }}"
-        alt="{{ section.settings.image_1.alt | default: '' }}"
-        loading="lazy"
-      >
-    {%- else -%}
-      <div style="aspect-ratio:4/5;background:var(--color-muted)"></div>
-    {%- endif -%}
-    {%- if section.settings.image_2 != blank -%}
-      <img
-        src="{{ section.settings.image_2 | image_url: width: 960 }}"
-        alt="{{ section.settings.image_2.alt | default: '' }}"
-        loading="lazy"
-      >
-    {%- else -%}
-      <div style="aspect-ratio:4/5;background:var(--color-muted)"></div>
-    {%- endif -%}
+    {%- assign ctag1 = 'div' -%}
+    {%- if section.settings.link_1 != blank -%}{%- assign ctag1 = 'a' -%}{%- endif -%}
+    <{{ ctag1 }} class="editorial-grid__cell"{% if section.settings.link_1 != blank %} href="{{ section.settings.link_1 }}"{% endif %}>
+      {%- if section.settings.image_1 != blank -%}
+        <img src="{{ section.settings.image_1 | image_url: width: 960 }}" alt="{{ section.settings.image_1.alt | default: section.settings.label_1 }}" loading="lazy">
+      {%- else -%}
+        <div style="aspect-ratio:4/5;background:var(--color-muted)"></div>
+      {%- endif -%}
+      {%- if section.settings.label_1 != blank -%}<p class="hero-label">{{ section.settings.label_1 }}</p>{%- endif -%}
+    </{{ ctag1 }}>
+
+    {%- assign ctag2 = 'div' -%}
+    {%- if section.settings.link_2 != blank -%}{%- assign ctag2 = 'a' -%}{%- endif -%}
+    <{{ ctag2 }} class="editorial-grid__cell"{% if section.settings.link_2 != blank %} href="{{ section.settings.link_2 }}"{% endif %}>
+      {%- if section.settings.image_2 != blank -%}
+        <img src="{{ section.settings.image_2 | image_url: width: 960 }}" alt="{{ section.settings.image_2.alt | default: section.settings.label_2 }}" loading="lazy">
+      {%- else -%}
+        <div style="aspect-ratio:4/5;background:var(--color-muted)"></div>
+      {%- endif -%}
+      {%- if section.settings.label_2 != blank -%}<p class="hero-label">{{ section.settings.label_2 }}</p>{%- endif -%}
+    </{{ ctag2 }}>
   </div>
 {%- endif -%}
 
@@ -61,12 +66,27 @@
     {
       "type": "text",
       "id": "label_1",
-      "label": "Corner label (full-width only)"
+      "label": "Image 1 corner label (editable title)"
+    },
+    {
+      "type": "url",
+      "id": "link_1",
+      "label": "Image 1 link"
     },
     {
       "type": "image_picker",
       "id": "image_2",
       "label": "Image 2 (two-column only)"
+    },
+    {
+      "type": "text",
+      "id": "label_2",
+      "label": "Image 2 corner label (editable title)"
+    },
+    {
+      "type": "url",
+      "id": "link_2",
+      "label": "Image 2 link"
     }
   ],
   "presets": [

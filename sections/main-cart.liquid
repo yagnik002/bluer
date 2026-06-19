@@ -13,14 +13,31 @@
   </div>
 </div>
 
-<!-- Looks / Wishlist tab -->
+<!-- Lookbook / Looks tab — images only, 3 columns, for cross-selling (design) -->
 <div data-tab-panel="looks" style="display:none">
-  <div class="wishlist-grid product-grid product-grid--2" id="cart-looks-grid" data-wishlist-grid style="display:none"></div>
-  <div class="cart-empty-page" id="cart-looks-empty" data-wishlist-empty>
-    <p class="cart-empty-title">YOUR WISHLIST IS EMPTY</p>
-    <p class="cart-empty-sub">Save pieces that speak to your style</p>
-    <a href="/collections/all" class="btn cart-empty-cta">DISCOVER WHAT'S NEW</a>
-  </div>
+  {%- assign looks_collection = collections[section.settings.looks_collection] -%}
+  {%- unless looks_collection != blank and looks_collection.products_count > 0 -%}
+    {%- assign looks_collection = collections[section.settings.suggested_collection] -%}
+  {%- endunless -%}
+  {%- if looks_collection != blank and looks_collection.products_count > 0 -%}
+    <div class="cart-looks">
+      {%- for product in looks_collection.products limit: 12 -%}
+        <a href="{{ product.url }}" class="cart-looks__item" aria-label="{{ product.title | escape }}">
+          {%- if product.featured_image -%}
+            <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title | escape }}" loading="lazy">
+          {%- else -%}
+            <span class="cart-looks__ph"></span>
+          {%- endif -%}
+        </a>
+      {%- endfor -%}
+    </div>
+  {%- else -%}
+    <div class="cart-empty-page">
+      <p class="cart-empty-title">NO LOOKS YET</p>
+      <p class="cart-empty-sub">Discover pieces curated for you</p>
+      <a href="/collections/all" class="btn cart-empty-cta">DISCOVER WHAT'S NEW</a>
+    </div>
+  {%- endif -%}
 </div>
 
 <!-- Bag tab -->
@@ -70,10 +87,7 @@
 
             <div class="cart-item__details">
               <div class="cart-item__top">
-                <div>
-                  <a href="{{ item.url }}" class="cart-item__title">{{ item.product.title }}</a>
-                  <p class="cart-item__price">{{ item.final_line_price | money }}</p>
-                </div>
+                <a href="{{ item.url }}" class="cart-item__title">{{ item.product.title }}</a>
                 <button
                   class="cart-item__remove btn-reset"
                   data-remove="{{ item.variant_id }}"
@@ -84,7 +98,9 @@
                   </svg>
                 </button>
               </div>
+              <p class="cart-item__price">{{ item.final_line_price | money }}</p>
 
+              {%- comment -%}Color shown above the quantity (size becomes the selector beside qty).{%- endcomment -%}
               {%- if color_value != blank and color_value != 'Default Title' -%}
                 <p class="cart-item__color">{{ color_value }}</p>
               {%- endif -%}
@@ -166,6 +182,25 @@
   </div>
 {%- endif -%}
 
+<style>
+/* Lookbook / Looks tab — image-only 3-column grid (no text), for cross-selling */
+.cart-looks {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  padding: 4px 24px 64px;
+}
+@media (min-width: 768px) { .cart-looks { padding: 8px 40px 80px; gap: 2px; } }
+.cart-looks__item {
+  display: block;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: var(--color-muted);
+}
+.cart-looks__item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cart-looks__ph { display: block; width: 100%; height: 100%; background: var(--color-muted); }
+</style>
+
 {% schema %}
 {
   "name": "Cart",
@@ -174,6 +209,11 @@
       "type": "collection",
       "id": "suggested_collection",
       "label": "Suggested products collection"
+    },
+    {
+      "type": "collection",
+      "id": "looks_collection",
+      "label": "Lookbook collection (LOOKS tab — images only)"
     }
   ]
 }
