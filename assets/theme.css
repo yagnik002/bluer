@@ -215,17 +215,16 @@ body:not(.template-index) #shopify-section-header {
 }
 .nav-drawer.is-open { transform: translateY(0); }
 
-/* Desktop: full-width menu opens BELOW the site header (which stays visible),
-   with NO "Discover" row — the site header is the chrome. */
-@media (min-width: 768px) {
-  .nav-drawer {
-    top: var(--header-height);
-    height: calc(100vh - var(--header-height));
-    overflow-y: auto;
+/* Desktop: full-page end-to-end menu (covers the header). Its own "Discover" + X
+   act as the chrome, and everything fits in one view with no scrolling. */
+   @media (min-width: 768px) {
+    .nav-drawer {
+      top: 0;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+    }
   }
-  /* keep the header bright (don't dim it) while the menu is open */
-  .nav-overlay { top: var(--header-height); }
-}
 
 .nav-drawer__header {
   display: flex;
