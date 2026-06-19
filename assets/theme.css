@@ -128,15 +128,16 @@ body:not(.template-index) #shopify-section-header {
 @media (min-width: 768px) {
   .header-search {
     display: flex;
-    align-items: baseline;
+    align-items: flex-end;
     justify-content: center;
     gap: 12px;
     font-size: 12px;
     letter-spacing: var(--tracking-editorial);
     text-transform: uppercase;
   }
-  /* "SEARCH" label baseline-aligns with the underline next to it (desktop design) */
-  .header-search form { display: flex; align-items: baseline; gap: 12px; }
+  /* SEARCH and the line sit on the same line. Align bottoms (an empty input's
+     baseline is unreliable, which is what dropped the line below the text). */
+  .header-search form { display: flex; align-items: flex-end; gap: 12px; }
   .header-search label { line-height: 1; }
 }
 
