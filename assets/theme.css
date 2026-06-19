@@ -1390,10 +1390,13 @@ body.template-list-collections .site-header:not(.header--overlay) { border-botto
 }
 .footer-link:hover { opacity: 0.6; }
 
-/* Extra divider lines removed (design) */
+/* Extra divider lines removed (design). Newsletter is a narrower centred
+   block so the subtext and email field share the same width. */
 .footer-newsletter {
   text-align: center;
   padding: 8px 0;
+  max-width: 460px;
+  margin: 0 auto;
 }
 
 .footer-newsletter__heading {
@@ -1409,8 +1412,8 @@ body.template-list-collections .site-header:not(.header--overlay) { border-botto
   margin-bottom: 24px;
 }
 
-/* Same width as the link columns above so left/right edges align (design) */
-.footer-email-form { max-width: 500px; margin: 0 auto; }
+/* Email field matches the subtext width (centred newsletter block) */
+.footer-email-form { max-width: 460px; margin: 0 auto; }
 
 /* Email field underline sits under the input only, with a gap before the
    solid SUBSCRIBE button (design) */
