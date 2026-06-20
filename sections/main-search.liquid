@@ -1,6 +1,24 @@
 <div class="search-page">
 
-  {%- comment -%}Search is done from the header search field only — no search box on this page.{%- endcomment -%}
+  <form action="{{ routes.search_url }}" method="get" role="search" class="search-page__form">
+    <div class="search-editorial">
+      <label for="search-page-input" class="search-editorial__label">Search</label>
+      <input
+        type="search"
+        name="q"
+        id="search-page-input"
+        value="{{ search.terms | escape }}"
+        class="search-editorial__input"
+        autocomplete="off"
+        autocapitalize="off"
+        autocorrect="off"
+        spellcheck="false"
+        aria-label="Search"
+        autofocus
+      >
+    </div>
+    <input type="hidden" name="type" value="product">
+  </form>
 
   {%- if search.performed and search.terms != blank -%}
     {%- if search.results_count > 0 -%}
@@ -68,6 +86,39 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .search-page { animation: none; }
+}
+
+/* Editorial "SEARCH ___" field with a blinking caret (the only on-page search) */
+.search-page__form { margin-bottom: 8px; }
+.search-editorial {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(16px, 3vw, 32px);
+  max-width: 680px;
+}
+.search-editorial__label,
+.search-editorial__input {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: clamp(16px, 2.4vw, 22px);
+  line-height: 1.1;
+  color: var(--color-fg);
+}
+.search-editorial__label {
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.search-editorial__input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  border-bottom: 1.5px solid var(--color-fg);
+  background: transparent;
+  outline: none;
+  letter-spacing: 0.04em;
+  padding: 0 0 8px;
+  caret-color: var(--color-fg);
 }
 
 .search-page__label {

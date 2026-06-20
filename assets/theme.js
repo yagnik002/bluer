@@ -563,17 +563,28 @@ function initNewsletter() {
 /* ---- Header search → dedicated search page -------------- */
 /* Per design: clicking SEARCH opens the full search page (recommendations +
    featured below), rather than searching inline from the header. */
+/* Fade the current page out, then navigate — gives a blend into the next page */
+function navigateWithBlend(url) {
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    window.location.href = url;
+    return;
+  }
+  document.documentElement.classList.add('page-leaving');
+  setTimeout(() => { window.location.href = url; }, 200);
+}
+
 function initHeaderSearch() {
   const input = $('#header-search-input');
   if (!input) return;
-  // The header field is the only way to search: type and press Enter to submit
-  // (don't submit an empty query).
-  const form = input.closest('form');
-  if (form) {
-    form.addEventListener('submit', (e) => {
-      if (!input.value.trim()) { e.preventDefault(); input.focus(); }
-    });
+  // Clicking the header SEARCH opens the search page (where you type) with a blend.
+  function go(e) {
+    if (location.pathname.indexOf('/search') === 0) return; // already on the search page
+    e.preventDefault();
+    input.blur();
+    navigateWithBlend('/search');
   }
+  input.addEventListener('mousedown', go);
+  input.addEventListener('focus', go);
 }
 
 /* ---- Cart page open drawer link ------------------------- */
@@ -928,14 +939,9 @@ function initMobileNav() {
   });
 
   searchBtn && searchBtn.addEventListener('click', () => {
-    // Reveal + focus the header search field (the only way to search).
-    const header = $('#site-header');
-    const input = $('#header-search-input');
-    if (!header) { window.location.href = '/search'; return; }
-    const willOpen = !header.classList.contains('is-search-open');
-    header.classList.toggle('is-search-open', willOpen);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    if (willOpen && input) setTimeout(() => input.focus(), 80);
+    // Open the search page (where you type) with a blend.
+    if (location.pathname.indexOf('/search') === 0) return;
+    navigateWithBlend('/search');
   });
 }
 
