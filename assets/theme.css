@@ -469,11 +469,11 @@ body:not(.template-index) #shopify-section-header {
 /* ---- Product Grid ---------------------------------------- */
 .section-heading {
   padding: 40px 24px 24px;
-  font-size: 11px;
+  font-size: 13px;
+  font-weight: 400;
   letter-spacing: var(--tracking-editorial);
   text-transform: uppercase;
 }
-@media (min-width: 768px) { .section-heading { padding: 48px 40px 28px; } }
 
 .product-grid {
   display: grid;
@@ -2245,13 +2245,12 @@ body { padding-bottom: 60px; }
 }
 
 .cart-suggested {
-  padding: 0 24px 80px;
+  padding: 0 0px 0px;
   border-top: 1px solid var(--color-border);
   margin-top: 40px;
   padding-top: 40px;
 }
-@media (min-width: 768px) { .cart-suggested { padding: 40px 40px 80px; } }
-.cart-suggested__heading { padding-left: 0 !important; }
+@media (min-width: 768px) { .cart-suggested { padding: 0px 0px 0px; } }
 
 /* ============================================================
    ACCOUNT PAGE REDESIGN
