@@ -1012,11 +1012,11 @@ body.template-cart .site-header { display: none !important; }
 .cart-summary {
   display: flex;
   flex-direction: column;
-  gap: 489px;
+  gap: 16px;
 }
 /* Right column top-aligned with the items list, sticky while scrolling (design) */
 @media (min-width: 768px) {
-  .cart-summary { align-self: start; position: sticky; top: 88px; }
+  .cart-summary { align-self: start; position: sticky; top: 523px; }
 }
 
 /* Subtotal/Delivery rows: desktop only (mobile shows just TOTAL) */
