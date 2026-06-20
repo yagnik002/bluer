@@ -231,12 +231,11 @@
                   ></button>
                 {%- else -%}
                   <button
-                    class="variant-btn btn-reset{% if current_variant.option1 == value or current_variant.option2 == value or current_variant.option3 == value %} is-active{% endif %}"
+                    class="variant-btn btn-reset{% if current_variant.option1 == value or current_variant.option2 == value or current_variant.option3 == value %} is-active{% endif %}{% unless variant_for_value.available %} is-unavailable{% endunless %}"
                     data-variant-id="{{ variant_for_value.id | default: product.variants.first.id }}"
                     data-price="{{ variant_for_value.price | default: product.price }}"
                     data-price-formatted="{{ variant_for_value.price | default: product.price | money }}"
                     data-available="{{ variant_for_value.available | default: false }}"
-                    {%- unless variant_for_value.available -%}disabled{%- endunless -%}
                   >
                     {{ value }}
                   </button>
