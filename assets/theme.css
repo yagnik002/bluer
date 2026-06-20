@@ -493,7 +493,7 @@ body.template-search .section-heading {
   text-transform: uppercase;
 }
 body.template-search .product-grid {
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(1, 1fr) minmax(0, 1fr);
   gap: 6px;
   padding: 0 40px 24px;
 }
