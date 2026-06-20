@@ -108,31 +108,6 @@
     </div>
   </div>
 
-  <!-- Search overlay: editorial "SEARCH ___" input that blends in over any page -->
-  <div id="search-overlay" class="search-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Search">
-    <div class="search-overlay__bg" data-search-close></div>
-    <button class="search-overlay__close btn-reset" data-search-close aria-label="Close search">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-    </button>
-    <div class="search-overlay__panel">
-      <form action="{{ routes.search_url }}" method="get" role="search" class="search-overlay__form">
-        <label for="search-overlay-input" class="search-overlay__label">Search</label>
-        <input
-          type="search"
-          name="q"
-          id="search-overlay-input"
-          class="search-overlay__input"
-          autocomplete="off"
-          autocapitalize="off"
-          autocorrect="off"
-          spellcheck="false"
-          aria-label="Search"
-        >
-        <input type="hidden" name="type" value="product">
-      </form>
-    </div>
-  </div>
-
   <!-- Mobile Bottom Navigation (icon-only, matches mobile design) -->
   <nav class="mobile-bottom-nav" aria-label="Mobile navigation">
     <a href="{{ routes.root_url }}" class="mobile-nav-item{% if template.name == 'index' %} is-active{% endif %}" aria-label="Home">

@@ -563,46 +563,16 @@ function initNewsletter() {
 /* ---- Header search → dedicated search page -------------- */
 /* Per design: clicking SEARCH opens the full search page (recommendations +
    featured below), rather than searching inline from the header. */
-/* Search overlay: editorial SEARCH input that blends in over any page */
-function initSearchOverlay() {
-  const overlay = $('#search-overlay');
-  const input = $('#search-overlay-input');
-  if (!overlay) return;
-
-  function open() {
-    if (overlay.getAttribute('aria-hidden') === 'false') return;
-    overlay.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-    // Focus once the blend has begun so the caret blinks in the field
-    setTimeout(() => { if (input) { input.value = ''; input.focus(); } }, 90);
-  }
-  function close() {
-    if (overlay.getAttribute('aria-hidden') === 'true') return;
-    overlay.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-    if (input) input.blur();
-  }
-
-  window.openSearchOverlay = open;
-  window.closeSearchOverlay = close;
-
-  $$('[data-search-close]').forEach(el => el.addEventListener('click', close));
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && overlay.getAttribute('aria-hidden') === 'false') close();
-  });
-}
-
 function initHeaderSearch() {
   const input = $('#header-search-input');
   if (!input) return;
-  function trigger(e) {
+  function go(e) {
+    if (location.pathname.indexOf('/search') === 0) return; // already on search page
     e.preventDefault();
-    input.blur();
-    if (window.openSearchOverlay) window.openSearchOverlay();
-    else window.location.href = '/search';
+    window.location.href = '/search';
   }
-  input.addEventListener('mousedown', trigger);
-  input.addEventListener('focus', trigger);
+  input.addEventListener('mousedown', go);
+  input.addEventListener('focus', go);
 }
 
 /* ---- Cart page open drawer link ------------------------- */
@@ -725,7 +695,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initCollectionFilter();
   initGridView();
   initNewsletter();
-  initSearchOverlay();
   initHeaderSearch();
   initCartTrigger();
   initFilterDrawer();
@@ -958,9 +927,15 @@ function initMobileNav() {
   });
 
   searchBtn && searchBtn.addEventListener('click', () => {
-    // Open the editorial search overlay (same as the desktop header search)
-    if (window.openSearchOverlay) { window.openSearchOverlay(); return; }
-    window.location.href = '/search';
+    // Focus a visible header search field if there is one; otherwise go to the
+    // dedicated search page (the mobile design's Search screen).
+    const searchInput = $('.header-search-input');
+    if (searchInput && searchInput.offsetParent !== null) {
+      searchInput.focus();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      window.location.href = '/search';
+    }
   });
 }
 
