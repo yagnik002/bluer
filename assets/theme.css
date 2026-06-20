@@ -2146,19 +2146,12 @@ body { padding-bottom: 60px; }
 .notify-email-input:focus { outline: none; border-bottom-color: var(--color-fg); }
 #notify-submit { margin-top: 40px; height: 56px; }
 
-/* Phone view: Get Notified opens as a bottom sheet (Figma phone view).
-   position:fixed + left:0/right:0 pins it to the viewport width (flex sizing
-   let the panel grow wider than the screen). */
+/* Phone view: Get Notified as a near-bottom card with small side gaps (Figma). */
 @media (max-width: 600px) {
-  #notify-modal { padding: 0; }
-  #notify-modal .modal-panel {
-    position: fixed; left: 0; right: 0; bottom: 0;
-    width: auto; max-width: none; max-height: 92vh;
-    transform: translateY(100%);
-  }
-  #notify-modal[aria-hidden="false"] .modal-panel { transform: translateY(0); }
-  #notify-modal .modal-panel__header,
-  #notify-modal .modal-panel__body { padding-left: 24px; padding-right: 24px; }
+  #notify-modal { align-items: flex-end; padding: 12px; }
+  #notify-modal .modal-panel { min-width: 0; max-width: 100%; max-height: 92vh; overflow-x: hidden; }
+  #notify-modal .modal-panel__header { padding: 28px 24px 0; }
+  #notify-modal .modal-panel__body { padding: 6px 24px 28px; }
 }
 
 /* Grey "Notify me when available" state of the add-to-bag button (design) */
