@@ -953,7 +953,7 @@ body.template-cart .site-header { display: none !important; }
 .cart-item__details { display: flex; flex-direction: column; gap: 8px; }
 
 /* Cross sits right next to the product name (design) */
-.cart-item__top { display: flex; align-items: center; gap: 12px; }
+.cart-item__top { display: flex; align-items: center; gap: 50px; }
 .cart-item__title { font-size: 12px; letter-spacing: var(--tracking-editorial); text-transform: uppercase; }
 .cart-item__price { font-size: 12px; margin-top: -2px; }
 .cart-item__remove { color: var(--color-muted-fg); transition: color var(--transition); flex: 0 0 auto; line-height: 0; }
@@ -982,7 +982,7 @@ body.template-cart .site-header { display: none !important; }
 
 /* Cart item: colour text line + controls row (qty stepper + size dropdown) */
 .cart-item__color { font-size: 13px; color: var(--color-fg); margin-top: -4px; }
-.cart-item__controls { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.cart-item__controls { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 60px; }
 
 .cart-size-select { position: relative; display: inline-flex; }
 .cart-item__size {
