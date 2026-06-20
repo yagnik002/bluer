@@ -797,10 +797,10 @@ body.template-list-collections .site-header:not(.header--overlay) { border-botto
     overflow: visible;
     background: var(--color-border);
   }
-  /* Repeating "2 then 1 full-width" gallery (Figma): pair images are 2:3,
-     the full-width image is 676:961 (~0.70). */
-  .product-gallery__img { aspect-ratio: 2 / 3; cursor: zoom-in; }
-  .product-gallery__img:nth-child(3n) { grid-column: 1 / -1; aspect-ratio: 676 / 961; }
+  /* Repeating "2 then 1 full-width" gallery (Figma exact):
+     pair images 336.4 x 504.6 (2:3); full-width 675.93 x 961.32 (~0.703). */
+  .product-gallery__img { aspect-ratio: 336.4 / 504.6; cursor: zoom-in; }
+  .product-gallery__img:nth-child(3n) { grid-column: 1 / -1; aspect-ratio: 675.93 / 961.32; }
   .product-gallery__dots { display: none; }
 }
 
