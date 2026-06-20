@@ -802,7 +802,6 @@ body.template-list-collections .site-header:not(.header--overlay) { border-botto
     grid-template-columns: 1fr 1fr;
     gap: 4px 3px;
     overflow: visible;
-    background: var(--color-border);
     align-items: start;
   }
   /* Repeating "2 then 1 full-width" gallery (Figma exact):
