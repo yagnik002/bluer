@@ -566,13 +566,14 @@ function initNewsletter() {
 function initHeaderSearch() {
   const input = $('#header-search-input');
   if (!input) return;
-  function go(e) {
-    if (location.pathname.indexOf('/search') === 0) return; // already on search page
-    e.preventDefault();
-    window.location.href = '/search';
+  // The header field is the only way to search: type and press Enter to submit
+  // (don't submit an empty query).
+  const form = input.closest('form');
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      if (!input.value.trim()) { e.preventDefault(); input.focus(); }
+    });
   }
-  input.addEventListener('mousedown', go);
-  input.addEventListener('focus', go);
 }
 
 /* ---- Cart page open drawer link ------------------------- */
@@ -927,15 +928,14 @@ function initMobileNav() {
   });
 
   searchBtn && searchBtn.addEventListener('click', () => {
-    // Focus a visible header search field if there is one; otherwise go to the
-    // dedicated search page (the mobile design's Search screen).
-    const searchInput = $('.header-search-input');
-    if (searchInput && searchInput.offsetParent !== null) {
-      searchInput.focus();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      window.location.href = '/search';
-    }
+    // Reveal + focus the header search field (the only way to search).
+    const header = $('#site-header');
+    const input = $('#header-search-input');
+    if (!header) { window.location.href = '/search'; return; }
+    const willOpen = !header.classList.contains('is-search-open');
+    header.classList.toggle('is-search-open', willOpen);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (willOpen && input) setTimeout(() => input.focus(), 80);
   });
 }
 

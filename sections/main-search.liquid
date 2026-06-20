@@ -1,24 +1,6 @@
 <div class="search-page">
 
-  <form action="{{ routes.search_url }}" method="get" role="search" class="search-page__form">
-    <div class="search-box">
-      <svg class="search-box__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
-      <input
-        type="search"
-        name="q"
-        value="{{ search.terms | escape }}"
-        placeholder="{{ section.settings.placeholder | default: 'Search' }}"
-        class="search-box__input"
-        autocomplete="off"
-        aria-label="Search"
-        autofocus
-      >
-      <button type="button" class="search-box__mic btn-reset" aria-label="Voice search">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z"/></svg>
-      </button>
-    </div>
-    <input type="hidden" name="type" value="product">
-  </form>
+  {%- comment -%}Search is done from the header search field only — no search box on this page.{%- endcomment -%}
 
   {%- if search.performed and search.terms != blank -%}
     {%- if search.results_count > 0 -%}
@@ -88,32 +70,6 @@
   .search-page { animation: none; }
 }
 
-.search-page__form { margin-bottom: 8px; }
-
-/* Filled search pill with magnifier + mic (mobile design) */
-.search-box {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: var(--color-muted);
-  border-radius: 6px;
-  padding: 12px 14px;
-}
-.search-box__icon { width: 20px; height: 20px; color: var(--color-fg); flex-shrink: 0; }
-.search-box__input {
-  flex: 1;
-  min-width: 0;
-  border: none;
-  background: transparent;
-  outline: none;
-  font-size: 15px;
-  letter-spacing: 0.02em;
-  color: var(--color-fg);
-}
-.search-box__input::placeholder { color: var(--color-muted-fg); }
-.search-box__mic { display: inline-flex; color: var(--color-fg); }
-.search-box__mic svg { width: 20px; height: 20px; }
-
 .search-page__label {
   font-size: 12px;
   letter-spacing: var(--tracking-editorial);
@@ -121,6 +77,7 @@
   color: var(--color-fg);
   margin: 32px 0 14px;
 }
+.search-page__label:first-child { margin-top: 0; }
 
 /* Recommended suggestions with divider lines */
 .search-page__recommended {
