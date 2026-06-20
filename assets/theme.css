@@ -484,6 +484,20 @@ body:not(.template-index) #shopify-section-header {
 @media (min-width: 768px) { .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (min-width: 1024px) { .product-grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 
+/* ---- Search page only ---- */
+body.template-search .section-heading {
+  padding: 40px 40px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: var(--tracking-editorial);
+  text-transform: uppercase;
+}
+body.template-search .product-grid {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 6px;
+  padding: 0 40px 24px;
+}
+
 /* ---- Product Card ---------------------------------------- */
 .product-card { background: var(--color-bg); position: relative; min-width: 0; }
 .product-card__img-wrap {
