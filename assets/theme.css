@@ -469,7 +469,7 @@ body:not(.template-index) #shopify-section-header {
 /* ---- Product Grid ---------------------------------------- */
 .section-heading {
   padding: 40px 24px 24px;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 400;
   letter-spacing: var(--tracking-editorial);
   text-transform: uppercase;
