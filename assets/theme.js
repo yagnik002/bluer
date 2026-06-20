@@ -828,15 +828,42 @@ function initNotifyModal() {
   close && close.addEventListener('click', closeFn);
   bg && bg.addEventListener('click', closeFn);
 
-  submit && submit.addEventListener('click', () => {
+  submit && submit.addEventListener('click', async () => {
     const email = $('#notify-email');
-    if (!email || !email.value) {
+    if (!email || !email.value || !email.checkValidity()) {
       if (email) email.focus();
       return;
     }
-    submit.textContent = 'Done!';
+
+    // Which product / size the shopper wants back in stock
+    const productTitle = productEl ? productEl.textContent.trim() : '';
+    const sizeText = (sizeSelect && sizeSelect.options.length)
+      ? sizeSelect.options[sizeSelect.selectedIndex].textContent.replace(' — Sold out', '').trim()
+      : '';
+    const productUrl = window.location.href;
+
     submit.disabled = true;
-    setTimeout(() => closeFn(), 1500);
+    submit.textContent = 'Sending…';
+
+    try {
+      // Post to Shopify's native contact form — emails the store's contact address
+      // with the shopper's email + the product/size they want notified about.
+      const body = new FormData();
+      body.append('form_type', 'contact');
+      body.append('utf8', '✓');
+      body.append('contact[email]', email.value);
+      body.append('contact[body]',
+        'Back-in-stock request\nProduct: ' + productTitle +
+        '\nSize: ' + sizeText +
+        '\nPage: ' + productUrl);
+      const res = await fetch('/contact', { method: 'POST', body });
+      if (!res.ok && res.type !== 'opaqueredirect') throw new Error('contact failed');
+      submit.textContent = 'Done!';
+      setTimeout(() => closeFn(), 1500);
+    } catch (err) {
+      submit.textContent = 'Try again';
+      submit.disabled = false;
+    }
   });
 }
 
