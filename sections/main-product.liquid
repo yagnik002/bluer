@@ -216,22 +216,21 @@
 
 </div>
 
-<!-- Size Chart Modal (full-screen) -->
+<!-- Size Chart Modal: white panel slides in from the right; product images dimmed on the left -->
 <div id="size-chart-modal" class="size-modal" aria-hidden="true" role="dialog" aria-label="Size chart">
+  <div class="size-modal__media" aria-hidden="true">
+    {%- for image in product.images limit: 3 -%}
+      <img src="{{ image | image_url: width: 900 }}" alt="{{ product.title | escape }}" loading="lazy">
+    {%- endfor -%}
+  </div>
   <div class="size-modal__bg" id="size-chart-bg" data-size-chart-close></div>
+  <button class="size-modal__back btn-reset" data-size-chart-close aria-label="Back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
+  </button>
   <div class="size-modal__panel">
-    <button class="size-modal__back btn-reset" data-size-chart-close aria-label="Back">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
-    </button>
     <button class="size-modal__close btn-reset" id="size-chart-close" data-size-chart-close aria-label="Close">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
     </button>
-
-    <div class="size-modal__media">
-      {%- for image in product.images limit: 3 -%}
-        <img src="{{ image | image_url: width: 900 }}" alt="{{ product.title | escape }}" loading="lazy">
-      {%- endfor -%}
-    </div>
 
     <div class="size-modal__content">
       <div class="size-modal__head">
@@ -453,36 +452,57 @@ body.template-product .site-header { display: none !important; }
   text-transform: uppercase;
 }
 
-/* ---- Size chart modal (full-screen) ---- */
+/* ---- Size chart: white panel slides in from the right, images dimmed on the left ---- */
 .size-modal { position: fixed; inset: 0; z-index: 600; pointer-events: none; }
 .size-modal[aria-hidden="false"] { pointer-events: all; }
-.size-modal__bg {
-  position: absolute; inset: 0;
-  background: rgba(90,90,90,0.55);
-  opacity: 0; transition: opacity 0.3s ease;
-}
-.size-modal[aria-hidden="false"] .size-modal__bg { opacity: 1; }
-.size-modal__panel {
-  position: absolute; inset: 0;
-  background: var(--color-bg);
-  display: grid;
-  grid-template-columns: 1fr;
-  overflow-y: auto;
-  transform: translateY(16px); opacity: 0;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-@media (min-width: 900px) { .size-modal__panel { grid-template-columns: 1.1fr 1fr; } }
-.size-modal[aria-hidden="false"] .size-modal__panel { transform: translateY(0); opacity: 1; }
 
-.size-modal__back, .size-modal__close { position: absolute; top: 24px; z-index: 3; color: var(--color-fg); transition: opacity var(--transition); }
-.size-modal__back { left: 24px; }
-.size-modal__close { right: 24px; }
-.size-modal__back:hover, .size-modal__close:hover { opacity: 0.6; }
-.size-modal__back svg, .size-modal__close svg { width: 24px; height: 24px; }
+/* Width of the white panel (Figma: 628px) */
+.size-modal { --sc-panel: 628px; }
 
-.size-modal__media { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--color-border); align-content: start; }
+/* Product images fill the area to the LEFT of the panel */
+.size-modal__media {
+  position: absolute; top: 0; left: 0; bottom: 0;
+  width: calc(100% - var(--sc-panel));
+  display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+  background: var(--color-border); align-content: start; overflow: hidden;
+}
 .size-modal__media img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; background: var(--color-muted); display: block; }
 .size-modal__media img:nth-child(n+3) { grid-column: 1 / -1; aspect-ratio: 676 / 912; }
+
+/* Grey dim over the images */
+.size-modal__bg {
+  position: absolute; top: 0; left: 0; bottom: 0;
+  width: calc(100% - var(--sc-panel));
+  background: rgba(90,90,90,0.55);
+  opacity: 0; transition: opacity 0.35s ease;
+}
+.size-modal[aria-hidden="false"] .size-modal__bg { opacity: 1; }
+
+/* White panel — slides in from the right edge */
+.size-modal__panel {
+  position: absolute; top: 0; right: 0; bottom: 0;
+  width: var(--sc-panel); max-width: 100%;
+  background: #ffffff;
+  border-left: 0.5px solid var(--color-border);
+  overflow-y: auto;
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.size-modal[aria-hidden="false"] .size-modal__panel { transform: translateX(0); }
+
+.size-modal__back, .size-modal__close { position: absolute; top: 24px; z-index: 4; color: var(--color-fg); transition: opacity var(--transition); }
+.size-modal__back { left: 24px; opacity: 0; transition: opacity 0.35s ease 0.1s; }
+.size-modal[aria-hidden="false"] .size-modal__back { opacity: 1; }
+.size-modal__close { right: 24px; }
+.size-modal[aria-hidden="false"] .size-modal__back:hover,
+.size-modal__close:hover { opacity: 0.6; }
+.size-modal__back svg, .size-modal__close svg { width: 24px; height: 24px; }
+
+/* Mobile: panel covers the screen, images/back hidden */
+@media (max-width: 767px) {
+  .size-modal { --sc-panel: 100%; }
+  .size-modal__media, .size-modal__back { display: none; }
+}
 
 .size-modal__content {
   --sc-font: "Helvetica Neue", Helvetica, Arial, sans-serif;
