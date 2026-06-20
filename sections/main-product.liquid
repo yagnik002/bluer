@@ -147,28 +147,56 @@
       {%- if o_low contains 'colo' -%}{%- assign has_color_option = true -%}{%- endif -%}
     {%- endfor -%}
     {%- assign color_meta = product.metafields.custom.color_swatches -%}
-    {%- if has_color_option == false and color_meta != blank and color_meta.value.size > 0 -%}
-      {%- assign color_urls = product.metafields.custom.color_swatch_urls.value -%}
-      <div class="product-variants">
-        <div class="product-option">
-          <div class="product-option__header">
-            <p class="product-variants-label">Color</p>
-          </div>
-          <div class="product-variants-list product-variants-list--color">
-            {%- for c in color_meta.value -%}
-              {%- assign c_url = '' -%}
-              {%- if color_urls != blank and color_urls[forloop.index0] != blank -%}
-                {%- assign c_url = color_urls[forloop.index0] -%}
-              {%- endif -%}
-              {%- if c_url != blank -%}
-                <a href="{{ c_url }}" class="variant-color-btn{% if forloop.first %} is-active{% endif %}" style="background:{{ c }};" title="{{ c }}" aria-label="Colour {{ forloop.index }}"></a>
-              {%- else -%}
-                <button type="button" class="variant-color-btn btn-reset{% if forloop.first %} is-active{% endif %}" style="background:{{ c }};" title="{{ c }}" aria-label="Colour {{ forloop.index }}"></button>
-              {%- endif -%}
-            {%- endfor -%}
+    {%- if has_color_option == false -%}
+      {%- if color_meta != blank and color_meta.value.size > 0 -%}
+        {%- comment -%} Source: per-product `custom.color_swatches` colour-list metafield {%- endcomment -%}
+        {%- assign color_urls = product.metafields.custom.color_swatch_urls.value -%}
+        <div class="product-variants">
+          <div class="product-option">
+            <div class="product-option__header">
+              <p class="product-variants-label">Color</p>
+            </div>
+            <div class="product-variants-list product-variants-list--color">
+              {%- for c in color_meta.value -%}
+                {%- assign c_url = '' -%}
+                {%- if color_urls != blank and color_urls[forloop.index0] != blank -%}
+                  {%- assign c_url = color_urls[forloop.index0] -%}
+                {%- endif -%}
+                {%- if c_url != blank -%}
+                  <a href="{{ c_url }}" class="variant-color-btn{% if forloop.first %} is-active{% endif %}" style="background:{{ c }};" title="{{ c }}" aria-label="Colour {{ forloop.index }}"></a>
+                {%- else -%}
+                  <button type="button" class="variant-color-btn btn-reset{% if forloop.first %} is-active{% endif %}" style="background:{{ c }};" title="{{ c }}" aria-label="Colour {{ forloop.index }}"></button>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
           </div>
         </div>
-      </div>
+      {%- else -%}
+        {%- comment -%} Fallback: theme-editor default swatch colours (so swatches always show) {%- endcomment -%}
+        {%- capture sc_list -%}{{ section.settings.swatch_color_1 }}|{{ section.settings.swatch_color_2 }}|{{ section.settings.swatch_color_3 }}|{{ section.settings.swatch_color_4 }}|{{ section.settings.swatch_color_5 }}{%- endcapture -%}
+        {%- assign sc_arr = sc_list | split: '|' -%}
+        {%- assign sc_count = 0 -%}
+        {%- for sc in sc_arr -%}{%- assign sc_s = sc | strip -%}{%- if sc_s != blank -%}{%- assign sc_count = sc_count | plus: 1 -%}{%- endif -%}{%- endfor -%}
+        {%- if sc_count > 0 -%}
+          <div class="product-variants">
+            <div class="product-option">
+              <div class="product-option__header">
+                <p class="product-variants-label">Color</p>
+              </div>
+              <div class="product-variants-list product-variants-list--color">
+                {%- assign first_done = false -%}
+                {%- for sc in sc_arr -%}
+                  {%- assign sc_t = sc | strip -%}
+                  {%- if sc_t != blank -%}
+                    <button type="button" class="variant-color-btn btn-reset{% unless first_done %} is-active{% endunless %}" style="background:{{ sc_t }};" title="{{ sc_t }}" aria-label="Colour"></button>
+                    {%- assign first_done = true -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endif -%}
     {%- endif -%}
 
     {%- unless product.has_only_default_variant -%}
@@ -572,7 +600,20 @@ body.template-product .site-header { display: none !important; }
       "type": "collection",
       "id": "featured_collection",
       "label": "Featured products collection"
-    }
+    },
+    {
+      "type": "header",
+      "content": "Default colour swatches"
+    },
+    {
+      "type": "paragraph",
+      "content": "Shown when a product has no Color/Colour variant option and no 'color_swatches' metafield. Leave a colour blank to hide that swatch."
+    },
+    { "type": "color", "id": "swatch_color_1", "label": "Swatch 1", "default": "#9aa0a6" },
+    { "type": "color", "id": "swatch_color_2", "label": "Swatch 2", "default": "#ece7df" },
+    { "type": "color", "id": "swatch_color_3", "label": "Swatch 3", "default": "#5b7fdb" },
+    { "type": "color", "id": "swatch_color_4", "label": "Swatch 4" },
+    { "type": "color", "id": "swatch_color_5", "label": "Swatch 5" }
   ]
 }
 {% endschema %}
