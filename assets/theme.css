@@ -1765,9 +1765,10 @@ body { padding-bottom: 60px; }
 
 .product-grid--2 { grid-template-columns: 1fr 1fr; }
 
+
 /* Recommended Products */
-.recommended-products { padding: 0 24px 80px; }
-@media (min-width: 768px) { .recommended-products { padding: 0 40px 80px; } }
+.recommended-products { padding: 0 0px 0px; }
+@media (min-width: 768px) { .recommended-products { padding: 0 0px 0px; } }
 
 /* ============================================================
    FILTER DRAWER
