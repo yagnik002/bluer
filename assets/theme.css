@@ -2246,7 +2246,6 @@ body { padding-bottom: 60px; }
 
 .cart-suggested {
   padding: 0 0px 0px;
-  border-top: 1px solid var(--color-border);
   margin-top: 40px;
   padding-top: 40px;
 }
