@@ -954,7 +954,7 @@ body.template-cart .site-header { display: none !important; }
 
 /* Cross sits right next to the product name (design) */
 .cart-item__top { display: flex; align-items: center; gap: 50px; }
-.cart-item__title { font-size: 12px; letter-spacing: var(--tracking-editorial); text-transform: uppercase; }
+.cart-item__title { font-size: 12px; letter-spacing: var(--tracking-editorial); text-transform: uppercase; font-weight: 300; }
 .cart-item__price { font-size: 12px; margin-top: -2px; }
 .cart-item__remove { color: var(--color-muted-fg); transition: color var(--transition); flex: 0 0 auto; line-height: 0; }
 .cart-item__remove:hover { color: var(--color-fg); }
@@ -1028,6 +1028,7 @@ body.template-cart .site-header { display: none !important; }
   display: flex;
   justify-content: space-between;
   font-size: 14px;
+  font-weight: 300;
 }
 .cart-summary-row--muted { color: var(--color-muted-fg); }
 
