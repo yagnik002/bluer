@@ -22,19 +22,21 @@
     <div class="product-gallery__track" id="product-gallery-track">
       {%- if product.images.size > 0 -%}
         {%- for image in product.images -%}
-          <img
-            class="product-gallery__img"
-            src="{{ image | image_url: width: 900 }}"
-            srcset="{{ image | image_url: width: 600 }} 600w, {{ image | image_url: width: 900 }} 900w, {{ image | image_url: width: 1200 }} 1200w"
-            sizes="(min-width:768px) 50vw, 100vw"
-            alt="{{ image.alt | default: product.title | escape }}"
-            loading="{{ forloop.first | if: 'eager', 'lazy' }}"
-            width="{{ image.width }}"
-            height="{{ image.height }}"
-          >
+          <div class="product-gallery__cell">
+            <img
+              class="product-gallery__img"
+              src="{{ image | image_url: width: 900 }}"
+              srcset="{{ image | image_url: width: 600 }} 600w, {{ image | image_url: width: 900 }} 900w, {{ image | image_url: width: 1200 }} 1200w"
+              sizes="(min-width:768px) 50vw, 100vw"
+              alt="{{ image.alt | default: product.title | escape }}"
+              loading="{{ forloop.first | if: 'eager', 'lazy' }}"
+              width="{{ image.width }}"
+              height="{{ image.height }}"
+            >
+          </div>
         {%- endfor -%}
       {%- else -%}
-        <div class="product-gallery__img" style="aspect-ratio:3/4;background:var(--color-muted)"></div>
+        <div class="product-gallery__cell"><div class="product-gallery__img"></div></div>
       {%- endif -%}
     </div>
     {%- if product.images.size > 1 -%}

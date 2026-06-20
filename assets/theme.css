@@ -764,11 +764,18 @@ body.template-list-collections .site-header:not(.header--overlay) { border-botto
   scrollbar-width: none;
 }
 .product-gallery__track::-webkit-scrollbar { display: none; }
-.product-gallery__img {
+/* Each image lives in a fixed-ratio cell (a plain div has no intrinsic size,
+   so its aspect-ratio always wins over the image's width/height attributes). */
+.product-gallery__cell {
   flex: 0 0 100%;
   scroll-snap-align: start;
-  width: 100%;
   aspect-ratio: 3 / 4;
+  background: var(--color-muted);
+  overflow: hidden;
+}
+.product-gallery__img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   object-position: center top;
   background: var(--color-muted);
@@ -796,11 +803,13 @@ body.template-list-collections .site-header:not(.header--overlay) { border-botto
     gap: 4px 3px;
     overflow: visible;
     background: var(--color-border);
+    align-items: start;
   }
   /* Repeating "2 then 1 full-width" gallery (Figma exact):
-     pair images 336.4 x 504.6 (2:3); full-width 675.93 x 961.32 (~0.703). */
-  .product-gallery__img { aspect-ratio: 336.4 / 504.6; cursor: zoom-in; }
-  .product-gallery__img:nth-child(3n) { grid-column: 1 / -1; aspect-ratio: 675.93 / 961.32; }
+     pair cells 336.4 x 504.6 (2:3); full-width cell 675.93 x 961.32 (~0.703). */
+  .product-gallery__cell { aspect-ratio: 336.4 / 504.6; }
+  .product-gallery__cell:nth-child(3n) { grid-column: 1 / -1; aspect-ratio: 675.93 / 961.32; }
+  .product-gallery__img { cursor: zoom-in; }
   .product-gallery__dots { display: none; }
 }
 
