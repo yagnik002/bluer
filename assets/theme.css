@@ -1759,9 +1759,9 @@ body { padding-bottom: 60px; }
 
 /* Complete the Look */
 .complete-the-look {
-  padding: 0 24px 60px;
+  padding: 0 0px 0px;
 }
-@media (min-width: 768px) { .complete-the-look { padding: 0 40px 80px; } }
+@media (min-width: 768px) { .complete-the-look { padding: 0 0px 0px; } }
 
 .product-grid--2 { grid-template-columns: 1fr 1fr; }
 
