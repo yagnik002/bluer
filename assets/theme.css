@@ -629,7 +629,7 @@ body.template-list-collections .site-header:not(.header--overlay) { border-botto
 }
 /* Smaller "NEW ARRIVALS" on desktop (design) */
 @media (min-width: 768px) {
-  .collection-bar__title { font-size: 11px; font-weight: 500; line-height: 1; letter-spacing: var(--tracking-editorial); }
+  .collection-bar__title { font-size: 16px; font-weight: 300; line-height: 1; letter-spacing: var(--tracking-editorial); }
 }
 /* The standard grid comp shows no title in the bar — keep it for a11y/SEO but
    visually hide it on mobile so the bar reads as back + FILTERS. */
@@ -659,7 +659,7 @@ body.template-list-collections .site-header:not(.header--overlay) { border-botto
 }
 /* Smaller "FILTERS" + grid icon on desktop (design) */
 @media (min-width: 768px) {
-  .collection-bar__filter-btn { font-size: 11px; line-height: 1; letter-spacing: var(--tracking-editorial); }
+  .collection-bar__filter-btn { font-size: 16px; font-weight: 300; line-height: 1; letter-spacing: var(--tracking-editorial); }
 }
 .collection-bar__filter-btn:hover { opacity: 0.6; }
 .filter-icon {
@@ -1409,7 +1409,6 @@ body.template-cart .site-header { display: none !important; }
    ============================================================ */
 .site-footer {
   background: var(--color-bg);
-  border-top: 1px solid var(--color-border);
   padding: 56px 24px 80px;
   margin-top: 64px;
 }
@@ -2099,16 +2098,24 @@ body { padding-bottom: 60px; }
 
 .modal-panel__body { padding: 24px; }
 
-/* ---- Get Notified modal (design) ---- */
-#notify-modal .modal-panel { max-width: 420px; }
-#notify-modal .modal-panel__header { border-bottom: none; padding-bottom: 0; }
-#notify-modal .modal-panel__body { padding-top: 4px; }
-.notify-sub { font-size: 12px; line-height: 1.5; color: var(--color-muted-fg); margin: 0 0 22px; }
-.notify-product {
-  font-size: 11px;
-  letter-spacing: var(--tracking-editorial);
+/* ---- Get Notified modal (Figma) ---- */
+#notify-modal .modal-panel { max-width: 440px; }
+#notify-modal .modal-panel__header { border-bottom: none; align-items: flex-start; padding: 36px 36px 0; }
+#notify-modal .modal-panel__header h3 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  line-height: 1.1;
   text-transform: uppercase;
-  margin-bottom: 14px;
+}
+#notify-modal .modal-panel__close { font-size: 24px; }
+#notify-modal .modal-panel__body { padding: 6px 36px 36px; }
+.notify-sub { font-size: 14px; line-height: 1.5; color: var(--color-muted-fg); margin: 6px 0 38px; }
+.notify-product {
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
 }
 .notify-size-select {
   -webkit-appearance: none;
@@ -2116,26 +2123,43 @@ body { padding-bottom: 60px; }
   width: 100%;
   border: 1px solid var(--color-border);
   background: var(--color-muted);
-  padding: 13px 36px 13px 14px;
-  font-size: 13px;
+  padding: 17px 40px 17px 16px;
+  font-size: 14px;
   color: var(--color-fg);
   cursor: pointer;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a1a1a' stroke-width='1.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 12px center;
-  background-size: 16px;
+  background-position: right 14px center;
+  background-size: 18px;
 }
-.notify-field-label { font-size: 12px; color: var(--color-muted-fg); }
+#notify-modal .form-field:not(:first-child) { margin-top: 30px; }
+.notify-field-label { display: block; font-size: 14px; color: var(--color-muted-fg); margin-bottom: 4px; }
 .notify-email-input {
   width: 100%;
   border: none;
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-fg);
   background: transparent;
-  padding: 8px 0;
-  font-size: 14px;
+  padding: 10px 0;
+  font-size: 15px;
   color: var(--color-fg);
 }
 .notify-email-input:focus { outline: none; border-bottom-color: var(--color-fg); }
+#notify-submit { margin-top: 40px; height: 56px; }
+
+/* Phone view: Get Notified opens as a bottom sheet (Figma phone view).
+   position:fixed + left:0/right:0 pins it to the viewport width (flex sizing
+   let the panel grow wider than the screen). */
+@media (max-width: 600px) {
+  #notify-modal { padding: 0; }
+  #notify-modal .modal-panel {
+    position: fixed; left: 0; right: 0; bottom: 0;
+    width: auto; max-width: none; max-height: 92vh;
+    transform: translateY(100%);
+  }
+  #notify-modal[aria-hidden="false"] .modal-panel { transform: translateY(0); }
+  #notify-modal .modal-panel__header,
+  #notify-modal .modal-panel__body { padding-left: 24px; padding-right: 24px; }
+}
 
 /* Grey "Notify me when available" state of the add-to-bag button (design) */
 .product-add-btn--notify {
