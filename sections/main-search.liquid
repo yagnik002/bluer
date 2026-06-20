@@ -119,7 +119,12 @@
   letter-spacing: 0.04em;
   padding: 0 0 8px;
   caret-color: var(--color-fg);
+  -webkit-appearance: none;
+  appearance: none;
 }
+/* Hide the browser's native clear (×) button on the search field */
+.search-editorial__input::-webkit-search-cancel-button,
+.search-editorial__input::-webkit-search-decoration { -webkit-appearance: none; appearance: none; display: none; }
 
 .search-page__label {
   font-size: 12px;
