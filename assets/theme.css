@@ -888,13 +888,22 @@ body.template-list-collections .site-header:not(.header--overlay) { border-botto
 .cart-page { padding: 0 24px 64px; }
 @media (min-width: 768px) { .cart-page { padding: 0 40px 80px; } }
 
+/* Cart page: hide the site header/announcement; the cart's own back + tabs row is the header */
+body.template-cart #shopify-section-announcement-bar,
+body.template-cart .announcement-bar,
+body.template-cart #shopify-section-header,
+body.template-cart .site-header { display: none !important; }
+
 .cart-header {
   display: flex;
   align-items: center;
   padding: 14px 24px 8px;
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--color-bg);
 }
-@media (min-width: 768px) { .cart-header { padding: 16px 40px 10px; } }
+@media (min-width: 768px) { .cart-header { padding: 18px 40px 12px; } }
 
 .cart-header__back {
   display: inline-flex;
@@ -931,9 +940,11 @@ body.template-list-collections .site-header:not(.header--overlay) { border-botto
 
 .cart-items { display: flex; flex-direction: column; gap: 28px; }
 .cart-item { display: grid; grid-template-columns: 104px 1fr; gap: 20px; align-items: start; }
+/* Figma: cart image 272.9 x 409.35 (2:3) on desktop */
+@media (min-width: 768px) { .cart-item { grid-template-columns: 273px 1fr; gap: 36px; } }
 
 .cart-item__img {
-  aspect-ratio: 3/4;
+  aspect-ratio: 2 / 3;
   background: var(--color-muted);
   overflow: hidden;
 }
@@ -1003,9 +1014,9 @@ body.template-list-collections .site-header:not(.header--overlay) { border-botto
   flex-direction: column;
   gap: 16px;
 }
-/* Right column bottom-aligned with the items list (design) */
+/* Right column top-aligned with the items list, sticky while scrolling (design) */
 @media (min-width: 768px) {
-  .cart-summary { align-self: end; }
+  .cart-summary { align-self: start; position: sticky; top: 88px; }
 }
 
 /* Subtotal/Delivery rows: desktop only (mobile shows just TOTAL) */
