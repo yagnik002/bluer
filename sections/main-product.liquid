@@ -218,11 +218,6 @@
 
 <!-- Size Chart Modal: white panel slides in from the right; product images dimmed on the left -->
 <div id="size-chart-modal" class="size-modal" aria-hidden="true" role="dialog" aria-label="Size chart">
-  <div class="size-modal__media" aria-hidden="true">
-    {%- for image in product.images limit: 3 -%}
-      <img src="{{ image | image_url: width: 900 }}" alt="{{ product.title | escape }}" loading="lazy">
-    {%- endfor -%}
-  </div>
   <div class="size-modal__bg" id="size-chart-bg" data-size-chart-close></div>
   <button class="size-modal__back btn-reset" data-size-chart-close aria-label="Back">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
