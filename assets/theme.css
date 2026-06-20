@@ -1012,7 +1012,7 @@ body.template-cart .site-header { display: none !important; }
 .cart-summary {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 489px;
 }
 /* Right column top-aligned with the items list, sticky while scrolling (design) */
 @media (min-width: 768px) {
