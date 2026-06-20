@@ -134,6 +134,43 @@
       <p class="product-tax-note">MRP inclusive of all taxes</p>
     </div>
 
+    {%- comment -%}
+      Colour swatches. Two sources:
+      1) a real "Color"/"Colour" variant option (rendered in the variants loop below), or
+      2) a `custom.color_swatches` colour-list metafield — used when the product has no
+         colour variant, so swatches still show. Optional `custom.color_swatch_urls`
+         (list.url, same order) turns each swatch into a link to that colourway's product.
+    {%- endcomment -%}
+    {%- assign has_color_option = false -%}
+    {%- for o in product.options -%}
+      {%- assign o_low = o | downcase -%}
+      {%- if o_low contains 'colo' -%}{%- assign has_color_option = true -%}{%- endif -%}
+    {%- endfor -%}
+    {%- assign color_meta = product.metafields.custom.color_swatches -%}
+    {%- if has_color_option == false and color_meta != blank and color_meta.value.size > 0 -%}
+      {%- assign color_urls = product.metafields.custom.color_swatch_urls.value -%}
+      <div class="product-variants">
+        <div class="product-option">
+          <div class="product-option__header">
+            <p class="product-variants-label">Color</p>
+          </div>
+          <div class="product-variants-list product-variants-list--color">
+            {%- for c in color_meta.value -%}
+              {%- assign c_url = '' -%}
+              {%- if color_urls != blank and color_urls[forloop.index0] != blank -%}
+                {%- assign c_url = color_urls[forloop.index0] -%}
+              {%- endif -%}
+              {%- if c_url != blank -%}
+                <a href="{{ c_url }}" class="variant-color-btn{% if forloop.first %} is-active{% endif %}" style="background:{{ c }};" title="{{ c }}" aria-label="Colour {{ forloop.index }}"></a>
+              {%- else -%}
+                <button type="button" class="variant-color-btn btn-reset{% if forloop.first %} is-active{% endif %}" style="background:{{ c }};" title="{{ c }}" aria-label="Colour {{ forloop.index }}"></button>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+
     {%- unless product.has_only_default_variant -%}
       <div class="product-variants">
         {%- for option in product.options_with_values -%}
@@ -142,7 +179,7 @@
             <div class="product-option__header">
               <p class="product-variants-label">{{ option.name }}</p>
             </div>
-            <div class="product-variants-list{%- if option_name_lower == 'color' %} product-variants-list--color{%- endif %}">
+            <div class="product-variants-list{%- if option_name_lower contains 'colo' %} product-variants-list--color{%- endif %}">
               {%- for value in option.values -%}
                 {%- assign variant_for_value = product.variants | where: "option1", value | first -%}
                 {%- if product.options.size >= 2 -%}
@@ -152,7 +189,7 @@
                     {%- assign variant_for_value = product.variants | where: "option3", value | first -%}
                   {%- endif -%}
                 {%- endif -%}
-                {%- if option_name_lower == 'color' -%}
+                {%- if option_name_lower contains 'colo' -%}
                   <button
                     class="variant-color-btn btn-reset{% if current_variant.option1 == value or current_variant.option2 == value or current_variant.option3 == value %} is-active{% endif %}"
                     data-variant-id="{{ variant_for_value.id | default: product.variants.first.id }}"
