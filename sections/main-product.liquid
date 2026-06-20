@@ -1,5 +1,20 @@
 {%- assign current_variant = product.selected_or_first_available_variant -%}
 
+<!-- Product top bar: back (left) · share + bag (right) — replaces the site header on product pages (Figma) -->
+<div class="product-topbar">
+  <button type="button" class="product-topbar__back btn-reset" id="product-back-btn" aria-label="Go back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
+  </button>
+  <div class="product-topbar__actions">
+    <button type="button" class="product-topbar__action btn-reset" id="product-share-btn" data-share-url="{{ shop.url }}{{ product.url }}" data-share-title="{{ product.title | escape }}" aria-label="Share">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"/></svg>
+    </button>
+    <a href="{{ routes.cart_url }}" class="product-topbar__action product-topbar__cart" id="product-cart-link" data-open-cart aria-label="Bag">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z"/></svg>
+    </a>
+  </div>
+</div>
+
 <div class="product-layout">
 
   <!-- Images: swipeable carousel with dots on mobile; grid on desktop -->
@@ -140,6 +155,7 @@
                     class="variant-color-btn btn-reset{% if current_variant.option1 == value or current_variant.option2 == value or current_variant.option3 == value %} is-active{% endif %}"
                     data-variant-id="{{ variant_for_value.id | default: product.variants.first.id }}"
                     data-price="{{ variant_for_value.price | default: product.price }}"
+                    data-price-formatted="{{ variant_for_value.price | default: product.price | money }}"
                     data-available="{{ variant_for_value.available | default: false }}"
                     data-color="{{ value }}"
                     title="{{ value }}"
@@ -151,6 +167,7 @@
                     class="variant-btn btn-reset{% if current_variant.option1 == value or current_variant.option2 == value or current_variant.option3 == value %} is-active{% endif %}"
                     data-variant-id="{{ variant_for_value.id | default: product.variants.first.id }}"
                     data-price="{{ variant_for_value.price | default: product.price }}"
+                    data-price-formatted="{{ variant_for_value.price | default: product.price | money }}"
                     data-available="{{ variant_for_value.available | default: false }}"
                     {%- unless variant_for_value.available -%}disabled{%- endunless -%}
                   >
@@ -269,6 +286,39 @@
 {%- endif -%}
 
 <style>
+/* ---- Product top bar replaces the site header on product pages (Figma) ---- */
+body.template-product #shopify-section-announcement-bar,
+body.template-product .announcement-bar,
+body.template-product #shopify-section-header,
+body.template-product .site-header { display: none !important; }
+
+.product-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--header-height);
+  padding: 0 24px;
+  background: var(--color-bg);
+}
+@media (min-width: 768px) { .product-topbar { padding: 0 7vw; } }
+.product-topbar__back,
+.product-topbar__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-fg);
+  cursor: pointer;
+  transition: opacity var(--transition);
+}
+.product-topbar__back:hover,
+.product-topbar__action:hover { opacity: 0.6; }
+.product-topbar__back svg { width: 22px; height: 22px; }
+.product-topbar__actions { display: flex; align-items: center; gap: 18px; }
+.product-topbar__action svg { width: 20px; height: 20px; }
+
 /* ---- Product page typography (Helvetica Neue, per design) ---- */
 .product-layout { --pp-font: "Helvetica Neue", Helvetica, Arial, sans-serif; }
 .product-info .product-collection-link { font-family: var(--pp-font); letter-spacing: 0.1em; }
@@ -323,19 +373,20 @@
   height: 48px;
   padding: 0;
 }
-/* SIZE GUIDE — centred underlined link directly under ADD TO BAG (design) */
+/* SIZE GUIDE — left-aligned underlined link directly under ADD TO BAG (Figma) */
 .product-info .size-guide-link {
-  display: block;
-  width: 100%;
+  display: inline-block;
+  width: auto;
+  align-self: flex-start;
   margin: -8px 0 4px;
-  padding: 4px;
+  padding: 4px 0;
   background: transparent;
   font-family: var(--pp-font);
   font-size: 12px;
   font-weight: 400;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  text-align: center;
+  text-align: left;
   text-decoration: underline;
   text-underline-offset: 3px;
   transition: opacity var(--transition);
@@ -368,7 +419,7 @@
 /* Complete the Look — sits in the left column, two smaller cards */
 .product-aside .complete-the-look { margin-top: 40px; }
 .product-aside .complete-the-look .section-heading { padding: 0 0 18px; }
-.product-aside .complete-the-look .product-grid { grid-template-columns: 1fr 1fr; gap: 2px; background: transparent; }
+.product-aside .complete-the-look .product-grid { grid-template-columns: 1fr 1fr; gap: 12px; background: transparent; }
 
 /* Shipping / Returns accordions (left column) */
 .product-aside .product-accordion { border-top: 1px solid var(--color-border); margin-top: 0; }
@@ -395,10 +446,11 @@
 .complete-the-look .section-heading,
 .recommended-products .section-heading {
   font-family: var(--pp-font);
-  font-size: 16px;
-  font-weight: 400;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1;
   letter-spacing: 0.1em;
-  text-transform: capitalize;
+  text-transform: uppercase;
 }
 
 /* ---- Size chart modal (full-screen) ---- */

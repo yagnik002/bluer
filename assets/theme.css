@@ -793,13 +793,14 @@ body.template-list-collections .site-header:not(.header--overlay) { border-botto
   .product-gallery__track {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2px;
+    gap: 4px 3px;
     overflow: visible;
     background: var(--color-border);
   }
-  /* Taller images (fit the full garment) in a repeating "2 and 1" grid (design) */
-  .product-gallery__img { aspect-ratio: 3 / 4; cursor: zoom-in; }
-  .product-gallery__img:nth-child(3n) { grid-column: 1 / -1; aspect-ratio: 3 / 4; }
+  /* Repeating "2 then 1 full-width" gallery (Figma): pair images are 2:3,
+     the full-width image is 676:961 (~0.70). */
+  .product-gallery__img { aspect-ratio: 2 / 3; cursor: zoom-in; }
+  .product-gallery__img:nth-child(3n) { grid-column: 1 / -1; aspect-ratio: 676 / 961; }
   .product-gallery__dots { display: none; }
 }
 
@@ -1651,22 +1652,25 @@ body { padding-bottom: 60px; }
 }
 .size-guide-link:hover { opacity: 1; }
 
-.product-variants-list--color { display: flex; gap: 10px; flex-wrap: wrap; }
+.product-variants-list--color { display: flex; gap: 14px; flex-wrap: wrap; }
 
+/* Square colour swatches (Figma): light colours stay visible via inset hairline,
+   the active swatch gets a square outline ring. */
 .variant-color-btn {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  border: 2px solid transparent !important;
+  width: 36px;
+  height: 36px;
+  border-radius: 0;
+  border: none !important;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.14);
   cursor: pointer;
-  transition: transform var(--transition), border-color var(--transition);
-  outline: 2px solid transparent;
-  outline-offset: 2px;
+  transition: outline-color var(--transition);
+  outline: 1px solid transparent;
+  outline-offset: 3px;
 }
 .variant-color-btn.is-active {
   outline-color: var(--color-fg);
 }
-.variant-color-btn:hover { transform: scale(1.1); }
+.variant-color-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 
 .product-low-stock {
   font-size: 11px;

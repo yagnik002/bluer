@@ -10,10 +10,10 @@ function $(sel, ctx) { return (ctx || document).querySelector(sel); }
 function $$(sel, ctx) { return [...(ctx || document).querySelectorAll(sel)]; }
 
 function formatMoney(cents) {
-  const amount = (cents / 100).toFixed(2);
-  return window.Shopify && Shopify.currency
-    ? Shopify.currency.active + ' ' + amount
-    : amount;
+  // Match the Liquid `| money` output for India: "Rs. 1,790" (no decimals, comma thousands)
+  const amount = Math.round(cents / 100);
+  const withCommas = amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return 'Rs. ' + withCommas;
 }
 
 /* ---- Cart ------------------------------------------------- */
@@ -265,10 +265,15 @@ function initProductPage() {
     btn.classList.add('is-active');
     selectedVariantId = btn.dataset.variantId;
 
-    // Update price
+    // Update price — prefer the server-rendered formatted string so it always
+    // matches the shop currency display (e.g. "Rs. 1,790"), never "INR 1790.00".
     const priceEl = $('#product-price');
-    if (priceEl && btn.dataset.price) {
-      priceEl.textContent = formatMoney(parseInt(btn.dataset.price, 10));
+    if (priceEl) {
+      if (btn.dataset.priceFormatted) {
+        priceEl.textContent = btn.dataset.priceFormatted;
+      } else if (btn.dataset.price) {
+        priceEl.textContent = formatMoney(parseInt(btn.dataset.price, 10));
+      }
     }
 
     // Update availability — sold-out variants switch the button to "Notify me"
@@ -651,6 +656,34 @@ function initProductZoom() {
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
 }
 
+/* ---- Product top bar: back + native share -------------------------- */
+function initProductTopbar() {
+  const backBtn = $('#product-back-btn');
+  if (backBtn) {
+    backBtn.addEventListener('click', () => {
+      if (history.length > 1) history.back();
+      else window.location.href = '/';
+    });
+  }
+
+  const shareBtn = $('#product-share-btn');
+  if (shareBtn) {
+    shareBtn.addEventListener('click', async () => {
+      const url = shareBtn.dataset.shareUrl || window.location.href;
+      const title = shareBtn.dataset.shareTitle || document.title;
+      if (navigator.share) {
+        try { await navigator.share({ title, url }); } catch (_) {}
+      } else if (navigator.clipboard) {
+        try {
+          await navigator.clipboard.writeText(url);
+          shareBtn.classList.add('is-copied');
+          setTimeout(() => shareBtn.classList.remove('is-copied'), 1500);
+        } catch (_) {}
+      }
+    });
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   CartDrawer.init();
   NavDrawer.init();
@@ -671,6 +704,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initAtbModal();
   initMobileNav();
   initPincodeChecker();
+  initProductTopbar();
 
   // Initialise cart count from server
   Cart.get().then(cart => updateCartCount(cart.item_count));
