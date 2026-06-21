@@ -1,0 +1,28 @@
+{%- comment -%}
+  Mobile back bar for content pages (help centre, careers, policies, returns…).
+  Shows just a back button and hides the site header / announcement / footer /
+  bottom nav on mobile, so the page is: back button + content (design).
+  Any page that renders this snippet gets the treatment (via :has()).
+{%- endcomment -%}
+<div class="page-back-bar">
+  <button type="button" class="page-back btn-reset" aria-label="Go back"
+    onclick="if(history.length>1){history.back()}else{location.href='/'}">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
+  </button>
+</div>
+<style>
+  .page-back-bar { display: none; }
+  .page-back { display: inline-flex; align-items: center; justify-content: center; padding: 6px; color: var(--color-fg); cursor: pointer; }
+  .page-back svg { width: 24px; height: 24px; }
+
+  @media (max-width: 767px) {
+    .page-back-bar { display: flex; align-items: center; padding: 16px 20px 4px; }
+
+    /* Strip the site chrome on this page (mobile) — back button only */
+    body:has(.page-back-bar) #shopify-section-announcement-bar,
+    body:has(.page-back-bar) #shopify-section-header,
+    body:has(.page-back-bar) #shopify-section-footer,
+    body:has(.page-back-bar) .mobile-bottom-nav { display: none !important; }
+    body:has(.page-back-bar) { padding-bottom: 0 !important; }
+  }
+</style>
