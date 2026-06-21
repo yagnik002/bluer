@@ -376,6 +376,29 @@ body:not(.template-index) #shopify-section-header {
   text-transform: uppercase;
 }
 
+/* Mobile: collection banners are a horizontal scroll row that bleeds to the
+   screen edges (~2.5 tiles visible, swipe for more) — matches the design. */
+@media (max-width: 767px) {
+  .nav-collections {
+    display: flex;
+    grid-template-columns: none;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin: 0 -24px;
+    padding: 0 24px 6px;
+  }
+  .nav-collections::-webkit-scrollbar { display: none; }
+  .nav-collection-tile {
+    flex: 0 0 40%;
+    scroll-snap-align: start;
+  }
+  .nav-collection-tile__img { aspect-ratio: 5 / 6; }
+  .nav-collection-tile__label { text-align: center; font-size: 14px; padding-top: 12px; }
+}
+
 /* ---- Footer ---------------------------------------------- */
 /* Footer styles are defined in the consolidated footer block further below. */
 
