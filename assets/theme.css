@@ -2700,6 +2700,15 @@ body { padding-bottom: 60px; }
   background: var(--color-fg);
 }
 
+/* HOME view: transparent bar over the dark hero -> white labels (sticky) */
+html[data-home-tab="home"] .home-tabs { background: transparent; }
+html[data-home-tab="home"] .home-tab { color: rgba(255, 255, 255, 0.6); }
+html[data-home-tab="home"] .home-tab.is-active { color: #ffffff; }
+html[data-home-tab="home"] .home-tab.is-active::after { background: #ffffff; }
+
+/* CURATED view: solid white bar -> dark labels (sticky) */
+html[data-home-tab="curated"] .home-tabs { background: #ffffff; }
+
 /* --- Tab toggling (mobile only): show editorial OR curated --- */
 .curated-feed { display: none; }
 @media (max-width: 767px) {
