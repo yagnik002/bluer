@@ -1,93 +1,224 @@
-<div class="account-page">
+{%- comment -%}
+  Account details — matches Figma 1:163.
+  Profile summary (underline rows + edit pencils), ADD pill, two-column address
+  form (underline fields), SAVE DETAILS button, Delete account row.
+{%- endcomment -%}
+{%- assign addr = customer.default_address -%}
 
-  <!-- Greeting -->
-  <div class="account-greeting-block">
-    <h1 class="account-hello">HELLO, {{ customer.first_name | upcase | default: 'THERE' }}</h1>
-    <p class="account-email">{{ customer.email }}</p>
-  </div>
+<div class="account-details">
 
-  <!-- Featured collection editorial block -->
-  {%- if section.settings.collection_image != blank -%}
-    <div class="account-editorial">
-      <div class="account-editorial__img">
-        <img
-          src="{{ section.settings.collection_image | image_url: width: 900 }}"
-          alt="{{ section.settings.collection_image.alt | default: 'BLUER collection' }}"
-          loading="lazy"
-        >
-      </div>
-      <div class="account-editorial__info">
-        {%- if section.settings.collection_label != blank -%}
-          <p class="account-editorial__label">{{ section.settings.collection_label }}</p>
-        {%- endif -%}
-        {%- if section.settings.collection_title != blank -%}
-          <p class="account-editorial__title">{{ section.settings.collection_title }}</p>
-        {%- endif -%}
-        {%- if section.settings.collection_subtitle != blank -%}
-          <p class="account-editorial__subtitle">{{ section.settings.collection_subtitle }}</p>
-        {%- endif -%}
+  <!-- Profile summary -->
+  <div class="acct-profile">
+    <div class="acct-row">
+      <p class="acct-row__label">Full Name</p>
+      <div class="acct-row__field">
+        <span class="acct-row__value">{{ customer.name | default: customer.first_name }}</span>
+        <a href="{{ routes.account_url }}/addresses" class="acct-row__edit" aria-label="Edit name">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z"/></svg>
+        </a>
       </div>
     </div>
-  {%- endif -%}
 
-  <!-- Account nav links -->
-  <ul class="account-nav-links">
-    <li class="account-nav-item">
-      <a href="{{ routes.account_url }}/addresses" class="account-nav-row">
-        <span>ACCOUNT DETAILS</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
-      </a>
-    </li>
-    <li class="account-nav-item">
-      <a href="/pages/wishlist" class="account-nav-row">
-        <span>WISHLIST</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
-      </a>
-    </li>
-    <li class="account-nav-item">
-      <a href="{{ routes.account_url }}/orders" class="account-nav-row">
-        <span>MY PURCHASES</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
-      </a>
-    </li>
-    <li class="account-nav-item">
-      <a href="/pages/returns" class="account-nav-row">
-        <span>RETURNS</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
-      </a>
-    </li>
-  </ul>
+    <div class="acct-row">
+      <p class="acct-row__label">Email</p>
+      <div class="acct-row__field">
+        <span class="acct-row__value acct-row__value--lower">{{ customer.email }}</span>
+        <a href="{{ routes.account_url }}/addresses" class="acct-row__edit" aria-label="Edit email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z"/></svg>
+        </a>
+      </div>
+    </div>
 
-  <a href="{{ routes.account_logout_url }}" class="account-signout">Sign out</a>
+    <div class="acct-row">
+      <p class="acct-row__label">Mobile Number</p>
+      <div class="acct-row__field">
+        <span class="acct-row__value">{{ customer.phone | default: addr.phone }}</span>
+        <a href="{{ routes.account_url }}/addresses" class="acct-row__edit" aria-label="Edit phone">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="acct-row acct-row--address">
+      <p class="acct-row__label">Address</p>
+      {%- if addr -%}
+        <div class="acct-address">{{ addr | format_address }}</div>
+      {%- else -%}
+        <div class="acct-address acct-address--empty">No address saved yet.</div>
+      {%- endif -%}
+    </div>
+
+    <a href="{{ routes.account_url }}/addresses" class="acct-add">ADD</a>
+  </div>
+
+  <!-- Address form -->
+  {%- form 'customer_address', customer.new_address, class: 'acct-form' -%}
+    <div class="acct-form__grid">
+      <label class="acct-field">
+        <span class="acct-field__label">First Name</span>
+        <input type="text" name="address[first_name]" value="{{ customer.first_name }}">
+      </label>
+      <label class="acct-field">
+        <span class="acct-field__label">Last Name</span>
+        <input type="text" name="address[last_name]" value="{{ customer.last_name }}">
+      </label>
+
+      <label class="acct-field acct-field--full">
+        <span class="acct-field__label">Address</span>
+        <input type="text" name="address[address1]">
+      </label>
+
+      <label class="acct-field">
+        <span class="acct-field__label">Landmark (Optional)</span>
+        <input type="text" name="address[address2]">
+      </label>
+      <label class="acct-field">
+        <span class="acct-field__label">Pincode</span>
+        <input type="text" name="address[zip]">
+      </label>
+
+      <label class="acct-field">
+        <span class="acct-field__label">City</span>
+        <input type="text" name="address[city]">
+      </label>
+      <label class="acct-field">
+        <span class="acct-field__label">State</span>
+        <input type="text" name="address[province]">
+      </label>
+
+      <label class="acct-field">
+        <span class="acct-field__label">Country</span>
+        <input type="text" name="address[country]">
+      </label>
+
+      <label class="acct-field acct-field--full">
+        <span class="acct-field__label">Phone Number</span>
+        <input type="tel" name="address[phone]" value="{{ customer.phone }}">
+      </label>
+    </div>
+
+    <button type="submit" class="acct-save">SAVE DETAILS</button>
+  {%- endform -%}
+
+  <a href="{{ routes.account_logout_url }}" class="acct-delete">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/></svg>
+    Delete account
+  </a>
 </div>
+
+<style>
+/* Figma 1:163 — account details form */
+.account-details {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 64px 24px 100px;
+}
+@media (min-width: 768px) { .account-details { padding: 80px 0 120px; } }
+
+/* Profile summary rows */
+.acct-profile { margin-bottom: 64px; }
+.acct-row { padding: 8px 0 14px; border-bottom: 1px solid #000000; margin-bottom: 36px; }
+.acct-row--address { border-bottom: none; }
+.acct-row__label {
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 34px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #000000;
+}
+.acct-row__field { display: flex; align-items: center; justify-content: space-between; }
+.acct-row__value { font-weight: 300; font-size: 16px; letter-spacing: 0.1em; color: #000000; }
+.acct-row__value--lower { text-transform: lowercase; }
+.acct-row__edit { line-height: 0; color: #000000; }
+.acct-row__edit svg { width: 16px; height: 16px; }
+.acct-row__edit:hover { opacity: 0.6; }
+.acct-address {
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 25px;
+  letter-spacing: 0.1em;
+  color: #000000;
+}
+.acct-address--empty { color: #797979; }
+
+/* ADD pill — Figma 1:173/1:167: gray box, Medium 16px */
+.acct-add {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 8px 28px;
+  background: rgba(172,172,172,0.16);
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #000000;
+}
+.acct-add:hover { background: rgba(172,172,172,0.28); }
+
+/* Address form — Figma 1:180-197: 14px Light labels, underline fields */
+.acct-form__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px 36px;
+}
+.acct-field { display: flex; flex-direction: column; gap: 6px; }
+.acct-field--full { grid-column: 1 / -1; }
+.acct-field__label {
+  font-weight: 300;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  color: #000000;
+}
+.acct-field input {
+  border: none;
+  border-bottom: 0.5px solid #000000;
+  background: transparent;
+  outline: none;
+  padding: 6px 0;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  color: #000000;
+}
+.acct-field input:focus { border-bottom-width: 1px; }
+
+/* SAVE DETAILS — Figma 1:199/1:200: black 48px button */
+.acct-save {
+  display: block;
+  width: 100%;
+  height: 48px;
+  margin-top: 56px;
+  background: #000000;
+  color: #ffffff;
+  font-weight: 300;
+  font-size: 16px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: opacity var(--transition);
+}
+.acct-save:hover { opacity: 0.9; }
+
+/* Delete account — Figma 1:201: Medium 16px + trash icon */
+.acct-delete {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 40px;
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #000000;
+}
+.acct-delete svg { width: 18px; height: 18px; }
+.acct-delete:hover { opacity: 0.6; }
+</style>
 
 {% schema %}
 {
   "name": "Account",
-  "settings": [
-    {
-      "type": "image_picker",
-      "id": "collection_image",
-      "label": "Collection editorial image"
-    },
-    {
-      "type": "text",
-      "id": "collection_label",
-      "label": "Collection label (e.g. NEW ARRIVALS)",
-      "default": "NEW ARRIVALS"
-    },
-    {
-      "type": "text",
-      "id": "collection_title",
-      "label": "Collection title (e.g. CRAFTED)",
-      "default": "CRAFTED"
-    },
-    {
-      "type": "text",
-      "id": "collection_subtitle",
-      "label": "Collection subtitle",
-      "default": "Refined essentials for the modern wardrobe."
-    }
-  ]
+  "settings": []
 }
 {% endschema %}

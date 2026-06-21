@@ -81,32 +81,40 @@
   .order-card { grid-template-columns: 180px 1fr; gap: 48px; }
 }
 
-.order-card__id-label { font-size: 12px; color: var(--color-muted-fg); display: block; }
-.order-card__id-value { font-size: 14px; letter-spacing: 0.04em; }
+/* Figma 1:280 — Order ID: Helvetica Neue Light 16px, tracking 1.6px (0.1em), black */
+.order-card__id-label { font-size: 16px; font-weight: 300; letter-spacing: 0.1em; color: #000000; display: block; }
+/* Figma 1:271 — order number: Helvetica Neue Light 20px, tracking 1.6px */
+.order-card__id-value { font-size: 20px; font-weight: 300; letter-spacing: 0.1em; color: #000000; }
 
-.order-card__status { font-size: 13px; color: var(--color-muted-fg); margin-bottom: 16px; }
+/* Figma 1:274/1:278 — status: Helvetica Neue Light 16px, line-height 25px, black */
+.order-card__status { font-size: 16px; font-weight: 300; line-height: 25px; letter-spacing: 0.1em; color: #000000; margin-bottom: 16px; }
 
-.order-card__imgs { display: flex; gap: 10px; flex-wrap: wrap; }
+.order-card__imgs { display: flex; gap: 5px; flex-wrap: wrap; }
+/* Figma 1:283-296 — thumbnails 2:3 with 0.5px black border */
 .order-card__imgs img {
-  width: 110px;
-  height: 150px;
+  width: 150px;
+  aspect-ratio: 2 / 3;
   object-fit: cover;
+  border: 0.5px solid #000000;
   background: var(--color-muted);
 }
 
-.order-card__count { font-size: 13px; margin: 16px 0 18px; }
+/* Figma 1:275 — "3 Item(s)": Helvetica Neue Light 16px, black */
+.order-card__count { font-size: 16px; font-weight: 300; letter-spacing: 0.1em; color: #000000; margin: 16px 0 18px; }
 
 .order-card__actions { display: flex; gap: 12px; flex-wrap: wrap; }
+/* Figma 1:297/1:300 — ORDER DETAILS / TRACK ORDER: bordered, Helvetica Neue Light 16px, tracking 1.6px */
 .order-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--color-fg);
+  border: 0.5px solid #000000;
   padding: 12px 28px;
-  font-size: 11px;
-  letter-spacing: var(--tracking-editorial);
+  font-weight: 300;
+  font-size: 16px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   transition: background var(--transition), color var(--transition);
 }
-.order-btn:hover { background: var(--color-fg); color: var(--color-bg); }
+.order-btn:hover { background: #000000; color: #ffffff; }
 </style>

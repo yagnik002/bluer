@@ -1,12 +1,13 @@
 /* ============================================================
    BLUER — Shopify Theme CSS
-   Editorial fashion aesthetic: white/black, Cormorant + Inter
+   Editorial fashion aesthetic: white/black, Helvetica Neue (Figma source of truth)
    ============================================================ */
 
 /* ---- Custom Properties ------------------------------------ */
 :root {
-  --font-display: "Cormorant Garamond", "Times New Roman", serif;
-  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+  /* Figma source of truth: Helvetica Neue (Light 300 / Regular 400 / Medium 500) */
+  --font-display: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body: "Helvetica Neue", Helvetica, Arial, sans-serif;
 
   --color-bg: #ffffff;
   --color-fg: #1a1a1a;
@@ -54,21 +55,24 @@ ul, ol { list-style: none; }
 
 /* ---- Announcement Bar ------------------------------------ */
 .announcement-bar {
-  background: var(--color-fg);
-  color: var(--color-bg);
+  /* Figma 1:91/1:92 — black bar, Helvetica Neue Light 12px, tracking 1.2px, uppercase */
+  background: #000000;
+  color: #ffffff;
   text-align: center;
-  padding: 8px 12px;
-  font-size: 10px;
-  letter-spacing: 0.07em;
+  height: 33.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 1.2px;
   text-transform: uppercase;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .announcement-bar p { overflow: hidden; text-overflow: ellipsis; }
-@media (min-width: 768px) {
-  .announcement-bar { font-size: 11px; letter-spacing: var(--tracking-editorial); }
-}
 
 /* ---- Header ---------------------------------------------- */
 .site-header {
@@ -168,12 +172,14 @@ body:not(.template-index) #shopify-section-header {
 }
 @media (min-width: 768px) { .header-nav { gap: 40px; } }
 
-/* Desktop design header = BLUER | SEARCH | MENU  YOUR BAG (no account link). */
+/* Desktop design header = BLUER | SEARCH | MENU  YOUR BAG (no account link).
+   Figma 1:93/1:94 — MENU & YOUR BAG: Helvetica Neue Regular 16px, tracking 1.6px (0.1em).
+   Figma 1:95 — SEARCH: 16px, tracking 1.28px (0.08em). */
 @media (min-width: 768px) {
   .header-nav__account { display: none; }
   .header-nav a,
-  .header-nav button,
-  .header-search label { font-size: 12px; letter-spacing: 0.16em; }
+  .header-nav button { font-weight: 400; font-size: 16px; letter-spacing: 0.1em; }
+  .header-search label { font-weight: 400; font-size: 16px; letter-spacing: 0.08em; }
 }
 
 .header-nav a,
@@ -302,8 +308,9 @@ body:not(.template-index) #shopify-section-header {
   padding: 7px 24px;
   transition: background var(--transition);
 }
+/* Figma 1:115 — active category highlight: rgba(217,217,217,0.24) */
 .nav-sidebar-btn:hover,
-.nav-sidebar-btn.is-active { background: var(--color-muted); }
+.nav-sidebar-btn.is-active { background: rgba(217,217,217,0.24); }
 
 .nav-sidebar-extras {
   padding-top: 24px;
@@ -404,16 +411,19 @@ body:not(.template-index) #shopify-section-header {
 
 /* ---- Buttons --------------------------------------------- */
 .btn {
+  /* Figma 1:554/1:555 — black box 48px tall, Helvetica Neue Light 16px white, tracking 1.6px (0.1em) */
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-fg);
-  color: var(--color-bg);
-  padding: 16px 32px;
-  font-size: 11px;
-  letter-spacing: var(--tracking-editorial);
+  min-height: 48px;
+  background: #000000;
+  color: #ffffff;
+  padding: 0 32px;
+  font-weight: 300;
+  font-size: 16px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  border: 1px solid var(--color-fg);
+  border: 1px solid #000000;
   cursor: pointer;
   transition: opacity var(--transition);
 }
@@ -451,18 +461,21 @@ body:not(.template-index) #shopify-section-header {
 @media (min-width: 768px) { .hero-title { font-size: 96px; } }
 
 .hero-label {
+  /* Figma 1:81 — Helvetica Neue Light 20px, tracking 2px (0.1em), white */
   position: absolute;
   bottom: 24px;
   left: 24px;
-  font-size: 11px;
-  letter-spacing: var(--tracking-editorial);
+  font-weight: 300;
+  font-size: 20px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.9);
-  mix-blend-mode: difference;
+  color: #ffffff;
 }
 @media (min-width: 768px) {
-  .hero-label { bottom: 40px; left: 40px; }
+  .hero-label { bottom: 40px; left: 43px; }
 }
+/* Figma 1:83 — SUMMER'26 label sits on a light image, so it's black */
+.hero-label--dark { color: #000000; }
 
 /* ---- Editorial Grid (2-col images) ----------------------- */
 .editorial-banner { position: relative; margin-top: 1px; }
@@ -494,10 +507,11 @@ body:not(.template-index) #shopify-section-header {
 
 /* ---- Product Grid ---------------------------------------- */
 .section-heading {
+  /* Figma 1:635 FEATURED PRODUCTS — Helvetica Neue Regular 16px, tracking 1.6px (0.1em) */
   padding: 40px 24px 24px;
   font-size: 16px;
   font-weight: 400;
-  letter-spacing: var(--tracking-editorial);
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
@@ -511,11 +525,12 @@ body:not(.template-index) #shopify-section-header {
 @media (min-width: 1024px) { .product-grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 
 /* ---- Search page only ---- */
+/* Figma 1:486/1:487 — RECOMMENDED/FEATURED: Helvetica Neue Medium 16px, tracking 1.6px (0.1em) */
 body.template-search .section-heading {
   padding: 40px 40px 24px;
   font-size: 16px;
   font-weight: 500;
-  letter-spacing: var(--tracking-editorial);
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 body.template-search .product-grid {
@@ -548,18 +563,20 @@ body.template-search .product-grid {
 /* Hover zoom removed per design (no zoom-in interaction on collection images) */
 
 .product-card__sold-out {
+  /* Figma 1:745 — dark scrim rgba(6,6,6,0.4) over the image */
   position: absolute;
   inset: 0;
   display: grid;
   place-items: center;
-  background: rgba(0,0,0,0.04);
+  background: rgba(6,6,6,0.4);
 }
 .product-card__sold-out span {
+  /* Figma 1:746 — Helvetica Neue Regular 16px, tracking 1.6px (0.1em), white */
   color: #fff;
-  font-size: 13px;
-  letter-spacing: var(--tracking-editorial);
+  font-weight: 400;
+  font-size: 16px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  text-shadow: 0 1px 8px rgba(0,0,0,0.55);
 }
 
 .product-card__quick-add {
@@ -590,23 +607,28 @@ body.template-search .product-grid {
 
 /* Unified product-name typography across every layout (grid, editorial, lookbook,
    search) — Helvetica Neue, 11px, 0.08em tracking — so it reads the same site-wide. */
+/* Figma 1:682/1:688 — card title & price: Helvetica Neue Light 16px,
+   line-height 29px, tracking 1.6px (0.1em), uppercase, black. */
 .product-card__title {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 11px;
-  font-weight: 400;
-  letter-spacing: 0.08em;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 29px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
+  color: #000000;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .product-card__price {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 11px;
+  font-size: 16px;
   font-weight: 300;
-  letter-spacing: 0.08em;
-  color: var(--color-muted-fg);
-  margin-top: 4px;
+  line-height: 29px;
+  letter-spacing: 0.1em;
+  color: #000000;
+  margin-top: 0;
 }
 
 /* Quick-add size picker (revealed by "+") */
@@ -667,9 +689,9 @@ body.template-list-collections .site-header:not(.header--overlay) { border-botto
   text-transform: uppercase;
   display: block;
 }
-/* Smaller "NEW ARRIVALS" on desktop (design) */
+/* Figma 1:718 — NEW ARRIVALS: Helvetica Neue Light 16px, tracking 1.6px (0.1em) */
 @media (min-width: 768px) {
-  .collection-bar__title { font-size: 16px; font-weight: 300; line-height: 1; letter-spacing: var(--tracking-editorial); }
+  .collection-bar__title { font-size: 16px; font-weight: 300; line-height: 1; letter-spacing: 0.1em; }
 }
 /* The standard grid comp shows no title in the bar — keep it for a11y/SEO but
    visually hide it on mobile so the bar reads as back + FILTERS. */
@@ -697,9 +719,9 @@ body.template-list-collections .site-header:not(.header--overlay) { border-botto
   gap: 8px;
   transition: opacity var(--transition);
 }
-/* Smaller "FILTERS" + grid icon on desktop (design) */
+/* Figma 1:719 — FILTERS: Helvetica Neue Light 16px, tracking 1.6px (0.1em) */
 @media (min-width: 768px) {
-  .collection-bar__filter-btn { font-size: 16px; font-weight: 300; line-height: 1; letter-spacing: var(--tracking-editorial); }
+  .collection-bar__filter-btn { font-size: 16px; font-weight: 300; line-height: 1; letter-spacing: 0.1em; }
 }
 .collection-bar__filter-btn:hover { opacity: 0.6; }
 .filter-icon {
@@ -866,29 +888,38 @@ body.template-list-collections .site-header:not(.header--overlay) { border-botto
 }
 
 .product-title {
+  /* Figma 1:662 — Helvetica Neue Light 20px, tracking 2px (0.1em) */
   font-family: var(--font-display);
-  font-size: 28px;
-  letter-spacing: 0.04em;
-  line-height: 1.2;
+  font-weight: 300;
+  font-size: 20px;
+  letter-spacing: 0.1em;
+  line-height: 1.7;
+  text-transform: uppercase;
 }
-@media (min-width: 768px) { .product-title { font-size: 36px; } }
 
-.product-price { font-size: 14px; margin-top: 12px; }
+/* Figma 1:663 — Helvetica Neue Light 20px, tracking 2px (0.1em) */
+.product-price { font-weight: 300; font-size: 20px; letter-spacing: 0.1em; margin-top: 12px; }
 
 .product-variants { display: flex; flex-direction: column; gap: 8px; }
 .product-variants-label {
-  font-size: 11px;
-  letter-spacing: var(--tracking-editorial);
+  /* Figma 1:605/1:607 — Helvetica Neue Light 16px, tracking 1.6px (0.1em) */
+  font-weight: 300;
+  font-size: 16px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
-.product-variants-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.product-variants-list { display: flex; flex-wrap: wrap; gap: 0; }
 
 .variant-btn {
+  /* Figma 1:668-678 — 42px tall, 0.5px black border (0.3 opacity), 16px text */
+  min-width: 73px;
+  min-height: 42px;
   padding: 8px 12px;
-  font-size: 11px;
-  letter-spacing: var(--tracking-editorial);
+  font-size: 16px;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
-  border: 1px solid var(--color-border);
+  border: 0.5px solid rgba(0,0,0,0.3);
+  margin-right: -0.5px;
   transition: background var(--transition), color var(--transition), border-color var(--transition);
 }
 .variant-btn:disabled { opacity: 0.3; cursor: not-allowed; }
@@ -900,9 +931,12 @@ body.template-list-collections .site-header:not(.header--overlay) { border-botto
   background-image: linear-gradient(to top right, transparent calc(50% - 0.6px), var(--color-border) calc(50% + 0.1px), transparent calc(50% + 0.7px));
 }
 .variant-btn.is-active {
-  border-color: var(--color-fg);
-  background: var(--color-fg);
-  color: var(--color-bg);
+  /* Figma 1:678 — selected size = solid black border box, no fill, black text */
+  border: 1px solid #000000;
+  background: transparent;
+  color: #000000;
+  position: relative;
+  z-index: 1;
 }
 .variant-btn.is-unavailable.is-active {
   color: var(--color-bg);
@@ -914,12 +948,15 @@ body.template-list-collections .site-header:not(.header--overlay) { border-botto
 }
 
 .product-add-btn {
+  /* Figma 1:660/1:661 — black box 48px tall, white Helvetica Neue Light 16px, tracking 1.6px */
   width: 100%;
-  padding: 16px;
-  background: var(--color-fg);
-  color: var(--color-bg);
-  font-size: 11px;
-  letter-spacing: var(--tracking-editorial);
+  height: 48px;
+  padding: 0 16px;
+  background: #000000;
+  color: #ffffff;
+  font-weight: 300;
+  font-size: 16px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   border: none;
   cursor: pointer;
@@ -929,9 +966,12 @@ body.template-list-collections .site-header:not(.header--overlay) { border-botto
 .product-add-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .product-description {
-  font-size: 14px;
-  line-height: 1.7;
-  color: var(--color-muted-fg);
+  /* Figma 1:602 — Helvetica Neue Light 16px, line-height 25px, tracking 1.6px, black */
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 25px;
+  letter-spacing: 0.1em;
+  color: #000000;
   padding-top: 16px;
   border-top: 1px solid var(--color-border);
 }
@@ -973,15 +1013,16 @@ body.template-cart .site-header { display: none !important; }
 @media (min-width: 768px) { .cart-tabs { justify-content: flex-end; } }
 
 .cart-tab-btn {
-  font-size: 12px;
-  letter-spacing: var(--tracking-editorial);
+  /* Figma I1:558;1:65/66 — YOUR BAG [2] Medium 16px / LOOKBOOK Regular 16px, tracking 1.28px (0.08em) */
+  font-size: 16px;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   padding-bottom: 4px;
   border-bottom: 1px solid transparent;
-  color: var(--color-muted-fg);
+  color: rgba(0,0,0,0.4);
   transition: color var(--transition), border-color var(--transition);
 }
-.cart-tab-btn.is-active { color: var(--color-fg); border-bottom-color: var(--color-fg); font-weight: 500; }
+.cart-tab-btn.is-active { color: #000000; border-bottom-color: #000000; font-weight: 500; }
 
 .cart-layout {
   display: grid;
@@ -1006,8 +1047,9 @@ body.template-cart .site-header { display: none !important; }
 
 /* Cross sits right next to the product name (design) */
 .cart-item__top { display: flex; align-items: center; gap: 50px; }
-.cart-item__title { font-size: 12px; letter-spacing: var(--tracking-editorial); text-transform: uppercase; font-weight: 300; flex: auto;}
-.cart-item__price { font-size: 12px; margin-top: -2px; }
+/* Figma 1:497/1:500 — title & price: Helvetica Neue Light 16px, line-height 29px, tracking 1.6px */
+.cart-item__title { font-size: 16px; line-height: 29px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 300; color: #000; flex: auto;}
+.cart-item__price { font-size: 16px; letter-spacing: 0.1em; font-weight: 300; color: #000; margin-top: -2px; }
 .cart-item__remove { color: var(--color-muted-fg); transition: color var(--transition); flex: 0 0 auto; line-height: 0; }
 .cart-item__remove:hover { color: var(--color-fg); }
 .cart-item__remove svg { width: 15px; height: 15px; }
@@ -1018,34 +1060,39 @@ body.template-cart .site-header { display: none !important; }
   background: var(--color-muted);
 }
 .qty-btn {
-  width: 36px;
-  height: 36px;
+  /* Figma 1:527 — "+" Helvetica Neue Regular 20px; box 41px tall */
+  width: 41px;
+  height: 41px;
   display: grid;
   place-items: center;
-  font-size: 18px;
+  font-size: 20px;
   transition: opacity var(--transition);
 }
 .qty-btn:hover { opacity: 0.6; }
 .qty-display {
+  /* Figma 1:524 — qty number Helvetica Neue Light 18px, tracking 1.08px */
   width: 32px;
   text-align: center;
-  font-size: 14px;
+  font-size: 18px;
+  font-weight: 300;
+  letter-spacing: 0.06em;
 }
 
 /* Cart item: colour text line + controls row (qty stepper + size dropdown) */
-.cart-item__color { font-size: 13px; color: var(--color-fg); margin-top: -4px; }
+/* Figma 1:521 — colour: Helvetica Neue Light 16px, tracking 1.6px, capitalize, black */
+.cart-item__color { font-size: 16px; letter-spacing: 0.1em; font-weight: 300; color: #000000; margin-top: -4px; }
 .cart-item__controls { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 60px; }
 
 .cart-size-select { position: relative; display: inline-flex; }
 .cart-item__size {
   -webkit-appearance: none;
   appearance: none;
-  background: var(--color-muted);
+  background: #f6f6f6;
   border: none;
-  height: 36px;
+  height: 41px;
   padding: 0 30px 0 14px;
-  font-size: 13px;
-  letter-spacing: 0.04em;
+  font-size: 16px;
+  letter-spacing: 0.06em;
   color: var(--color-fg);
   cursor: pointer;
   border-radius: 0;
@@ -1077,12 +1124,15 @@ body.template-cart .site-header { display: none !important; }
   .cart-summary-rows { display: flex; flex-direction: column; gap: 10px; }
 }
 .cart-summary-row {
+  /* Figma 1:548/1:549 — Subtotal/Delivery: Helvetica Neue Light 18px, tracking 1.8px (0.1em), black */
   display: flex;
   justify-content: space-between;
-  font-size: 14px;
+  font-size: 18px;
+  letter-spacing: 0.1em;
+  color: #000000;
   font-weight: 300;
 }
-.cart-summary-row--muted { color: var(--color-muted-fg); }
+.cart-summary-row--muted { color: #000000; }
 
 .cart-total {
   padding-top: 16px;
@@ -1092,14 +1142,16 @@ body.template-cart .site-header { display: none !important; }
   margin-bottom: 10px;
 }
 .cart-total__row {
+  /* Figma 1:547/1:550 — TOTAL: Helvetica Neue Light 18px, tracking 1.8px (0.1em) */
   display: flex;
   justify-content: space-between;
-  font-size: 12px;
-  letter-spacing: var(--tracking-editorial);
+  font-size: 18px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   font-weight: 300;
 }
-.cart-tax-note { font-size: 12px; color: var(--color-muted-fg); font-weight: 300; }
+/* Figma 1:553 — MRP inclusive of all taxes: Helvetica Neue Light 16px, #797979 */
+.cart-tax-note { font-size: 16px; letter-spacing: 0.1em; color: #797979; font-weight: 300; }
 
 .cart-empty-page {
   padding: 120px 24px;
@@ -1266,17 +1318,21 @@ body.template-cart .site-header { display: none !important; }
 }
 
 .form-field { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
-.form-label { font-size: 11px; letter-spacing: var(--tracking-editorial); text-transform: uppercase; color: var(--color-muted-fg); }
+/* Figma 1:164-168 — field labels: Helvetica Neue Light 16px, tracking 1.6px (0.1em), uppercase, black */
+.form-label { font-size: 16px; font-weight: 300; letter-spacing: 0.1em; text-transform: uppercase; color: #000000; }
+/* Figma 1:170 — underline input fields (line under value), 16px black */
 .form-input {
-  background: var(--color-muted);
+  background: transparent;
   border: none;
+  border-bottom: 1px solid #000000;
   outline: none;
-  padding: 12px 16px;
-  font-size: 14px;
-  color: var(--color-fg);
-  transition: background var(--transition);
+  padding: 8px 2px;
+  font-size: 16px;
+  letter-spacing: 0.1em;
+  color: #000000;
+  transition: border-color var(--transition);
 }
-.form-input:focus { background: rgba(245,245,245,0.8); }
+.form-input:focus { border-bottom-color: #000000; }
 
 .form-actions { margin-top: 24px; display: flex; flex-direction: column; gap: 12px; }
 .form-link {
@@ -1503,11 +1559,12 @@ body.template-cart .site-header { display: none !important; }
 }
 
 .footer-link {
-  font-size: 12px;
-  letter-spacing: var(--tracking-editorial);
+  /* Figma 1:852… — Helvetica Neue Light 16px, tracking 1.6px (0.1em), black */
+  font-weight: 300;
+  font-size: 16px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--color-fg);
-  opacity: 0.9;
+  color: #000000;
   transition: opacity var(--transition);
 }
 .footer-link:hover { opacity: 0.6; }
@@ -1522,15 +1579,22 @@ body.template-cart .site-header { display: none !important; }
 }
 
 .footer-newsletter__heading {
-  font-size: 11px;
-  letter-spacing: var(--tracking-editorial);
+  /* Figma 1:862 — NEWSLETTER: Helvetica Neue Medium 16px, tracking 1.6px (0.1em) */
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
+  color: #000000;
   margin-bottom: 10px;
 }
 
 .footer-newsletter__sub {
-  font-size: 13px;
-  color: var(--color-muted-fg);
+  /* Figma 1:867 — Helvetica Neue Light 14px, line-height 20px, tracking 1.4px (0.1em), black */
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.1em;
+  color: #000000;
   margin-bottom: 24px;
 }
 
@@ -1546,23 +1610,28 @@ body.template-cart .site-header { display: none !important; }
 }
 
 .footer-email-input {
+  /* Figma 1:870 — Email Address: Helvetica Neue Light 14px, tracking 1.4px (0.1em), black */
   flex: 1;
   padding: 10px 2px;
-  font-size: 12px;
-  letter-spacing: 0.06em;
+  font-weight: 300;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  color: #000000;
   border: none;
   border-bottom: 1px solid var(--color-fg);
   outline: none;
   background: transparent;
 }
-.footer-email-input::placeholder { color: var(--color-muted-fg); }
+.footer-email-input::placeholder { color: #000000; }
 
 .footer-email-btn {
+  /* Figma 1:868/1:869 — SUBSCRIBE: black box, Helvetica Neue Light 14px white, tracking 1.4px */
   padding: 12px 20px;
-  background: var(--color-fg);
-  color: var(--color-bg);
-  font-size: 11px;
-  letter-spacing: var(--tracking-editorial);
+  background: #000000;
+  color: #ffffff;
+  font-weight: 300;
+  font-size: 14px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   border: none;
   cursor: pointer;
@@ -1594,9 +1663,12 @@ body.template-cart .site-header { display: none !important; }
 .footer-social-link svg { width: 20px; height: 20px; }
 
 .footer-copyright {
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  color: var(--color-muted-fg);
+  /* Figma 1:872 — Helvetica Neue Light 14px, line-height 29px, tracking 1.4px (0.1em), black */
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 29px;
+  letter-spacing: 0.1em;
+  color: #000000;
   text-align: center;
 }
 
@@ -1666,25 +1738,25 @@ body { padding-bottom: 60px; }
    PRODUCT BADGES
    ============================================================ */
 .product-badge {
+  /* Figma 1:736-739 — translucent white box (20% white), Helvetica Neue Light 12px,
+     tracking 1.2px (0.1em), white text, capitalize */
   position: absolute;
   top: 10px;
-  left: 10px;
+  left: 8px;
   z-index: 2;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 10px;
-  letter-spacing: 0.06em;
-  padding: 4px 8px;
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: capitalize;
+  padding: 2px 8px;
   pointer-events: none;
 }
-/* Translucent dark corner label (design) */
-.product-badge--bestseller {
-  background: rgba(0,0,0,0.55);
-  color: #fff;
-}
+.product-badge--bestseller,
 .product-badge--new {
-  background: var(--color-bg);
-  color: var(--color-fg);
-  border: 1px solid var(--color-fg);
+  background: rgba(255,255,255,0.2);
+  color: #ffffff;
+  border: none;
 }
 .product-card__img-wrap { position: relative; }
 
@@ -1712,12 +1784,13 @@ body { padding-bottom: 60px; }
 }
 
 .size-guide-link {
-  font-size: 10px;
-  letter-spacing: var(--tracking-editorial);
+  /* Figma 1:657 — Helvetica Neue Regular 14px, underline, tracking 1.4px (0.1em), black */
+  font-size: 14px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   text-decoration: underline;
   text-underline-offset: 3px;
-  opacity: 0.6;
+  color: #000000;
   cursor: pointer;
   transition: opacity var(--transition);
 }
@@ -1728,15 +1801,16 @@ body { padding-bottom: 60px; }
 /* Square colour swatches (Figma): light colours stay visible via inset hairline,
    the active swatch gets a square outline ring. */
 .variant-color-btn {
-  width: 36px;
-  height: 36px;
+  /* Figma 1:665-667 — 22px square swatches; active = black square outline ring */
+  width: 22px;
+  height: 22px;
   border-radius: 0;
   border: none !important;
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.14);
   cursor: pointer;
   transition: outline-color var(--transition);
   outline: 1px solid transparent;
-  outline-offset: 3px;
+  outline-offset: 2px;
 }
 .variant-color-btn.is-active {
   outline-color: var(--color-fg);
@@ -1744,9 +1818,11 @@ body { padding-bottom: 60px; }
 .variant-color-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 
 .product-low-stock {
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  color: #c0392b;
+  /* Figma 1:658 — "Only 5 units left": Helvetica Neue Regular 13px, #797979, tracking 1.3px */
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #797979;
   margin-bottom: 12px;
 }
 
@@ -1777,13 +1853,15 @@ body { padding-bottom: 60px; }
 .product-accordion:last-of-type { border-bottom: 1px solid var(--color-border); }
 
 .product-accordion__trigger {
+  /* Figma 1:641/1:648 — SHIPPING/RETURNS: Helvetica Neue Light 18px, tracking 1.8px (0.1em) */
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
   padding: 16px 0;
-  font-size: 11px;
-  letter-spacing: var(--tracking-editorial);
+  font-weight: 300;
+  font-size: 18px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 .product-accordion__trigger svg.accordion-icon { width: 16px; height: 16px; transition: transform var(--transition); }
@@ -1799,21 +1877,27 @@ body { padding-bottom: 60px; }
 .pincode-checker { background: var(--color-muted); padding: 14px; margin-bottom: 22px; }
 .pincode-row { display: flex; gap: 0; }
 .pincode-input {
+  /* Figma 1:643/1:645 — white field, 0.5px black border, 45px tall, 16px text */
   flex: 1;
-  padding: 12px 14px;
-  font-size: 13px;
-  border: none;
+  height: 45px;
+  padding: 0 18px;
+  font-size: 16px;
+  letter-spacing: 0.1em;
+  border: 0.5px solid #000000;
   outline: none;
-  background: var(--color-bg);
+  background: #ffffff;
 }
 .pincode-apply-btn {
-  padding: 12px 24px;
-  font-size: 11px;
-  letter-spacing: var(--tracking-editorial);
+  /* Figma 1:644/1:646 — black box 45px, white Helvetica Neue Light 16px, tracking 1.6px */
+  height: 45px;
+  padding: 0 24px;
+  font-weight: 300;
+  font-size: 16px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  background: var(--color-fg);
-  color: var(--color-bg);
-  border: none;
+  background: #000000;
+  color: #ffffff;
+  border: 1px solid #000000;
   cursor: pointer;
 }
 .pincode-result { font-size: 12px; margin-top: 8px; color: var(--color-muted-fg); }
@@ -1825,7 +1909,10 @@ body { padding-bottom: 60px; }
   flex-direction: column;
   gap: 6px;
 }
-.shipping-features li { font-size: 13px; line-height: 1.6; color: rgba(26,26,26,0.75); }
+.shipping-features li {
+  /* Figma 1:647 — Helvetica Neue Light 16px, line-height 26px, black */
+  font-size: 16px; line-height: 26px; letter-spacing: 0.1em; color: #000000;
+}
 .shipping-features a { text-decoration: underline; text-underline-offset: 3px; }
 
 /* Complete the Look */
@@ -1908,11 +1995,13 @@ body { padding-bottom: 60px; }
   gap: 16px;
   align-items: start;
 }
+/* Figma 1:22/1:23 — SIZE/COLOR: Helvetica Neue Light 16px, tracking 1.6px (0.1em) */
 .filter-section__title {
-  font-size: 14px;
-  letter-spacing: 0.04em;
+  font-size: 16px;
+  font-weight: 300;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--color-fg);
+  color: #000000;
   padding-top: 14px;
 }
 
@@ -1948,34 +2037,37 @@ body { padding-bottom: 60px; }
   flex-direction: column;
   border-top: 1px solid var(--color-border);
 }
+/* Figma 1:8 — colour name: Helvetica Neue Regular 14px, tracking 1.12px (0.08em) */
 .filter-color-btn {
   display: flex;
   align-items: center;
   gap: 16px;
-  font-size: 15px;
-  letter-spacing: 0.01em;
+  font-size: 14px;
+  letter-spacing: 0.08em;
   cursor: pointer;
   width: 100%;
   padding: 14px 16px;
   border-bottom: 1px solid var(--color-border);
   position: relative;
 }
+/* Figma 1:27-31 — 12px square swatches */
 .filter-color-swatch {
-  width: 18px;
-  height: 18px;
+  width: 12px;
+  height: 12px;
   border-radius: 0;
   border: 1px solid var(--color-border);
   flex-shrink: 0;
 }
 .filter-color-btn.is-active { box-shadow: inset 0 0 0 2px var(--color-fg); z-index: 1; }
 
+/* Figma 1:13 — SHOW MORE...: Helvetica Neue Regular 14px, tracking 0.7px (0.05em) */
 .filter-show-more {
   font-size: 14px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   margin-top: 14px;
   cursor: pointer;
-  color: var(--color-fg);
+  color: #000000;
   transition: opacity var(--transition);
 }
 .filter-show-more:hover { opacity: 0.6; }
@@ -1988,14 +2080,17 @@ body { padding-bottom: 60px; }
   gap: 18px;
 }
 
+/* Figma 1:24/1:25 — SHOW ITEMS: black 48px, Helvetica Neue Light 16px, tracking 1.6px */
 .filter-show-items-btn {
   width: 100%;
-  font-size: 12px;
-  letter-spacing: var(--tracking-editorial);
+  font-size: 16px;
+  letter-spacing: 0.1em;
 }
+/* Figma 1:26 — CLEAR ALL: Helvetica Neue Light 16px, tracking 1.6px */
 .filter-clear-btn {
-  font-size: 13px;
-  letter-spacing: var(--tracking-editorial);
+  font-size: 16px;
+  font-weight: 300;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   cursor: pointer;
   transition: opacity var(--transition);
@@ -2420,31 +2515,36 @@ body { padding-bottom: 60px; }
 }
 @media (min-width: 768px) { .login-card { max-width: 660px; } }
 
-/* Account/content page headings: sans-serif, bold, uppercase, left-aligned */
+/* Figma 1:419 — ACCESS: Helvetica Neue Medium 20px, tracking 2px (0.1em), uppercase, left */
 .login-heading {
   font-family: var(--font-body);
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   text-align: left;
   margin-bottom: 22px;
 }
-@media (min-width: 768px) { .login-heading { font-size: 18px; } }
 
+/* Figma 1:416 — intro: Helvetica Neue Light 16px, line-height 23px, tracking 1.6px, black */
 .login-sub {
-  font-size: 14px;
-  color: var(--color-fg);
+  font-size: 16px;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  color: #000000;
   text-align: left;
   margin-bottom: 40px;
-  line-height: 1.6;
-  max-width: 460px;
+  line-height: 23px;
+  max-width: 540px;
 }
 
+/* Figma 1:414 — gray input box rgba(172,172,172,0.16), 48px tall */
 .form-input--gray {
-  background: var(--color-muted) !important;
+  background: rgba(172,172,172,0.16) !important;
   border: none !important;
   border-radius: 0 !important;
+  min-height: 48px !important;
+  padding: 12px 18px !important;
 }
 
 .login-actions {

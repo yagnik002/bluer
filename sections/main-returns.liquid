@@ -77,22 +77,28 @@
   font-weight: 500;
   margin-bottom: 12px;
 }
-.returns-intro { font-size: 14px; line-height: 1.7; color: rgba(26,26,26,0.8); margin-bottom: 20px; }
+.returns-intro { font-size: 16px; line-height: 26px; letter-spacing: 0.1em; color: #000000; margin-bottom: 20px; }
 
+/* Figma 1:345/1:346 — info banner: rgba(0,0,0,0.06) box 48px, Helvetica Neue Light 16px, uppercase, black, centred */
 .returns-notice {
-  background: var(--color-muted);
-  padding: 12px 16px;
-  font-size: 11px;
-  letter-spacing: var(--tracking-editorial);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  background: rgba(0,0,0,0.06);
+  padding: 0 16px;
+  font-weight: 300;
+  font-size: 16px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(26,26,26,0.75);
+  color: #000000;
   text-align: center;
   margin-bottom: 28px;
 }
 
 .returns-form .form-field { margin-bottom: 18px; }
 .returns-textarea { resize: vertical; min-height: 110px; }
-.returns-photos-note { font-size: 13px; color: var(--color-muted-fg); line-height: 1.6; margin: 4px 0 24px; }
+.returns-photos-note { font-size: 16px; letter-spacing: 0.1em; color: #000000; line-height: 26px; margin: 4px 0 24px; }
 .returns-photos-note a { text-decoration: underline; text-underline-offset: 2px; }
 .returns-success { background: #f0f7f0; border: 1px solid #b7d8b7; padding: 14px 16px; font-size: 13px; margin-bottom: 20px; }
 .returns-submit { margin-top: 4px; }
