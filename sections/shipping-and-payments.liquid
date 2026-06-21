@@ -119,6 +119,25 @@
 .policy-page--shipping .rte li { margin-bottom: 0; }
 
 .policy-page--shipping .policy-divider { border: none; border-top: 1px solid var(--color-border); margin: 32px 0; }
+
+/* ---- Mobile only (design) ---- */
+@media (max-width: 767px) {
+  /* Remove the first "Shipping Details" heading on mobile */
+  .policy-page--shipping .policy-section-heading:first-child { display: none; }
+
+  /* Smaller type */
+  .policy-page--shipping .policy-section-heading,
+  .policy-page--shipping .rte h2 { font-size: 12px; }
+  .policy-page--shipping .policy-page__intro,
+  .policy-page--shipping .policy-text,
+  .policy-page--shipping .policy-list li,
+  .policy-page--shipping .rte p,
+  .policy-page--shipping .rte li { font-size: 12px; line-height: 15px; }
+
+  .policy-page--shipping .policy-page__title { margin-bottom: 0; }
+  .policy-page--shipping .page-back-bar { padding: 0 0 30px; }
+  .policy-page--shipping .page-back { padding: 0; }
+}
 </style>
 
 {% schema %}
