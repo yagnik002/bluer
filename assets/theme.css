@@ -1591,7 +1591,7 @@ body.template-cart .site-header { display: none !important; }
 .footer-newsletter__sub {
   /* Figma 1:867 — Helvetica Neue Light 14px, line-height 20px, tracking 1.4px (0.1em), black */
   font-weight: 300;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 20px;
   letter-spacing: 0.1em;
   color: #000000;
