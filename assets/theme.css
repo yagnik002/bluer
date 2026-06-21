@@ -2669,15 +2669,27 @@ body { padding-bottom: 60px; }
 /* --- HOME / CURATED tabs (mobile only) --- */
 .home-tabs {
   display: flex;
+  align-items: center;
   justify-content: flex-end;
   gap: 28px;
   background: transparent;
-  padding: 13px 24px;
+  padding: 0 24px;
+  height: 44px;
   position: sticky;
   top: 0;
   z-index: 96;
 }
 @media (min-width: 768px) { .home-tabs { display: none; } }
+
+/* HOME view (mobile): overlay the tabs on the hero so the white labels read
+   (otherwise they sit on the white page background and disappear). */
+@media (max-width: 767px) {
+  html[data-home-tab="home"] #shopify-section-home_tabs {
+    position: relative;
+    z-index: 96;
+    margin-bottom: -44px;
+  }
+}
 
 .home-tab {
   background: none;
