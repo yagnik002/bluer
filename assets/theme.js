@@ -576,16 +576,15 @@ function navigateWithBlend(url) {
 function initHeaderSearch() {
   const input = $('#header-search-input');
   if (!input) return;
-  const form = input.closest('form');
-  if (!form) return;
-  // Type in the header field, press Enter -> blend into the results page.
-  form.addEventListener('submit', (e) => {
+  // Clicking the header SEARCH opens the search page (where you type) with a blend.
+  function go(e) {
+    if (location.pathname.indexOf('/search') === 0) return; // already on the search page
     e.preventDefault();
-    const q = input.value.trim();
-    if (!q) { input.focus(); return; }
-    const sep = form.action.indexOf('?') > -1 ? '&' : '?';
-    navigateWithBlend(form.action + sep + 'q=' + encodeURIComponent(q) + '&type=product');
-  });
+    input.blur();
+    navigateWithBlend('/search');
+  }
+  input.addEventListener('mousedown', go);
+  input.addEventListener('focus', go);
 }
 
 /* ---- Cart page open drawer link ------------------------- */
@@ -940,13 +939,9 @@ function initMobileNav() {
   });
 
   searchBtn && searchBtn.addEventListener('click', () => {
-    // Reveal + focus the header search field (where you type on mobile too).
-    const header = $('#site-header');
-    const input = $('#header-search-input');
-    if (!header || !input) return;
-    const willOpen = !header.classList.contains('is-search-open');
-    header.classList.toggle('is-search-open', willOpen);
-    if (willOpen) setTimeout(() => input.focus(), 80);
+    // Open the search page (where you type) with a blend.
+    if (location.pathname.indexOf('/search') === 0) return;
+    navigateWithBlend('/search');
   });
 }
 

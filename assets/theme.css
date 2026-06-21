@@ -150,44 +150,12 @@ body:not(.template-index) #shopify-section-header {
   line-height: 1;
   padding: 0 0 3px;
   color: var(--color-fg);
-  cursor: text;
-  -webkit-appearance: none;
-  appearance: none;
+  cursor: pointer;
 }
 .header-search-input:focus { border-bottom-color: var(--color-fg); }
-.header-search-input::-webkit-search-cancel-button,
-.header-search-input::-webkit-search-decoration { -webkit-appearance: none; appearance: none; display: none; }
 
 /* Page-leave blend: fade the current page out before navigating to search */
 .page-leaving { opacity: 0; transition: opacity 0.2s ease; }
-
-/* Mobile: the bottom-nav search icon reveals the header search as a full-width
-   bar under the header, where you type (the only way to search on mobile). */
-@media (max-width: 767px) {
-  .site-header.is-search-open .header-search {
-    display: flex;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 24px;
-    background: var(--color-bg);
-    border-bottom: 1px solid var(--color-border);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
-    z-index: 90;
-  }
-  .site-header.is-search-open .header-search form { display: flex; align-items: center; gap: 10px; width: 100%; }
-  .site-header.is-search-open .header-search label {
-    font-size: 11px;
-    letter-spacing: var(--tracking-editorial);
-    text-transform: uppercase;
-    color: var(--color-muted-fg);
-    white-space: nowrap;
-  }
-  .site-header.is-search-open .header-search-input { flex: 1; width: auto; font-size: 14px; }
-}
 
 .header-nav {
   display: flex;
