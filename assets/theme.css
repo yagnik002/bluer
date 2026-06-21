@@ -1723,8 +1723,9 @@ body.template-cart .site-header { display: none !important; }
   left: 0;
   right: 0;
   z-index: 200;
-  background: var(--color-bg);
-  border-top: 1px solid var(--color-border);
+  background: #0000006E;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   height: 60px;
   padding: 0 4px;
 }
@@ -1738,7 +1739,7 @@ body { padding-bottom: 60px; }
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #b0b0b0;
+  color: rgba(255, 255, 255, 0.7);
   transition: color var(--transition);
   text-decoration: none;
   background: none;
@@ -1747,8 +1748,8 @@ body { padding-bottom: 60px; }
   font-family: var(--font-body);
 }
 .mobile-nav-item svg { width: 24px; height: 24px; }
-.mobile-nav-item.is-active { color: var(--color-fg); }
-.mobile-nav-item:hover { color: var(--color-fg); }
+.mobile-nav-item.is-active { color: #ffffff; }
+.mobile-nav-item:hover { color: #ffffff; }
 
 .mobile-nav-bag-wrap,
 .mobile-nav-account-wrap { position: relative; display: inline-flex; }
@@ -2670,7 +2671,7 @@ body { padding-bottom: 60px; }
   display: flex;
   justify-content: flex-end;
   gap: 28px;
-  background: #fff;
+  background: transparent;
   padding: 13px 24px;
   position: sticky;
   top: 0;
