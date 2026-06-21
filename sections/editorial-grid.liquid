@@ -14,7 +14,7 @@
       <div style="width:100%;height:88vh;background:var(--color-muted)"></div>
     {%- endif -%}
     {%- if section.settings.label_1 != blank -%}
-      <p class="hero-label">{{ section.settings.label_1 }}</p>
+      <p class="hero-label{% if section.settings.label_dark %} hero-label--dark{% endif %}">{{ section.settings.label_1 }}</p>
     {%- endif -%}
   </{{ tag1 }}>
 
@@ -28,7 +28,7 @@
       {%- else -%}
         <div style="aspect-ratio:4/5;background:var(--color-muted)"></div>
       {%- endif -%}
-      {%- if section.settings.label_1 != blank -%}<p class="hero-label">{{ section.settings.label_1 }}</p>{%- endif -%}
+      {%- if section.settings.label_1 != blank -%}<p class="hero-label{% if section.settings.label_dark %} hero-label--dark{% endif %}">{{ section.settings.label_1 }}</p>{%- endif -%}
     </{{ ctag1 }}>
 
     {%- assign ctag2 = 'div' -%}
@@ -39,7 +39,7 @@
       {%- else -%}
         <div style="aspect-ratio:4/5;background:var(--color-muted)"></div>
       {%- endif -%}
-      {%- if section.settings.label_2 != blank -%}<p class="hero-label">{{ section.settings.label_2 }}</p>{%- endif -%}
+      {%- if section.settings.label_2 != blank -%}<p class="hero-label{% if section.settings.label_dark %} hero-label--dark{% endif %}">{{ section.settings.label_2 }}</p>{%- endif -%}
     </{{ ctag2 }}>
   </div>
 {%- endif -%}
@@ -87,6 +87,12 @@
       "type": "url",
       "id": "link_2",
       "label": "Image 2 link"
+    },
+    {
+      "type": "checkbox",
+      "id": "label_dark",
+      "label": "Dark corner labels (for light images)",
+      "default": false
     }
   ],
   "presets": [

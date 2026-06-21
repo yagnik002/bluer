@@ -9,7 +9,7 @@
       <a href="{{ section.settings.empty_url | default: '/collections/all' }}" class="btn wishlist-empty__cta">{{ section.settings.empty_cta | default: 'View Collection' }}</a>
     </div>
 
-    <div id="wishlist-grid" class="product-grid product-grid--4"></div>
+    <div id="wishlist-grid" class="product-grid wishlist-grid"></div>
 
   </div>
 </div>
@@ -26,15 +26,19 @@
 <style>
 .wishlist-page { padding: 32px 24px 80px; }
 @media (min-width: 768px) { .wishlist-page { padding: 48px 40px 100px; } }
-.wishlist-page__inner { max-width: 1280px; margin: 0 auto; }
+/* Figma 1:560-565 — centred 3-column grid (~213px tiles) */
+.wishlist-page__inner { max-width: 770px; margin: 0 auto; }
+.wishlist-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 5px; }
+@media (min-width: 768px) { .wishlist-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .wishlist-page__title {
-  font-size: 11px;
-  letter-spacing: var(--tracking-editorial);
+  font-size: 16px;
+  font-weight: 300;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   margin-bottom: 24px;
 }
 .wishlist-empty { padding: 80px 0; text-align: center; }
-.wishlist-empty__sub { font-size: 13px; color: var(--color-muted-fg); margin-top: 8px; }
+.wishlist-empty__sub { font-size: 16px; letter-spacing: 0.1em; color: #000000; margin-top: 8px; }
 .wishlist-empty__cta { margin-top: 24px; display: inline-flex; }
 </style>
 
