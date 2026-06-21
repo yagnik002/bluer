@@ -104,6 +104,13 @@
   .about-image-full img { aspect-ratio: auto; max-height: 600px; object-fit: cover; }
 }
 
+/* Mobile type + natural image ratio (design) */
+@media (max-width: 767px) {
+  .about-heading { font-size: 14px; }
+  .about-body { font-size: 12px; letter-spacing: 0.1em; }
+  .about-image-full img { aspect-ratio: auto; }
+}
+
 .about-image-pair {
   display: grid;
   grid-template-columns: 1fr 1fr;
