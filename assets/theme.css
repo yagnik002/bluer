@@ -74,6 +74,27 @@ ul, ol { list-style: none; }
 }
 .announcement-bar p { overflow: hidden; text-overflow: ellipsis; }
 
+/* Mobile only — announcement bar per design (padding 10px 31px) */
+@media (max-width: 767px) {
+  .announcement-bar {
+    background: #000;
+    color: #fff;
+    text-align: center;
+    height: 33.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 31px;
+    font-weight: 300;
+    font-size: 12px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
 /* ---- Header ---------------------------------------------- */
 .site-header {
   position: sticky;
