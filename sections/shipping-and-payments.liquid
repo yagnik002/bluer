@@ -15,7 +15,14 @@
           <h2 class="policy-section-heading" {{ block.shopify_attributes }}>{{ block.settings.text }}</h2>
 
         {%- elsif block.type == 'subheading' -%}
-          <h3 class="policy-subheading" {{ block.shopify_attributes }}>{{ block.settings.text }}</h3>
+          {%- assign sub_key = block.settings.text | strip | downcase -%}
+          {%- if sub_key == 'standard orders' -%}
+            <h3 class="policy-subheading policy-subheading--standard" {{ block.shopify_attributes }}>{{ block.settings.text }}</h3>
+          {%- elsif sub_key == 'sale orders' -%}
+            <h3 class="policy-subheading policy-subheading--sale" {{ block.shopify_attributes }}>{{ block.settings.text }}</h3>
+          {%- else -%}
+            <h3 class="policy-subheading" {{ block.shopify_attributes }}>{{ block.settings.text }}</h3>
+          {%- endif -%}
 
         {%- elsif block.type == 'text' -%}
           {%- assign text_html = block.settings.text | newline_to_br | replace: 'support@bluer.co.in', '<a href="mailto:support@bluer.co.in">support@bluer.co.in</a>' -%}
@@ -122,21 +129,47 @@
 
 /* ---- Mobile only (design) ---- */
 @media (max-width: 767px) {
-  /* Remove the first "Shipping Details" heading on mobile */
+  /* Remove the first "Shipping Details" heading and the "Standard Orders" subheading */
   .policy-page--shipping .policy-section-heading:first-child { display: none; }
+  .policy-page--shipping .policy-subheading--standard { display: none; }
 
-  /* Smaller type */
+  /* Section headings */
   .policy-page--shipping .policy-section-heading,
-  .policy-page--shipping .rte h2 { font-size: 12px; }
+  .policy-page--shipping .rte h2 {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 25px;
+    margin: 0 0 10px;
+    padding: 0 20px;
+  }
+
+  /* Body text */
   .policy-page--shipping .policy-page__intro,
   .policy-page--shipping .policy-text,
   .policy-page--shipping .policy-list li,
   .policy-page--shipping .rte p,
   .policy-page--shipping .rte li { font-size: 12px; line-height: 15px; }
 
-  .policy-page--shipping .policy-page__title { margin-bottom: 0; }
-  .policy-page--shipping .page-back-bar { padding: 0 0 30px; }
+  /* "Sale Orders" shown like a section heading, with a colon */
+  .policy-page--shipping .policy-subheading--sale {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 25px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin: 0 0 10px;
+    padding: 0 20px;
+  }
+  .policy-page--shipping .policy-subheading--sale::after { content: ":"; }
+
+  /* Back button sits inline, to the left of the title */
+  .policy-page--shipping .page-back-bar { padding: 0; }
   .policy-page--shipping .page-back { padding: 0; }
+  .policy-page--shipping .policy-page__title {
+    margin-top: -28px;
+    padding-left: 40px;
+    margin-bottom: 20px;
+  }
 }
 </style>
 
