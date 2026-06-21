@@ -54,9 +54,21 @@
           }
         }
       },
-      "block_order": ["h1", "t1", "img1", "t2", "t3", "img2", "h2", "t4", "t5"],
+      "block_order": [
+        "img1",
+        "h1",
+        "t1",
+        "t2",
+        "t3",
+        "img2",
+        "h2",
+        "t4",
+        "t5"
+      ],
       "settings": {}
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }

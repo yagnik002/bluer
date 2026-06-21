@@ -1,4 +1,11 @@
 <div class="about-page">
+  <!-- Mobile: no header/footer/nav — just a back button (design) -->
+  <div class="about-topbar">
+    <button type="button" class="about-back btn-reset" id="about-back" aria-label="Go back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
+    </button>
+  </div>
+
   {%- for block in section.blocks -%}
 
     {%- if block.type == 'heading' -%}
@@ -109,7 +116,47 @@
   object-fit: cover;
   display: block;
 }
+
+/* Mobile top bar — back button only (desktop keeps the normal header) */
+.about-topbar { display: none; }
+.about-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  color: var(--color-fg);
+  cursor: pointer;
+}
+.about-back svg { width: 24px; height: 24px; }
+
+@media (max-width: 767px) {
+  .about-topbar { display: flex; align-items: center; padding: 16px 20px 4px; }
+
+  /* This page only: hide the site chrome, leaving just the back button (design) */
+  body.template-page-about #shopify-section-announcement-bar,
+  body.template-page-about #shopify-section-header,
+  body.template-page-about #shopify-section-footer,
+  body.template-page-about .mobile-bottom-nav,
+  body.template-page-about-us #shopify-section-announcement-bar,
+  body.template-page-about-us #shopify-section-header,
+  body.template-page-about-us #shopify-section-footer,
+  body.template-page-about-us .mobile-bottom-nav { display: none !important; }
+
+  body.template-page-about,
+  body.template-page-about-us { padding-bottom: 0 !important; }
+}
 </style>
+
+<script>
+(function () {
+  var btn = document.getElementById('about-back');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    if (history.length > 1) history.back();
+    else window.location.href = '/';
+  });
+})();
+</script>
 
 {% schema %}
 {

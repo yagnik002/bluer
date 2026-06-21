@@ -27,7 +27,7 @@
 
   {{ 'theme.css' | asset_url | stylesheet_tag }}
 </head>
-<body class="template-{{ template.name }}">
+<body class="template-{{ template.name }}{% if template.suffix %} template-{{ template.name }}-{{ template.suffix }}{% endif %}">
 
   {%- section 'announcement-bar' -%}
   {%- section 'header' -%}
