@@ -587,6 +587,21 @@ function initHeaderSearch() {
   input.addEventListener('focus', go);
 }
 
+/* Search page form: type + Enter blends out, then loads the results page */
+function initSearchPageForm() {
+  const input = $('#search-page-input');
+  if (!input) return;
+  const form = input.closest('form');
+  if (!form) return;
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const q = input.value.trim();
+    if (!q) { input.focus(); return; }
+    const sep = form.action.indexOf('?') > -1 ? '&' : '?';
+    navigateWithBlend(form.action + sep + 'q=' + encodeURIComponent(q) + '&type=product');
+  });
+}
+
 /* ---- Cart page open drawer link ------------------------- */
 function initCartTrigger() {
   $$('[data-open-cart]').forEach(el => {
@@ -708,6 +723,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initGridView();
   initNewsletter();
   initHeaderSearch();
+  initSearchPageForm();
   initCartTrigger();
   initFilterDrawer();
   initProductAccordions();
