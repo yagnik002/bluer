@@ -1,12 +1,65 @@
 {%- comment -%}
   Home / Curated toggle. Sits at the top of the homepage (below the announcement
-  bar). Switching tabs toggles [data-home-tab] on <html>; CSS in theme.css shows
-  the editorial sections for "home" and the curated feed for "curated".
+  bar). Switching tabs toggles [data-home-tab] on <html>; the tab styling is in
+  the inline <style> below, and theme.css toggles the editorial vs curated feed.
 {%- endcomment -%}
 <div class="home-tabs" id="home-tabs" role="tablist" aria-label="Homepage view">
   <button class="home-tab is-active" data-tab="home" role="tab" aria-selected="true">Home</button>
   <button class="home-tab" data-tab="curated" role="tab" aria-selected="false">Curated</button>
 </div>
+
+<style>
+  /* HOME / CURATED tabs (mobile). HOME is the default so it works with no JS:
+     the bar overlays the hero with white labels and is pinned. CURATED is the
+     only override (solid white bar, dark labels, normal flow). */
+  .home-tabs {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 28px;
+    background: transparent;
+    padding: 0 24px;
+    height: 44px;
+  }
+  @media (min-width: 768px) { .home-tabs { display: none; } }
+
+  @media (max-width: 767px) {
+    #shopify-section-home_tabs {
+      position: sticky;
+      top: 0;
+      z-index: 96;
+      height: 0;          /* take no flow space, so the hero comes right up... */
+      overflow: visible;  /* ...and the 44px bar overflows down, over the hero */
+    }
+    html[data-home-tab="curated"] #shopify-section-home_tabs { height: auto; }
+  }
+
+  .home-tab {
+    background: none;
+    border: none;
+    padding: 2px 0;
+    font-size: 12px;
+    letter-spacing: var(--tracking-editorial, 0.18em);
+    text-transform: uppercase;
+    position: relative;
+    cursor: pointer;
+    font-family: var(--font-body, "Helvetica Neue", Helvetica, Arial, sans-serif);
+    color: rgba(255, 255, 255, 0.65); /* default HOME: white labels */
+  }
+  .home-tab.is-active { color: #ffffff; }
+  .home-tab.is-active::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: -3px;
+    height: 1.5px;
+    background: #ffffff;
+  }
+
+  html[data-home-tab="curated"] .home-tabs { background: #ffffff; }
+  html[data-home-tab="curated"] .home-tab { color: #999999; }
+  html[data-home-tab="curated"] .home-tab.is-active { color: #1a1a1a; }
+  html[data-home-tab="curated"] .home-tab.is-active::after { background: #1a1a1a; }
+</style>
 
 <script>
 (function () {

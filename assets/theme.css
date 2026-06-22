@@ -2666,61 +2666,8 @@ body { padding-bottom: 60px; }
   body.template-index .site-header { display: none; }
 }
 
-/* --- HOME / CURATED tabs (mobile only) --- */
-.home-tabs {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 28px;
-  background: transparent;
-  padding: 0 24px;
-  height: 44px;
-}
-@media (min-width: 768px) { .home-tabs { display: none; } }
-
-/* Mobile: pin the tabs' SECTION wrapper (sticky inside the tall <main>, so they
-   actually stay put while scrolling). HOME is the DEFAULT so it works even
-   before the toggle JS runs: the bar overlays the hero with white labels.
-   CURATED is the only override (solid white bar, dark labels, no overlay). */
-@media (max-width: 767px) {
-  #shopify-section-home_tabs {
-    position: sticky;
-    top: 0;
-    z-index: 96;
-    margin-bottom: -44px; /* overlay the hero (HOME default) */
-  }
-  html[data-home-tab="curated"] #shopify-section-home_tabs {
-    margin-bottom: 0; /* CURATED: bar sits in normal flow */
-  }
-}
-
-.home-tab {
-  background: none;
-  border: none;
-  padding: 2px 0;
-  font-size: 12px;
-  letter-spacing: var(--tracking-editorial);
-  text-transform: uppercase;
-  position: relative;
-  cursor: pointer;
-  font-family: var(--font-body);
-  /* Default = HOME view: white labels over the hero */
-  color: rgba(255, 255, 255, 0.65);
-}
-.home-tab.is-active { color: #ffffff; }
-.home-tab.is-active::after {
-  content: "";
-  position: absolute;
-  left: 0; right: 0; bottom: -3px;
-  height: 1.5px;
-  background: #ffffff;
-}
-
-/* CURATED view: solid white bar -> dark labels */
-html[data-home-tab="curated"] .home-tabs { background: #ffffff; }
-html[data-home-tab="curated"] .home-tab { color: var(--color-muted-fg); }
-html[data-home-tab="curated"] .home-tab.is-active { color: var(--color-fg); }
-html[data-home-tab="curated"] .home-tab.is-active::after { background: var(--color-fg); }
+/* --- HOME / CURATED tabs: styling lives in sections/home-tabs.liquid (inline)
+   so it ships with the section and isn't affected by theme.css caching. --- */
 
 /* --- Tab toggling (mobile only): show editorial OR curated --- */
 .curated-feed { display: none; }
