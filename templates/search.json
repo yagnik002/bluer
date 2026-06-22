@@ -22,8 +22,8 @@
       "name": "Featured collection",
       "settings": {
         "heading": "SHOP THE EDIT",
-        "collection": "",
-        "products_to_show": 6
+        "collection": "crafte",
+        "products_to_show": 4
       }
     }
   },
