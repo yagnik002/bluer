@@ -1,7 +1,9 @@
 {%- comment -%}
   Home / Curated toggle. Sits at the top of the homepage (below the announcement
-  bar). Switching tabs toggles [data-home-tab] on <html>; the tab styling is in
-  the inline <style> below, and theme.css toggles the editorial vs curated feed.
+  bar). Switching tabs toggles [data-home-tab] on <html>. Everything this feature
+  needs — tab styling, sticky overlay, the header hide, and the editorial/curated
+  content swap — lives in the inline <style> below, so the whole feature ships
+  with this one section and never depends on a cached/stale theme.css.
 {%- endcomment -%}
 <div class="home-tabs" id="home-tabs" role="tablist" aria-label="Homepage view">
   <button class="home-tab is-active" data-tab="home" role="tab" aria-selected="true">Home</button>
@@ -36,7 +38,19 @@
       overflow: visible;  /* ...and the 44px bar overflows down, over the hero */
     }
     html[data-home-tab="curated"] #shopify-section-home_tabs { height: auto; }
+
+    /* Content toggle lives here too (not only in theme.css) so the whole
+       Home/Curated feature ships inside this one section and never depends on
+       a possibly-stale cached theme.css. HOME shows the editorial feed;
+       CURATED swaps in the curated feed. */
+    html[data-home-tab="curated"] .curated-feed { display: block; }
+    html[data-home-tab="curated"] body.template-index .hero-section,
+    html[data-home-tab="curated"] body.template-index .editorial-banner,
+    html[data-home-tab="curated"] body.template-index .editorial-grid { display: none; }
   }
+
+  /* Curated feed is hidden by default (HOME state); shown only in CURATED. */
+  .curated-feed { display: none; }
 
   .home-tab {
     background: none;
