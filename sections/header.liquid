@@ -201,7 +201,7 @@
 .nav-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.2); z-index: 199; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
 .nav-overlay.is-open { opacity: 1; pointer-events: all; }
 
-.nav-drawer { position: fixed; top: 0; left: 0; right: 0; height: 92vh; background: var(--color-bg); z-index: 200; transform: translateY(-100%); transition: transform 0.35s ease; overflow-y: auto; }
+.nav-drawer { position: fixed; top: 0; left: 0; right: 0; height: 100vh; background: var(--color-bg); z-index: 200; transform: translateY(-100%); transition: transform 0.35s ease; overflow-y: auto; }
 .nav-drawer.is-open { transform: translateY(0); }
 
 /* ---- Header chrome (shared) ---- */
@@ -241,7 +241,7 @@
      screen edge, while the label text still lines up with "DISCOVER" (24px in).
      line-height matches .nav-link so CLOTHING lines up with NEW ARRIVALS, etc. */
   .nav-sidebar { margin-left: -24px; }
-  .nav-sidebar-btn { font-size: 15px; line-height: 45px; padding: 0 24px; letter-spacing: 0.06em; }
+  .nav-sidebar-btn { font-size: 13px; line-height: 45px; padding: 0 24px; letter-spacing: 0.14em; }
 
   /* About / Careers / Sign In are not in the mobile menu (footer + bottom bar). */
   .nav-sidebar-extras { display: none; }
