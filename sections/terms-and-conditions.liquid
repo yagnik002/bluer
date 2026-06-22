@@ -98,6 +98,34 @@
 .policy-page--terms .rte li { margin-bottom: 0; }
 
 .policy-page--terms .policy-divider { border: none; border-top: 1px solid var(--color-border); margin: 32px 0; }
+
+/* ---- Mobile only (design) — matches Shipping And Payments ---- */
+@media (max-width: 767px) {
+  /* Section headings */
+  .policy-page--terms .policy-section-heading,
+  .policy-page--terms .rte h2 {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 25px;
+    margin: 0 0 10px;
+  }
+
+  /* Body text */
+  .policy-page--terms .policy-page__intro,
+  .policy-page--terms .policy-text,
+  .policy-page--terms .policy-list li,
+  .policy-page--terms .rte p,
+  .policy-page--terms .rte li { font-size: 12px; line-height: 15px; }
+
+  /* Back button inline, to the left of the title */
+  .policy-page--terms .page-back-bar { padding: 0; }
+  .policy-page--terms .page-back { padding: 0; }
+  .policy-page--terms .policy-page__title {
+    margin-top: -20px;
+    padding-left: 40px;
+    margin-bottom: 20px;
+  }
+}
 </style>
 
 {% schema %}
