@@ -188,6 +188,92 @@
 @media (prefers-reduced-motion: reduce) {
   .site-header.header--overlay { transition: none; }
 }
+
+/* =====================================================================
+   NAVIGATION MENU — self-contained (inlined here so it ships with the
+   section markup and is never served from a stale, cached theme.css).
+   Two clearly separated layouts:
+     • MOBILE  (≤767px): two columns — category list | sub-links, no tiles
+     • DESKTOP (≥768px): full-page mega-menu — categories | links | tiles
+   ===================================================================== */
+
+/* ---- Overlay + drawer container (shared) ---- */
+.nav-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.2); z-index: 199; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+.nav-overlay.is-open { opacity: 1; pointer-events: all; }
+
+.nav-drawer { position: fixed; top: 0; left: 0; right: 0; height: 92vh; background: var(--color-bg); z-index: 200; transform: translateY(-100%); transition: transform 0.35s ease; overflow-y: auto; }
+.nav-drawer.is-open { transform: translateY(0); }
+
+/* ---- Header chrome (shared) ---- */
+.nav-drawer__header { display: flex; align-items: center; justify-content: space-between; padding: calc(env(safe-area-inset-top, 0px) + 28px) 24px 0; }
+.nav-drawer__title { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 22px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+.nav-drawer__close { display: none; font-size: 28px; line-height: 1; opacity: 0.6; transition: opacity var(--transition); }
+.nav-drawer__close:hover { opacity: 1; }
+
+/* ---- Lists (shared structure; sizing set per breakpoint below) ---- */
+.nav-drawer__body { --nav-font: "Helvetica Neue", Helvetica, Arial, sans-serif; display: grid; }
+.nav-sidebar { display: flex; flex-direction: column; gap: 0; }
+.nav-sidebar-btn { display: block; width: 100%; text-align: left; font-family: var(--nav-font); font-weight: 300; letter-spacing: 0.1em; text-transform: uppercase; transition: background var(--transition); }
+.nav-sidebar-btn:hover, .nav-sidebar-btn.is-active { background: rgba(217,217,217,0.24); }
+.nav-sidebar-extras { display: flex; flex-direction: column; gap: 2px; border-top: 1px solid var(--color-border); padding-top: 24px; margin-top: 24px; }
+.nav-extra-link { display: block; font-family: var(--nav-font); font-weight: 300; letter-spacing: 0.1em; text-transform: uppercase; transition: opacity var(--transition); }
+.nav-extra-link:hover { opacity: 0.6; }
+.nav-panels { position: relative; }
+.nav-links-panel { display: none; }
+.nav-links-panel.is-active { display: flex; flex-direction: column; }
+.nav-link { display: block; font-family: var(--nav-font); font-weight: 300; letter-spacing: 0.1em; text-transform: uppercase; transition: opacity var(--transition); }
+.nav-link:hover { opacity: 0.6; }
+.nav-collection-tile { background: var(--color-bg); }
+.nav-collection-tile__img { aspect-ratio: 2 / 3; overflow: hidden; background: var(--color-muted); }
+.nav-collection-tile__img img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--transition-slow); }
+.nav-collection-tile:hover .nav-collection-tile__img img { transform: scale(1.02); }
+.nav-collection-tile__label { font-family: var(--nav-font); font-weight: 300; line-height: 1; letter-spacing: 0.1em; text-transform: uppercase; text-align: left; padding: 12px 0 0; }
+
+/* ========================= MOBILE  (≤767px) ========================= */
+@media (max-width: 767px) {
+  /* Two columns: category list | sub-links. No image tiles. */
+  .nav-drawer__body { grid-template-columns: 36% 1fr; column-gap: 12%; align-items: start; padding: 18px 24px 40px; }
+
+  /* "DISCOVER" shown; no close button — the MENU button toggles open/close. */
+  .nav-drawer__close { display: none; }
+
+  /* Category list (left): the active highlight is a tall bar that bleeds to the
+     screen edge, while the label text still lines up with "DISCOVER" (24px in).
+     line-height matches .nav-link so CLOTHING lines up with NEW ARRIVALS, etc. */
+  .nav-sidebar { margin-left: -24px; }
+  .nav-sidebar-btn { font-size: 15px; line-height: 45px; padding: 0 24px; letter-spacing: 0.06em; }
+
+  /* About / Careers / Sign In are not in the mobile menu (footer + bottom bar). */
+  .nav-sidebar-extras { display: none; }
+
+  /* Sub-links (right) — same 45px row rhythm as the category list. */
+  .nav-link { font-size: 15px; line-height: 45px; letter-spacing: 0.06em; }
+
+  /* No collection image tiles on mobile. */
+  .nav-collections { display: none; }
+}
+
+/* ========================= DESKTOP (≥768px) ========================= */
+@media (min-width: 768px) {
+  /* Full-page menu that covers the header; everything fits one view, no scroll. */
+  .nav-drawer { top: 0; height: 100vh; height: 100dvh; overflow: hidden; }
+
+  /* No "DISCOVER" title; show the close (X) at the top-right. */
+  .nav-drawer__header { justify-content: flex-end; padding: 18px 40px 0; }
+  .nav-drawer__title { display: none; }
+  .nav-drawer__close { display: block; }
+
+  /* Three columns: categories | links | image tiles. */
+  .nav-drawer__body { grid-template-columns: 230px minmax(180px, 1fr) minmax(0, 380px); gap: 16px 56px; align-items: start; padding: 14px 40px 40px; }
+
+  .nav-sidebar-btn, .nav-extra-link { font-size: 13px; line-height: 1; padding: 9px 14px; }
+  .nav-sidebar-extras { padding-top: 18px; margin-top: 16px; }
+  .nav-link { font-size: 13px; line-height: 34px; }
+
+  .nav-collections { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 8px; }
+  .nav-collection-tile__img { aspect-ratio: 3 / 4; }
+  .nav-collection-tile__label { font-size: 12px; padding-top: 8px; }
+}
 </style>
 
 <script>
