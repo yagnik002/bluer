@@ -491,7 +491,7 @@ body.template-list-collections .site-header:not(.header--overlay) { border-botto
   justify-content: space-between;
   padding: 16px 24px 10px;
 }
-@media (min-width: 768px) { .collection-bar { padding: 14px 40px 8px; } }
+@media (min-width: 768px) { .collection-bar { padding: 14px 40px 16px; } }
 
 /* Back arrow: shown on mobile (design), hidden on desktop where the site header handles nav. */
 .collection-bar__back { display: inline-flex; align-items: center; }
