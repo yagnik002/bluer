@@ -187,6 +187,29 @@
   transition: opacity var(--transition);
 }
 .role-apply-btn:hover { opacity: 0.8; }
+
+/* ---- Mobile only (design) ---- */
+@media (max-width: 767px) {
+  .careers-intro { padding: 0 24px 0; }
+  .careers-intro__heading { font-size: 15px; margin-bottom: 24px; }
+  .careers-intro__body { font-size: 12px; }
+
+  /* Remove the "Join Us" heading on mobile */
+  .careers-join-heading { display: none; }
+
+  .role-title { font-size: 12px; font-weight: 300; margin-bottom: 4px; }
+  .role-meta { font-size: 12px; line-height: 20px; }
+
+  /* Role card as a row: info left, APPLY right */
+  .role-card {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 28px 0;
+  }
+  .role-apply-btn { margin-top: 0; align-self: center; }
+}
 </style>
 
 {% schema %}
