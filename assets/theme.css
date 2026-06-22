@@ -1513,6 +1513,9 @@ body.template-cart .site-header { display: none !important; }
 /* ============================================================
    MOBILE BOTTOM NAVIGATION
    ============================================================ */
+/* NOTE: the bottom-nav background + icon colours are page-dependent (white on
+   most pages, translucent-dark on the homepage) and are set inline in
+   layout/theme.liquid so they ship with the markup. Edit them there. */
 .mobile-bottom-nav {
   display: flex;
   position: fixed;
