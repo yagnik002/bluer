@@ -189,7 +189,7 @@
 {%- else -%}
   <div class="product-grid product-grid--4 gv-4" id="collection-grid">
     {%- for product in collection.products -%}
-      {%- render 'product-card', product: product, show_quick_add: false -%}
+      {%- render 'product-card', product: product -%}
       {%- assign pindex = forloop.index -%}
       {%- for block in section.blocks -%}
         {%- if block.type == 'editorial_banner' and block.settings.image != blank and block.settings.after == pindex -%}
@@ -208,6 +208,13 @@
 {%- endif -%}
 
 <style>
+/* Collection grid: keep the quick-add "+" (and its size picker) on MOBILE only;
+   hide it on desktop. Scoped to #collection-grid so other pages are unaffected. */
+@media (min-width: 768px) {
+  #collection-grid .product-card__quick-add,
+  #collection-grid .product-card__sizes { display: none; }
+}
+
 .collection-hero__img img { width: 100%; display: block; object-fit: cover; max-height: 78vh; }
 .collection-hero__desc {
   padding: 24px;

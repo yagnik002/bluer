@@ -58,9 +58,7 @@
     Quick add: "+" reveals a size picker (design requires choosing a size before
     the item is added to the bag). Single-variant products add directly.
     No wishlist heart — the comps show only the "+".
-    Pass show_quick_add: false (e.g. on the collection page) to omit it.
   {%- endcomment -%}
-  {%- unless show_quick_add == false -%}
   {%- if product.has_only_default_variant -%}
     <button
       class="product-card__quick-add btn-reset"
@@ -83,7 +81,6 @@
       {%- endfor -%}
     </div>
   {%- endif -%}
-  {%- endunless -%}
 
   <div class="product-card__info">
     <p class="product-card__title">
