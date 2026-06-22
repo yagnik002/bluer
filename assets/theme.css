@@ -2675,18 +2675,19 @@ body { padding-bottom: 60px; }
   background: transparent;
   padding: 0 24px;
   height: 44px;
-  position: sticky;
-  top: 0;
-  z-index: 96;
 }
 @media (min-width: 768px) { .home-tabs { display: none; } }
 
-/* HOME view (mobile): overlay the tabs on the hero so the white labels read
-   (otherwise they sit on the white page background and disappear). */
+/* Mobile: make the tabs' SECTION wrapper sticky so they actually stay pinned
+   while scrolling (a sticky inner bar would only stick inside its short
+   section). HOME view also overlays the hero so the white labels read. */
 @media (max-width: 767px) {
-  html[data-home-tab="home"] #shopify-section-home_tabs {
-    position: relative;
+  #shopify-section-home_tabs {
+    position: sticky;
+    top: 0;
     z-index: 96;
+  }
+  html[data-home-tab="home"] #shopify-section-home_tabs {
     margin-bottom: -44px;
   }
 }
