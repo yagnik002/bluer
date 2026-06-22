@@ -269,13 +269,34 @@
 
 /* ========================= DESKTOP (≥768px) ========================= */
 @media (min-width: 768px) {
-  /* Full-page menu that covers the header; everything fits one view, no scroll. */
-  .nav-drawer { top: 0; height: 100vh; height: 100dvh; overflow: hidden; }
+  /* Mega-menu opens as a dropdown BELOW the site header, which stays visible and
+     sticky. The exact top is set by the inline script below (the header's bottom
+     edge shifts with the announcement bar / scroll); this is the fallback. */
+  .nav-drawer {
+    top: var(--header-height);
+    height: auto;
+    max-height: calc(100dvh - var(--header-height));
+    overflow-y: auto;
+    border-top: 1px solid var(--color-border);
+    box-shadow: 0 18px 32px -20px rgba(0,0,0,0.25);
+    /* Dropdown reveal — overrides the mobile full-height slide. */
+    transform: translateY(-10px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0s linear 0.25s;
+  }
+  .nav-drawer.is-open {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
 
-  /* No "DISCOVER" title; show the close (X) at the top-right. */
-  .nav-drawer__header { justify-content: flex-end; padding: 18px 40px 0; }
-  .nav-drawer__title { display: none; }
-  .nav-drawer__close { display: block; }
+  /* The site header is the menu chrome now — hide the drawer's own header / ×. */
+  .nav-drawer__header { display: none; }
+
+  /* Dim only the area below the header (exact top set by the inline script). */
+  .nav-overlay { top: var(--header-height); }
 
   /* Three columns: categories | links | image tiles. */
   .nav-drawer__body { grid-template-columns: 230px minmax(172px, 1fr) minmax(0, 529px); gap: 16px 56px; align-items: start; padding: 14px 40px 40px; }
@@ -289,6 +310,35 @@
   .nav-collection-tile__label { font-size: 16px; padding-top: 8px; }
 }
 </style>
+
+<script>
+/* Desktop: open the main menu as a dropdown just below the (sticky) site header.
+   The header's bottom edge shifts with the announcement bar and scroll, so we
+   measure it live each time the menu opens. Inlined here (cache-proof). */
+(function () {
+  var drawer = document.getElementById('nav-drawer');
+  var overlay = document.getElementById('nav-overlay');
+  var header = document.getElementById('site-header');
+  if (!drawer || !header) return;
+  var desktop = window.matchMedia('(min-width: 768px)');
+
+  function position() {
+    if (desktop.matches && drawer.classList.contains('is-open')) {
+      var top = Math.max(0, Math.round(header.getBoundingClientRect().bottom));
+      drawer.style.top = top + 'px';
+      drawer.style.maxHeight = (window.innerHeight - top) + 'px';
+      if (overlay) overlay.style.top = top + 'px';
+    } else {
+      drawer.style.top = '';
+      drawer.style.maxHeight = '';
+      if (overlay) overlay.style.top = '';
+    }
+  }
+
+  new MutationObserver(position).observe(drawer, { attributes: true, attributeFilter: ['class'] });
+  window.addEventListener('resize', position);
+})();
+</script>
 
 <script>
 (function () {
