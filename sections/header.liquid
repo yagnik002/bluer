@@ -249,8 +249,23 @@
   /* Sub-links (right) — same 45px row rhythm as the category list. */
   .nav-link { font-size: 15px; line-height: 45px; letter-spacing: 0.06em; }
 
-  /* No collection image tiles on mobile. */
-  .nav-collections { display: none; }
+  /* Collection banners: a full-width row below both columns — a horizontal
+     scroll that bleeds to the screen edges (~2.5 tiles visible, swipe for more). */
+  .nav-collections {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin: 24px -24px 0;
+    padding: 0 24px 6px;
+  }
+  .nav-collections::-webkit-scrollbar { display: none; }
+  .nav-collection-tile { flex: 0 0 40%; scroll-snap-align: start; }
+  .nav-collection-tile__img { aspect-ratio: 5 / 6; }
+  .nav-collection-tile__label { text-align: center; font-size: 13px; padding-top: 10px; }
 }
 
 /* ========================= DESKTOP (≥768px) ========================= */
