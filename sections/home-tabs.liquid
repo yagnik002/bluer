@@ -24,6 +24,10 @@
   @media (min-width: 768px) { .home-tabs { display: none; } }
 
   @media (max-width: 767px) {
+    /* Hide the site header on the mobile homepage (if a stale cached theme.css
+       lacks this rule, its empty space showed as the white strip). */
+    body.template-index #shopify-section-header { display: none !important; }
+
     #shopify-section-home_tabs {
       position: sticky;
       top: 0;
