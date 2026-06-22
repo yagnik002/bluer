@@ -17,6 +17,7 @@
       "type": "hero-banner",
       "settings": {
         "video": "shopify://files/videos/Bluer Web App Collection 2 Final.mp4",
+        "link": "",
         "title": "BLUER",
         "label": "CRAFTE'25"
       }
@@ -26,7 +27,11 @@
       "settings": {
         "layout": "full",
         "image_1": "shopify://shop_images/Bluer_Web_App_Design_15.png",
-        "label_1": "NEW ARRIVALS"
+        "label_1": "NEW ARRIVALS",
+        "link_1": "",
+        "label_2": "",
+        "link_2": "",
+        "label_dark": false
       }
     },
     "editorial_2": {
@@ -35,7 +40,11 @@
         "layout": "two-col",
         "image_1": "shopify://shop_images/Bluer_Web_App_Design_24.png",
         "label_1": "",
-        "image_2": "shopify://shop_images/Bluer_Web_App_Design_16.png"
+        "link_1": "",
+        "image_2": "shopify://shop_images/Bluer_Web_App_Design_16.png",
+        "label_2": "",
+        "link_2": "",
+        "label_dark": false
       }
     },
     "editorial_3": {
@@ -43,7 +52,11 @@
       "settings": {
         "layout": "full",
         "image_1": "shopify://shop_images/Bluer_Web_App_Design_17.png",
-        "label_1": "SUMMER '26"
+        "label_1": "SUMMER '26",
+        "link_1": "",
+        "label_2": "",
+        "link_2": "",
+        "label_dark": false
       }
     },
     "editorial_4": {
@@ -52,7 +65,11 @@
         "layout": "two-col",
         "image_1": "shopify://shop_images/Bluer_Web_App_Design_18.png",
         "label_1": "",
-        "image_2": "shopify://shop_images/Bluer_Web_App_Design_21.png"
+        "link_1": "",
+        "image_2": "shopify://shop_images/Bluer_Web_App_Design_21.png",
+        "label_2": "",
+        "link_2": "",
+        "label_dark": false
       }
     },
     "curated": {
@@ -60,8 +77,8 @@
       "settings": {
         "heading": "SS'26 SELECTS",
         "text": "A considered edit of the season — refined silhouettes, quiet detailing and pieces made to last.",
-        "collection": "",
-        "products_to_show": 8
+        "collection": "bestseller",
+        "products_to_show": 5
       }
     }
   },
