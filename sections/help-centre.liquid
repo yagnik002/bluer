@@ -1,27 +1,35 @@
 <div class="hc-page">
   {% render 'page-back' %}
+  <h1 class="hc-title">{{ page.title | default: 'Help Centre' }}</h1>
   <div class="hc-layout">
 
     <!-- Left: Contact -->
     <div class="hc-contact">
-      <h1 class="hc-contact__heading">CONTACT</h1>
+      <h2 class="hc-contact__heading">CONTACT</h2>
       <p class="hc-contact__desc">{{ section.settings.contact_description | default: "We're here to make your experience seamless - Reach out for any assistance." }}</p>
 
       <div class="hc-contact__details">
         {%- if section.settings.phone != blank -%}
           <div class="hc-contact__item">
-            <p class="hc-contact__label">PHONE</p>
+            <p class="hc-contact__label">Phone</p>
             <a href="tel:{{ section.settings.phone | remove: ' ' }}" class="hc-contact__value">{{ section.settings.phone }}</a>
           </div>
         {%- endif -%}
         {%- if section.settings.email != blank -%}
           <div class="hc-contact__item">
-            <p class="hc-contact__label">EMAIL</p>
+            <p class="hc-contact__label">Email</p>
             <a href="mailto:{{ section.settings.email }}" class="hc-contact__value">{{ section.settings.email }}</a>
           </div>
         {%- endif -%}
       </div>
     </div>
+
+    <!-- Image (mobile design) -->
+    {%- if section.settings.image != blank -%}
+      <div class="hc-image">
+        <img src="{{ section.settings.image | image_url: width: 1200 }}" alt="{{ section.settings.image.alt | default: 'BLUER' }}" loading="lazy">
+      </div>
+    {%- endif -%}
 
     <!-- Right: FAQs -->
     <div class="hc-faqs">
@@ -133,6 +141,56 @@
   letter-spacing: .1em;
   color: #000000;
 }
+
+/* Header title + image are mobile-only (desktop keeps the 2-column layout) */
+.hc-title { display: none; }
+.hc-image { display: none; }
+
+/* ---- Mobile only (design) — matches Shipping And Payments ---- */
+@media (max-width: 767px) {
+  /* "HELP CENTRE" inline beside the back button */
+  .hc-page .page-back-bar { padding: 0; }
+  .hc-page .page-back { padding: 0; }
+  .hc-title {
+    display: block;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #000;
+    margin: -20px 0 24px;
+    padding-left: 40px;
+  }
+  .hc-contact__heading { display: none; }
+
+  .hc-layout { gap: 28px; }
+
+  .hc-contact__desc { font-size: 14px; line-height: 1.7; letter-spacing: 0.1em; margin-bottom: 24px; }
+
+  /* Phone / Email as grey boxes, side by side */
+  .hc-contact__details { gap: 14px; flex-wrap: nowrap; }
+  .hc-contact__item { flex: 1; min-width: 0; }
+  .hc-contact__label { font-size: 14px; font-weight: 400; letter-spacing: 0.06em; text-transform: none; margin-bottom: 8px; }
+  .hc-contact__value {
+    display: block;
+    background: #f3f3f3;
+    padding: 14px 16px;
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Image */
+  .hc-image { display: block; }
+  .hc-image img { width: 100%; display: block; aspect-ratio: 16 / 9; object-fit: cover; background: var(--color-muted); }
+
+  /* FAQs */
+  .hc-faqs__heading { font-size: 16px; font-weight: 600; letter-spacing: 0.06em; }
+  .faq-question { font-size: 14px; padding: 16px 0; letter-spacing: 0.06em; }
+  .faq-answer p { font-size: 13px; }
+}
 </style>
 
 <script>
@@ -168,6 +226,11 @@ document.querySelectorAll('.faq-question').forEach(function(btn) {
       "id": "email",
       "label": "Email address",
       "default": "Support@bluer.co.in"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image (mobile — shown between contact and FAQs)"
     }
   ],
   "blocks": [
