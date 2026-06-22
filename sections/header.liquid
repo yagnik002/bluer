@@ -206,7 +206,7 @@
 
 /* ---- Header chrome (shared) ---- */
 .nav-drawer__header { display: flex; align-items: center; justify-content: space-between; padding: calc(env(safe-area-inset-top, 0px) + 28px) 24px 0; }
-.nav-drawer__title { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 22px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+.nav-drawer__title { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 15px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; }
 .nav-drawer__close { display: none; font-size: 28px; line-height: 1; opacity: 0.6; transition: opacity var(--transition); }
 .nav-drawer__close:hover { opacity: 1; }
 
@@ -247,20 +247,19 @@
   .nav-sidebar-extras { display: none; }
 
   /* Sub-links (right) — same 45px row rhythm as the category list. */
-  .nav-link { font-size: 15px; line-height: 45px; letter-spacing: 0.06em; }
+  .nav-link { font-size: 12px; line-height: 37px; letter-spacing: 0.06em; }
 
   /* Collection banners: a full-width row below both columns — a horizontal
      scroll that bleeds to the screen edges (~2.5 tiles visible, swipe for more). */
   .nav-collections {
     grid-column: 1 / -1;
     display: flex;
-    gap: 12px;
     overflow-x: auto;
     scroll-snap-type: x proximity;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    margin: 24px -24px 0;
-    padding: 0 24px 6px;
+    margin-top: 70px;
+    margin-right: -25px;
   }
   .nav-collections::-webkit-scrollbar { display: none; }
   .nav-collection-tile { flex: 0 0 40%; scroll-snap-align: start; }
