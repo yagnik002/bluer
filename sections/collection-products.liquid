@@ -108,6 +108,9 @@
         <img src="{{ collection.image | image_url: width: 1600 }}" alt="{{ collection.title | escape }}" loading="lazy">
       </div>
     {%- endif -%}
+    {%- comment -%}Collection title under the hero image (e.g. "SS'26"). On desktop the
+       title lives in the collection bar, so this is shown on mobile only.{%- endcomment -%}
+    <p class="collection-hero__title">{{ collection.title }}</p>
     {%- if collection.description != blank -%}
       <div class="collection-hero__desc rte">{{ collection.description }}</div>
     {%- endif -%}
@@ -254,8 +257,22 @@
 }
 
 .collection-hero__img img { width: 100%; display: block; object-fit: cover; max-height: 78vh; }
+
+/* Collection title (e.g. "SS'26") under the hero image — bold, uppercase. */
+.collection-hero__title {
+  padding: 22px 24px 8px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+/* This hero (image + "SS'26" title + description) is a MOBILE-ONLY treatment.
+   Desktop keeps the standard collection layout (bar with the title + grid). */
+@media (min-width: 768px) { .collection-hero { display: none; } }
+
 .collection-hero__desc {
-  padding: 24px;
+  padding: 0 24px 24px;
   font-size: 14px;
   line-height: 1.7;
   color: rgba(26,26,26,0.8);
