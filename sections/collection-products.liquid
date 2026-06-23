@@ -1,6 +1,15 @@
-{%- unless section.settings.layout == 'lookbook' -%}
+{%- assign is_lookbook = false -%}
+{%- if section.settings.layout == 'lookbook' -%}{%- assign is_lookbook = true -%}{%- endif -%}
+{%- assign coll_title_lc = collection.title | downcase -%}
+{%- assign is_crafte = false -%}
+{%- if collection.handle == 'crafte' or coll_title_lc == 'crafte' -%}{%- assign is_crafte = true -%}{%- endif -%}
+
+{%- comment -%}Collection bar + filter drawer: shown on every layout except lookbook,
+   but CRAFTE (a lookbook collection) opts in so it gets back + FILTERS too. The bar
+   is hidden on desktop for lookbook via .collection-bar--lookbook (mobile-only).{%- endcomment -%}
+{%- if is_lookbook == false or is_crafte -%}
 <!-- Collection bar -->
-<div class="collection-bar">
+<div class="collection-bar{% if is_lookbook %} collection-bar--lookbook{% endif %}">
   <a href="{{ routes.root_url }}" class="collection-bar__back" aria-label="Back to home">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
       <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/>
@@ -100,10 +109,11 @@
     </div>
   </div>
 </div>
+{%- endif -%}
 
-{%- comment -%}Mobile collection hero: the title (e.g. "SS'26") always shows; the
-   image + description appear when they're set on the collection in the admin.
-   The whole block is hidden on desktop via CSS (the bar shows the title there).{%- endcomment -%}
+{%- comment -%}Editorial hero (image + title + description): non-lookbook only —
+   lookbook collections use their own intro. Hidden on desktop via CSS.{%- endcomment -%}
+{%- unless is_lookbook -%}
 <div class="collection-hero">
   {%- if collection.image -%}
     <div class="collection-hero__img">
@@ -111,13 +121,8 @@
     </div>
   {%- endif -%}
   <p class="collection-hero__title">{{ collection.title }}</p>
-  {%- assign coll_title_lc = collection.title | downcase -%}
   {%- if collection.description != blank -%}
     <div class="collection-hero__desc rte">{{ collection.description }}</div>
-  {%- elsif coll_title_lc == 'crafte' or collection.handle == 'crafte' -%}
-    {%- comment -%}CRAFTE placeholder copy (mobile hero only). Set a real description
-       in Shopify admin → Collections → CRAFTE → Description to replace this.{%- endcomment -%}
-    <div class="collection-hero__desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pulvinar sodales nunc a consectetur. Ut fringilla tellus libero, non volutpat erat varius non. Mauris laoreet convallis pretium.</div>
   {%- endif -%}
 </div>
 {%- endunless -%}
@@ -128,11 +133,15 @@
   </div>
 
 {%- elsif section.settings.layout == 'lookbook' -%}
-  <div class="lookbook" id="collection-grid">
+  <div class="lookbook{% if is_crafte %} lookbook--crafte{% endif %}" id="collection-grid">
     <div class="lookbook-intro">
       <h1 class="lookbook-intro__title">{{ collection.title }}</h1>
       {%- if collection.description != blank -%}
         <div class="lookbook-intro__desc rte">{{ collection.description }}</div>
+      {%- elsif is_crafte -%}
+        {%- comment -%}CRAFTE placeholder copy. Set a real description in Shopify
+           admin → Collections → CRAFTE → Description to replace this.{%- endcomment -%}
+        <div class="lookbook-intro__desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pulvinar sodales nunc a consectetur. Ut fringilla tellus libero, non volutpat erat varius non. Mauris laoreet convallis pretium.</div>
       {%- endif -%}
     </div>
 
@@ -399,6 +408,17 @@
   text-transform: uppercase;
 }
 .lookbook-row__price { font-family: var(--lookbook-font); font-size: 11px; font-weight: 300; letter-spacing: 0.08em; color: var(--color-muted-fg); margin-top: 4px; }
+
+/* ===== CRAFTE lookbook — mobile-only overrides ===== */
+@media (max-width: 767px) {
+  /* The back + FILTERS bar is mobile-only on lookbook (CRAFTE); see below for the
+     desktop hide. Tighter strip, taller image ratio, bleed to the right edge. */
+  .lookbook--crafte .lookbook-row { padding-right: 0; }
+  .lookbook--crafte .lookbook-row__strip { gap: 5px; background: none; }
+  .lookbook--crafte .lookbook-row__img { flex: 0 0 61%; aspect-ratio: 341 / 545; background: none; }
+}
+/* The opt-in bar/filter on a lookbook collection is mobile-only — hide on desktop. */
+@media (min-width: 768px) { .collection-bar--lookbook { display: none; } }
 </style>
 
 {% schema %}
