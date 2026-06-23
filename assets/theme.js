@@ -496,10 +496,12 @@ function initGridView() {
   const grid = $('#collection-grid');
   if (!toggle || !grid) return;
 
-  const views = [4, 2, 1];
+  // Desktop cycles 4 / 2 / 1 columns; mobile toggles 2-up / 1-up.
+  const isDesktop = window.matchMedia('(min-width: 768px)').matches;
+  const views = isDesktop ? [4, 2, 1] : [2, 1];
   let idx = 0;
   try {
-    const saved = parseInt(localStorage.getItem('bluer-grid-view') || '4', 10);
+    const saved = parseInt(localStorage.getItem('bluer-grid-view') || (isDesktop ? '4' : '2'), 10);
     if (views.indexOf(saved) !== -1) idx = views.indexOf(saved);
   } catch (e) {}
 

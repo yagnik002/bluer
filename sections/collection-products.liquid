@@ -215,6 +215,44 @@
   #collection-grid .product-card__sizes { display: none; }
 }
 
+/* ===== Collection MOBILE chrome (≤767px) — matches the design =====
+   Drop the main site header; the announcement bar + a sticky back / FILTERS /
+   grid bar are the page chrome. Inlined here so it ships with the section. */
+@media (max-width: 767px) {
+  /* Remove the BLUER / search / Menu / Sign In / Your Bag header on collection. */
+  body.template-collection .site-header { display: none; }
+
+  /* Sticky announcement bar (pin the Shopify section wrapper, not just the bar). */
+  body.template-collection #shopify-section-announcement-bar {
+    position: sticky;
+    top: 0;
+    z-index: 101;
+  }
+
+  /* Sticky back + FILTERS + grid bar, sitting right below the announcement bar. */
+  .collection-bar {
+    position: sticky;
+    top: 33.5px;
+    z-index: 100;
+    background: #fff;
+    border-bottom: 1px solid var(--color-border);
+    padding: 12px 16px;
+  }
+
+  /* Grid control beside FILTERS — toggles 2-up / 1-up (JS handles the cycle). */
+  .grid-view-toggle {
+    display: inline-flex;
+    align-items: center;
+    color: var(--color-fg);
+    transition: opacity var(--transition);
+  }
+  .grid-view-toggle svg { width: 20px; height: 20px; display: block; }
+  .grid-view-toggle .gvi[data-for="4"] { display: none; }
+  .grid-view-toggle .gvi[data-for="2"] { display: block; }
+  #collection-grid.gv-2 { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  #collection-grid.gv-1 { grid-template-columns: 1fr; }
+}
+
 .collection-hero__img img { width: 100%; display: block; object-fit: cover; max-height: 78vh; }
 .collection-hero__desc {
   padding: 24px;
