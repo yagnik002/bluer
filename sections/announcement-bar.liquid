@@ -29,6 +29,17 @@ body.template-search .announcement-bar { display: block; }
     justify-content: center;
   }
 }
+
+/* Mobile homepage: keep the announcement bar pinned at the very top while
+   scrolling (pin the section wrapper). The HOME/CURATED header sits sticky just
+   below it — see sections/home-tabs.liquid. */
+@media (max-width: 767px) {
+  body.template-index #shopify-section-announcement-bar {
+    position: sticky;
+    top: 0;
+    z-index: 98;
+  }
+}
 </style>
 
 {% schema %}

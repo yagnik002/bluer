@@ -1,22 +1,22 @@
 {%- comment -%}
-  HOME / CURATED tabs — mobile homepage only.
+  HOME / CURATED header — homepage only (mobile).
 
-  Layout (mobile):
-    [ announcement bar ]      ← always at the very top (its own section)
-    [ HOME  CURATED  ]        ← this bar, pinned, overlaying the hero
-    [ hero / content ]
+  Sticky stack (top → down):
+    [ announcement bar ]   ← sticky, always visible (see announcement-bar.liquid)
+    [ HOME  CURATED   ]    ← this header, sticky right below the announcement bar
+    [ hero / content  ]
 
-  Behaviour:
-    • HOME (default): transparent bar with white labels, pinned over the hero.
+  States:
+    • HOME (default): transparent header, white labels, overlaying the hero.
       Shows the hero + editorial feed.
-    • CURATED: solid white bar with dark labels. Shows the curated feed.
-    • Tapping a tab sets [data-home-tab] on <html>; CSS does the rest.
+    • CURATED: white header, black labels. Shows the curated feed.
+    • Switching tabs flips [data-home-tab] on <html>; the background + text colour
+      cross-fade over 400ms (CSS transition).
 
-  Everything this feature needs (markup + CSS + JS) lives in THIS one section so
-  it ships with the markup and never depends on a cached/stale theme.css.
-  The header bar is hidden on the mobile homepage by header.liquid (co-located
-  with the header so it can't go stale); this section does not touch the header.
-  Desktop is unaffected — the tabs are hidden and the homepage renders normally.
+  Everything (markup + CSS + JS) lives in this one section so it ships with the
+  markup and never depends on a cached/stale theme.css. The header BAR is hidden
+  on the mobile homepage by header.liquid (co-located there). Desktop is
+  unaffected — the tabs are hidden and the homepage renders normally.
 {%- endcomment -%}
 
 <div class="home-tabs" id="home-tabs" role="tablist" aria-label="Homepage view">
@@ -25,30 +25,32 @@
 </div>
 
 <style>
-  /* Desktop and default: no tabs, and the curated feed is hidden. */
+  /* Desktop + default: no tabs, and the curated feed is hidden. */
   .home-tabs { display: none; }
   .curated-feed { display: none; }
 
   @media (max-width: 767px) {
-    /* Pin the SECTION WRAPPER (Shopify wraps every section in a div). Height 0 so
-       the hero rises to just under the announcement bar; the 44px bar overflows
-       down and overlays the hero. */
+    /* Pin the header just below the sticky announcement bar (≈33.5px tall).
+       Height 0 in HOME so the hero rises right under the announcement bar and the
+       bar overlays it; height auto in CURATED so the white bar takes its space. */
     #shopify-section-home_tabs {
       position: sticky;
-      top: 0;
+      top: 33px;
       z-index: 96;
       height: 0;
       overflow: visible;
     }
+    html[data-home-tab="curated"] #shopify-section-home_tabs { height: auto; }
 
     .home-tabs {
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      gap: 28px;
-      height: 44px;
+      gap: 32px;
+      height: 52px;
       padding: 0 24px;
-      background: transparent;            /* HOME: sit over the hero */
+      background: transparent;                 /* HOME: over the hero */
+      transition: background-color 0.4s ease;  /* HOME ⇄ CURATED cross-fade */
     }
 
     .home-tab {
@@ -58,22 +60,27 @@
       background: none;
       cursor: pointer;
       font-family: var(--font-body, "Helvetica Neue", Helvetica, Arial, sans-serif);
-      font-size: 12px;
-      letter-spacing: var(--tracking-editorial, 0.18em);
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.65);   /* HOME: white labels over the hero */
+      color: rgba(255, 255, 255, 0.65);        /* HOME: dimmed white (inactive) */
+      transition: color 0.4s ease;
     }
-    .home-tab.is-active { color: #fff; }
+    .home-tab.is-active { color: #ffffff; }     /* HOME: active label */
     .home-tab.is-active::after {
       content: "";
       position: absolute;
-      left: 0; right: 0; bottom: -3px;
-      height: 1.5px;
+      left: 0;
+      right: 0;
+      bottom: -6px;
+      height: 2px;
       background: currentColor;
+      transition: background-color 0.4s ease;
     }
 
-    /* CURATED: solid white bar in normal flow, dark labels. */
-    html[data-home-tab="curated"] #shopify-section-home_tabs { height: auto; }
+    /* CURATED: white header in normal flow, dark labels. */
     html[data-home-tab="curated"] .home-tabs { background: #ffffff; }
     html[data-home-tab="curated"] .home-tab { color: #999999; }
     html[data-home-tab="curated"] .home-tab.is-active { color: #1a1a1a; }
@@ -92,7 +99,7 @@
   var bar = document.getElementById('home-tabs');
   if (!bar) return;
 
-  // Default to HOME (works even before this runs, since HOME is the CSS default).
+  // Default to HOME (works even before this runs — HOME is the CSS default).
   if (!root.getAttribute('data-home-tab')) root.setAttribute('data-home-tab', 'home');
 
   bar.addEventListener('click', function (e) {
