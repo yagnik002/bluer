@@ -111,8 +111,13 @@
     </div>
   {%- endif -%}
   <p class="collection-hero__title">{{ collection.title }}</p>
+  {%- assign coll_title_lc = collection.title | downcase -%}
   {%- if collection.description != blank -%}
     <div class="collection-hero__desc rte">{{ collection.description }}</div>
+  {%- elsif coll_title_lc == 'crafte' or collection.handle == 'crafte' -%}
+    {%- comment -%}CRAFTE placeholder copy (mobile hero only). Set a real description
+       in Shopify admin → Collections → CRAFTE → Description to replace this.{%- endcomment -%}
+    <div class="collection-hero__desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pulvinar sodales nunc a consectetur. Ut fringilla tellus libero, non volutpat erat varius non. Mauris laoreet convallis pretium.</div>
   {%- endif -%}
 </div>
 {%- endunless -%}
