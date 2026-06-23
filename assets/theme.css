@@ -258,7 +258,12 @@ body:not(.template-index) #shopify-section-header {
 
 /* ---- Hero Banner ----------------------------------------- */
 .hero-section { position: relative; }
-
+.hero-section img {
+  display: block;
+    height: 38rem;
+    width: auto;
+    max-width: 80vw;
+}
 
 .hero-title {
   position: absolute;
