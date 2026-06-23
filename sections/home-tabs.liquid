@@ -3,19 +3,22 @@
 
   Sticky stack (top → down):
     [ announcement bar ]   ← sticky, always visible (see announcement-bar.liquid)
-    [ HOME  CURATED   ]    ← this header, sticky right below the announcement bar
+    [ HOME  CURATED   ]    ← THIS header, FIXED right below the announcement bar
     [ hero / content  ]
 
   States:
     • HOME (default): transparent header, white labels, overlaying the hero.
       Shows the hero + editorial feed.
-    • CURATED: white header, black labels. Shows the curated feed.
-    • Switching tabs flips [data-home-tab] on <html>; the background + text colour
-      cross-fade over 400ms (CSS transition).
+    • CURATED: white header, black labels. Shows the curated feed (which is
+      padded down so it isn't hidden behind the fixed header).
+    • Switching tabs flips [data-home-tab] on <html>; background + text colour
+      cross-fade over 400ms.
 
-  Everything (markup + CSS + JS) lives in this one section so it ships with the
-  markup and never depends on a cached/stale theme.css. The header BAR is hidden
-  on the mobile homepage by header.liquid (co-located there). Desktop is
+  The header is position:fixed (not sticky) on purpose: the section is wrapped in
+  <main>, where a sticky section wrapper is unreliable, so the white CURATED bar
+  was scrolling away. Fixed pins it in every state. Everything (markup+CSS+JS)
+  lives in this one section so it never depends on a cached/stale theme.css. The
+  site-header bar is hidden on the mobile homepage by header.liquid. Desktop is
   unaffected — the tabs are hidden and the homepage renders normally.
 {%- endcomment -%}
 
@@ -30,17 +33,9 @@
   .curated-feed { display: none; }
 
   @media (max-width: 767px) {
-    /* Pin the header just below the sticky announcement bar (≈33.5px tall).
-       Height 0 in HOME so the hero rises right under the announcement bar and the
-       bar overlays it; height auto in CURATED so the white bar takes its space. */
-    #shopify-section-home_tabs {
-      position: sticky;
-      top: 33px;
-      z-index: 96;
-      height: 0;
-      overflow: visible;
-    }
-    html[data-home-tab="curated"] #shopify-section-home_tabs { height: auto; }
+    /* The header bar is fixed, so its section takes no flow space — the hero
+       rises to just under the announcement bar and the bar overlays it. */
+    #shopify-section-home_tabs { height: 0; }
 
     .home-tabs {
       display: flex;
@@ -49,6 +44,15 @@
       gap: 32px;
       height: 52px;
       padding: 0 24px;
+
+      /* Pinned just below the (33.5px) sticky announcement bar — stays put while
+         scrolling in BOTH HOME and CURATED. */
+      position: fixed;
+      top: 33px;
+      left: 0;
+      right: 0;
+      z-index: 96;
+
       background: transparent;                 /* HOME: over the hero */
       transition: background-color 0.4s ease;  /* HOME ⇄ CURATED cross-fade */
     }
@@ -80,10 +84,12 @@
       transition: background-color 0.4s ease;
     }
 
-    /* CURATED: white header in normal flow, dark labels. */
+    /* CURATED: white header, dark labels. The header is fixed (out of flow), so
+       push the curated feed down by the header height (52px) to clear it. */
     html[data-home-tab="curated"] .home-tabs { background: #ffffff; }
     html[data-home-tab="curated"] .home-tab { color: #999999; }
     html[data-home-tab="curated"] .home-tab.is-active { color: #1a1a1a; }
+    html[data-home-tab="curated"] .curated-feed { padding-top: 52px; }
 
     /* Content swap: HOME shows hero + editorial; CURATED shows the curated feed. */
     html[data-home-tab="curated"] .curated-feed { display: block; }
