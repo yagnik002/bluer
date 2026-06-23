@@ -1,7 +1,13 @@
 <section class="hero-section">
   {%- comment -%}Black intro screen — fades out ~1.5s after load to reveal the banner.{%- endcomment -%}
   <div class="hero-intro" id="hero-intro">
-    <span class="hero-intro__logo font-display">{{ section.settings.title | default: shop.name }}</span>
+    {%- comment -%}Splash logo: use the white logo image (logo_light); fall back to the
+       header logo asset inverted to white. The black screen fades out after load.{%- endcomment -%}
+    {%- if settings.logo_light != blank -%}
+      <img class="hero-intro__logo-img" src="{{ settings.logo_light | image_url: width: 900 }}" alt="{{ shop.name }}">
+    {%- else -%}
+      <img class="hero-intro__logo-img hero-intro__logo-img--invert" src="{{ 'bluer-logo-for-not-home-page-header-logo.png' | asset_url }}" alt="{{ shop.name }}">
+    {%- endif -%}
   </div>
 
   {%- comment -%}Whole banner is clickable when a link is set (titles/labels stay editable above).{%- endcomment -%}
@@ -80,6 +86,10 @@
   line-height: 1;
 }
 @media (min-width: 768px) { .hero-intro__logo { font-size: 72px; } }
+/* Splash logo image (white BLUER wordmark on the black intro screen). */
+.hero-intro__logo-img { display: block; width: 180px; max-width: 60vw; height: auto; }
+@media (min-width: 768px) { .hero-intro__logo-img { width: 280px; max-width: 28vw; } }
+.hero-intro__logo-img--invert { filter: invert(1); } /* header asset is dark — flip to white */
 @media (prefers-reduced-motion: reduce) {
   .hero-intro { transition: none; }
 }
