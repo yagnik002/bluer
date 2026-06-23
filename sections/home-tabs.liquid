@@ -1,85 +1,89 @@
 {%- comment -%}
-  Home / Curated toggle. Sits at the top of the homepage (below the announcement
-  bar). Switching tabs toggles [data-home-tab] on <html>. Everything this feature
-  needs — tab styling, sticky overlay, the header hide, and the editorial/curated
-  content swap — lives in the inline <style> below, so the whole feature ships
-  with this one section and never depends on a cached/stale theme.css.
+  HOME / CURATED tabs — mobile homepage only.
+
+  Layout (mobile):
+    [ announcement bar ]      ← always at the very top (its own section)
+    [ HOME  CURATED  ]        ← this bar, pinned, overlaying the hero
+    [ hero / content ]
+
+  Behaviour:
+    • HOME (default): transparent bar with white labels, pinned over the hero.
+      Shows the hero + editorial feed.
+    • CURATED: solid white bar with dark labels. Shows the curated feed.
+    • Tapping a tab sets [data-home-tab] on <html>; CSS does the rest.
+
+  Everything this feature needs (markup + CSS + JS) lives in THIS one section so
+  it ships with the markup and never depends on a cached/stale theme.css.
+  The header bar is hidden on the mobile homepage by header.liquid (co-located
+  with the header so it can't go stale); this section does not touch the header.
+  Desktop is unaffected — the tabs are hidden and the homepage renders normally.
 {%- endcomment -%}
+
 <div class="home-tabs" id="home-tabs" role="tablist" aria-label="Homepage view">
   <button class="home-tab is-active" data-tab="home" role="tab" aria-selected="true">Home</button>
   <button class="home-tab" data-tab="curated" role="tab" aria-selected="false">Curated</button>
 </div>
 
 <style>
-  /* HOME / CURATED tabs (mobile). HOME is the default so it works with no JS:
-     the bar overlays the hero with white labels and is pinned. CURATED is the
-     only override (solid white bar, dark labels, normal flow). */
-  .home-tabs {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 28px;
-    background: transparent;
-    padding: 0 24px;
-    height: 44px;
-  }
-  @media (min-width: 768px) { .home-tabs { display: none; } }
+  /* Desktop and default: no tabs, and the curated feed is hidden. */
+  .home-tabs { display: none; }
+  .curated-feed { display: none; }
 
   @media (max-width: 767px) {
-    /* Hide the site header BAR on the mobile homepage (if a stale cached theme.css
-       lacks this rule, its empty space showed as the white strip).
-       NOTE: target .site-header only — NOT #shopify-section-header — because the
-       section wrapper also holds the nav-drawer + overlay, and hiding those stops
-       the mobile menu from opening on the homepage/curated page. */
-    body.template-index .site-header { display: none !important; }
-
+    /* Pin the SECTION WRAPPER (Shopify wraps every section in a div). Height 0 so
+       the hero rises to just under the announcement bar; the 44px bar overflows
+       down and overlays the hero. */
     #shopify-section-home_tabs {
       position: sticky;
       top: 0;
       z-index: 96;
-      height: 0;          /* take no flow space, so the hero comes right up... */
-      overflow: visible;  /* ...and the 44px bar overflows down, over the hero */
+      height: 0;
+      overflow: visible;
     }
+
+    .home-tabs {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 28px;
+      height: 44px;
+      padding: 0 24px;
+      background: transparent;            /* HOME: sit over the hero */
+    }
+
+    .home-tab {
+      position: relative;
+      padding: 2px 0;
+      border: 0;
+      background: none;
+      cursor: pointer;
+      font-family: var(--font-body, "Helvetica Neue", Helvetica, Arial, sans-serif);
+      font-size: 12px;
+      letter-spacing: var(--tracking-editorial, 0.18em);
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.65);   /* HOME: white labels over the hero */
+    }
+    .home-tab.is-active { color: #fff; }
+    .home-tab.is-active::after {
+      content: "";
+      position: absolute;
+      left: 0; right: 0; bottom: -3px;
+      height: 1.5px;
+      background: currentColor;
+    }
+
+    /* CURATED: solid white bar in normal flow, dark labels. */
     html[data-home-tab="curated"] #shopify-section-home_tabs { height: auto; }
+    html[data-home-tab="curated"] .home-tabs { background: #ffffff; }
+    html[data-home-tab="curated"] .home-tab { color: #999999; }
+    html[data-home-tab="curated"] .home-tab.is-active { color: #1a1a1a; }
 
-    /* Content toggle lives here too (not only in theme.css) so the whole
-       Home/Curated feature ships inside this one section and never depends on
-       a possibly-stale cached theme.css. HOME shows the editorial feed;
-       CURATED swaps in the curated feed. */
+    /* Content swap: HOME shows hero + editorial; CURATED shows the curated feed. */
     html[data-home-tab="curated"] .curated-feed { display: block; }
-    html[data-home-tab="curated"] body.template-index .hero-section,
-    html[data-home-tab="curated"] body.template-index .editorial-banner,
-    html[data-home-tab="curated"] body.template-index .editorial-grid { display: none; }
+    html[data-home-tab="curated"] .hero-section,
+    html[data-home-tab="curated"] .editorial-banner,
+    html[data-home-tab="curated"] .editorial-grid { display: none; }
   }
-
-  /* Curated feed is hidden by default (HOME state); shown only in CURATED. */
-  .curated-feed { display: none; }
-
-  .home-tab {
-    background: none;
-    border: none;
-    padding: 2px 0;
-    font-size: 12px;
-    letter-spacing: var(--tracking-editorial, 0.18em);
-    text-transform: uppercase;
-    position: relative;
-    cursor: pointer;
-    font-family: var(--font-body, "Helvetica Neue", Helvetica, Arial, sans-serif);
-    color: rgba(255, 255, 255, 0.65); /* default HOME: white labels */
-  }
-  .home-tab.is-active { color: #ffffff; }
-  .home-tab.is-active::after {
-    content: "";
-    position: absolute;
-    left: 0; right: 0; bottom: -3px;
-    height: 1.5px;
-    background: #ffffff;
-  }
-
-  html[data-home-tab="curated"] .home-tabs { background: #ffffff; }
-  html[data-home-tab="curated"] .home-tab { color: #999999; }
-  html[data-home-tab="curated"] .home-tab.is-active { color: #1a1a1a; }
-  html[data-home-tab="curated"] .home-tab.is-active::after { background: #1a1a1a; }
 </style>
 
 <script>
@@ -87,18 +91,20 @@
   var root = document.documentElement;
   var bar = document.getElementById('home-tabs');
   if (!bar) return;
-  root.setAttribute('data-home-tab', 'home');
+
+  // Default to HOME (works even before this runs, since HOME is the CSS default).
+  if (!root.getAttribute('data-home-tab')) root.setAttribute('data-home-tab', 'home');
+
   bar.addEventListener('click', function (e) {
     var btn = e.target.closest('.home-tab');
     if (!btn) return;
-    var tab = btn.getAttribute('data-tab');
-    root.setAttribute('data-home-tab', tab);
+    root.setAttribute('data-home-tab', btn.getAttribute('data-tab'));
     bar.querySelectorAll('.home-tab').forEach(function (b) {
       var active = b === btn;
       b.classList.toggle('is-active', active);
       b.setAttribute('aria-selected', active ? 'true' : 'false');
     });
-    window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+    window.scrollTo({ top: 0 });
   });
 })();
 </script>
