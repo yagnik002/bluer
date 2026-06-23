@@ -159,6 +159,17 @@
   height: 100dvh;
   background: var(--color-muted);
 }
+
+/* Mobile only: hero is shorter (82vh) so the next section peeks below it.
+   Desktop keeps the full-screen 100dvh hero. */
+@media (max-width: 767px) {
+  .hero-section video.hero-media,
+  .hero-section img,
+  .hero-section .hero-placeholder {
+    height: 82vh;
+    height: 82dvh;
+  }
+}
 </style>
 
 <script>
