@@ -4,7 +4,7 @@
     {%- comment -%}Splash logo: use the white logo image (logo_light); fall back to the
        header logo asset inverted to white. The black screen fades out after load.{%- endcomment -%}
     {%- if settings.logo_light != blank -%}
-      <img class="hero-intro__logo-img" src="{{ settings.logo_light | image_url: width: 900 }}" alt="{{ shop.name }}">
+      <img class="hero-intro__logo-img" src="{{ settings.logo_light | image_url: width: 500 }}" alt="{{ shop.name }}">
     {%- else -%}
       <img class="hero-intro__logo-img hero-intro__logo-img--invert" src="{{ 'bluer-logo-for-not-home-page-header-logo.png' | asset_url }}" alt="{{ shop.name }}">
     {%- endif -%}
