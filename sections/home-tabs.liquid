@@ -26,9 +26,12 @@
   @media (min-width: 768px) { .home-tabs { display: none; } }
 
   @media (max-width: 767px) {
-    /* Hide the site header on the mobile homepage (if a stale cached theme.css
-       lacks this rule, its empty space showed as the white strip). */
-    body.template-index #shopify-section-header { display: none !important; }
+    /* Hide the site header BAR on the mobile homepage (if a stale cached theme.css
+       lacks this rule, its empty space showed as the white strip).
+       NOTE: target .site-header only — NOT #shopify-section-header — because the
+       section wrapper also holds the nav-drawer + overlay, and hiding those stops
+       the mobile menu from opening on the homepage/curated page. */
+    body.template-index .site-header { display: none !important; }
 
     #shopify-section-home_tabs {
       position: sticky;
