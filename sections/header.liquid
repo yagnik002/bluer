@@ -183,7 +183,20 @@
   pointer-events: auto;
 }
 
-
+/* Homepage: while the mega-menu is open, the overlay header turns solid white to
+   match the white menu (dark text). Comes after .is-top so it wins when both
+   apply. The 0.35s background/colour transition above makes it fade smoothly. */
+.site-header.header--overlay.is-menu-open {
+  background: #fff;
+  color: #1a1a1a;
+}
+.site-header.header--overlay.is-menu-open .header-search-input {
+  color: #1a1a1a;
+  border-bottom-color: rgba(0,0,0,0.3);
+}
+.site-header.header--overlay.is-menu-open .header-search-input::placeholder { color: rgba(0,0,0,0.45); }
+/* If the logo is visible (scrolled state), show it dark on the white bar. */
+.site-header.header--overlay.is-menu-open .header-logo__img--invert { filter: none; }
 
 @media (prefers-reduced-motion: reduce) {
   .site-header.header--overlay { transition: none; }
@@ -331,7 +344,10 @@
   var desktop = window.matchMedia('(min-width: 768px)');
 
   function position() {
-    if (desktop.matches && drawer.classList.contains('is-open')) {
+    var open = drawer.classList.contains('is-open');
+    // Homepage overlay header turns solid white while the menu is open (CSS).
+    header.classList.toggle('is-menu-open', open);
+    if (desktop.matches && open) {
       var top = Math.max(0, Math.round(header.getBoundingClientRect().bottom));
       drawer.style.top = top + 'px';
       drawer.style.maxHeight = (window.innerHeight - top) + 'px';
