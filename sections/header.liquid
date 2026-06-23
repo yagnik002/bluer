@@ -189,6 +189,15 @@
   .site-header.header--overlay { transition: none; }
 }
 
+/* Mobile homepage: the top chrome is the announcement bar + HOME/CURATED tabs,
+   so hide this header BAR. Co-located with the header markup on purpose — the
+   bar can never render without its own hide rule, so no "white strip" even if
+   theme.css / home-tabs is served stale. Only .site-header is hidden, NOT the
+   section wrapper, so the nav-drawer + overlay (siblings here) keep working. */
+@media (max-width: 767px) {
+  body.template-index .site-header { display: none; }
+}
+
 /* =====================================================================
    NAVIGATION MENU — self-contained (inlined here so it ships with the
    section markup and is never served from a stale, cached theme.css).
