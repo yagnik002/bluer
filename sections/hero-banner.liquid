@@ -128,9 +128,13 @@
 
 .hero-logo img {
   display: block;
-  height: 38rem; /* h-20 — 80px on all screen sizes */
+  height: 38rem; /* desktop hero logo height */
   width: auto;
   max-width: 80vw;
+}
+/* Mobile only: smaller centred hero logo (per request). */
+@media (max-width: 767px) {
+  .hero-logo img { height: 33rem; }
 }
 .hero-logo .font-display {
   color: #fff;
