@@ -342,6 +342,37 @@ body:not(.template-index) #shopify-section-header {
 @media (min-width: 768px) { .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (min-width: 1024px) { .product-grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 
+/* ---- Single-column collection (AFTERHOURS) ---------------- */
+/* One full-width product per row: large 2:3 image with the "+" quick-add in its
+   bottom-right corner, and the name + price on a single justified line below. */
+/* minmax(0, 1fr) — not plain 1fr — so the column can't blow out past the
+   viewport from the image wrapper's percentage padding (same guard as .product-grid). */
+.product-grid--single { grid-template-columns: minmax(0, 1fr); gap: 26px; }
+@media (min-width: 768px) {
+  /* Desktop: keep it a centred single column so the feed reads the same. */
+  .product-grid--single { grid-template-columns: minmax(0, 1fr); max-width: 720px; margin-inline: auto; gap: 40px; }
+}
+/* Name (left) + price (right) on one line, flush with the image edges. */
+.product-grid--single .product-card__info {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 12px 0 20px;
+}
+.product-grid--single .product-card__title,
+.product-grid--single .product-card__price {
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+}
+/* Title can shrink (ellipsis if very long); price is pinned to the right. */
+.product-grid--single .product-card__title { flex: 0 1 auto; min-width: 0; }
+.product-grid--single .product-card__price { flex: 0 0 auto; margin-left: auto; white-space: nowrap; }
+/* "+" anchored to the image's bottom-right corner (info row is a single line). */
+.product-grid--single .product-card__quick-add { bottom: 60px; right: 12px; }
+.product-grid--single .product-card__sizes { bottom: 98px; }
+
 /* ---- Search page only ---- */
 /* Figma 1:486/1:487 — RECOMMENDED/FEATURED: Helvetica Neue Medium 16px, tracking 1.6px (0.1em) */
 body.template-search .section-heading {
@@ -1516,22 +1547,24 @@ body.template-cart .site-header { display: none !important; }
 /* NOTE: the bottom-nav background + icon colours are page-dependent (white on
    most pages, translucent-dark on the homepage) and are set inline in
    layout/theme.liquid so they ship with the markup. Edit them there. */
+/* Floating rounded pill, inset from the screen edges (design). Background /
+   icon colours are page-dependent and set inline in layout/theme.liquid. */
 .mobile-bottom-nav {
   display: flex;
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  left: 16px;
+  right: 16px;
+  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
   z-index: 200;
-  background: #0000006E;
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  height: 60px;
-  padding: 0 4px;
+  height: 58px;
+  padding: 0 6px;
+  border-radius: 29px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.14);
 }
 @media (min-width: 768px) { .mobile-bottom-nav { display: none; } }
 
-body { padding-bottom: 60px; }
+/* Room for the floating bar (its height + bottom inset + breathing space). */
+body { padding-bottom: calc(82px + env(safe-area-inset-bottom, 0px)); }
 @media (min-width: 768px) { body { padding-bottom: 0; } }
 
 .mobile-nav-item {

@@ -203,7 +203,9 @@
   </div>
 
 {%- else -%}
-  <div class="product-grid product-grid--4 gv-4" id="collection-grid">
+  {%- comment -%}single = one full-width product per row (AFTERHOURS); grid = 4-up with view toggle{%- endcomment -%}
+  {%- if section.settings.layout == 'single' -%}{%- assign grid_modifier = 'product-grid--single' -%}{%- else -%}{%- assign grid_modifier = 'product-grid--4 gv-4' -%}{%- endif -%}
+  <div class="product-grid {{ grid_modifier }}" id="collection-grid">
     {%- for product in collection.products -%}
       {%- render 'product-card', product: product -%}
       {%- assign pindex = forloop.index -%}
@@ -430,6 +432,7 @@
       "label": "Product layout",
       "options": [
         { "value": "grid", "label": "Grid (4 columns)" },
+        { "value": "single", "label": "Single column (one full-width product per row)" },
         { "value": "editorial", "label": "Editorial (pair, full, pair, pair, full)" },
         { "value": "editorial-alt", "label": "Editorial alternating (full, pair, full, pair)" },
         { "value": "lookbook", "label": "Lookbook (horizontal image strips)" }

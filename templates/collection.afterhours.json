@@ -3,7 +3,7 @@
     "main": {
       "type": "collection-products",
       "settings": {
-        "layout": "editorial"
+        "layout": "single"
       }
     }
   },
