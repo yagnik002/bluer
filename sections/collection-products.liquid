@@ -168,9 +168,31 @@
     {%- endfor -%}
   </div>
 
-{%- elsif section.settings.layout == 'editorial' or section.settings.layout == 'editorial-alt' -%}
-  {%- comment -%}editorial = pair,full,pair,pair,full (AFTERHOURS) · editorial-alt = full,pair,full,pair (SETS){%- endcomment -%}
-  {%- if section.settings.layout == 'editorial-alt' -%}{%- assign fmod = 2 -%}{%- assign frem = 0 -%}{%- else -%}{%- assign fmod = 3 -%}{%- assign frem = 1 -%}{%- endif -%}
+{%- elsif section.settings.layout == 'editorial-alt' -%}
+  {%- comment -%}SETS — 3-image unit: a full-width hero image (no label) then a 2-up pair
+     of products with name/price. Products are grouped in 3s (hero, product, product).
+     Same structure on mobile + desktop; sizing per breakpoint lives in .sets-grid CSS.{%- endcomment -%}
+  <div class="sets-grid" id="collection-grid">
+    {%- for product in collection.products -%}
+      {%- assign pos = forloop.index0 | modulo: 3 -%}
+      {%- if pos == 0 -%}{%- assign sets_img_w = 1400 -%}{%- else -%}{%- assign sets_img_w = 900 -%}{%- endif -%}
+      <div class="sets-grid__item{% if pos == 0 %} sets-grid__item--full{% endif %}">
+        <a href="{{ product.url }}" class="sets-grid__img">
+          {%- if product.featured_image -%}<img src="{{ product.featured_image | image_url: width: sets_img_w }}" alt="{{ product.title | escape }}" loading="lazy">{%- endif -%}
+        </a>
+        {%- unless pos == 0 -%}
+          <div class="sets-grid__info">
+            <a href="{{ product.url }}" class="sets-grid__title">{{ product.title }}</a>
+            <p class="sets-grid__price">{{ product.price | money }}</p>
+          </div>
+        {%- endunless -%}
+      </div>
+    {%- endfor -%}
+  </div>
+
+{%- elsif section.settings.layout == 'editorial' -%}
+  {%- comment -%}editorial = pair,full,pair,pair,full (collection.editorial){%- endcomment -%}
+  {%- assign fmod = 3 -%}{%- assign frem = 1 -%}
   <div class="editorial-collection" id="collection-grid">
     {%- for product in collection.products -%}
       {%- assign mod = forloop.index0 | modulo: fmod -%}
@@ -349,6 +371,59 @@
   line-height: 1.5;
   letter-spacing: 0.08em;
   color: var(--color-muted-fg);
+}
+
+/* ===== SETS — 3-image unit (hero + 2-up pair) =====
+   Shared structure; sizing differs per breakpoint below.
+   Desktop matches the Figma spec: 873px centred column, 2:3 hero + 2:3 pair,
+   ~6px gaps, Helvetica Neue Light 16px/29px/0.1em labels. */
+.sets-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.sets-grid__item--full { grid-column: 1 / -1; }
+.sets-grid__img {
+  display: block;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  background: var(--color-muted);
+}
+.sets-grid__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.sets-grid__info { padding-top: 8px; }
+.sets-grid__title {
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #000;
+}
+.sets-grid__price {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-muted-fg);
+}
+
+/* MOBILE (≤767px): full-bleed, taller hero, 11px labels (matches the mobile comp). */
+@media (max-width: 767px) {
+  .sets-grid { column-gap: 3px; row-gap: 10px; padding-bottom: 64px; }
+  .sets-grid__item--full:not(:first-child) { margin-top: 14px; }
+  .sets-grid__item--full .sets-grid__img { aspect-ratio: 3 / 4; }
+  .sets-grid__title { font-size: 11px; font-weight: 400; line-height: 1.45; letter-spacing: 0.08em; }
+  .sets-grid__price { font-size: 11px; font-weight: 300; line-height: 1.45; letter-spacing: 0.08em; margin-top: 2px; }
+}
+
+/* DESKTOP (≥768px): centred 873px column, 2:3 hero + 2:3 pair, ~6px gaps. */
+@media (min-width: 768px) {
+  .sets-grid {
+    max-width: 873px;
+    margin: 0 auto;
+    column-gap: 6px;
+    row-gap: 6px;
+    padding: 8px 0 100px;
+  }
+  .sets-grid__item--full:not(:first-child) { margin-top: 48px; }
+  .sets-grid__title { font-size: 16px; font-weight: 300; line-height: 29px; }
+  .sets-grid__price { font-size: 13px; font-weight: 300; line-height: 1.4; margin-top: 2px; }
 }
 
 /* Lookbook layout — title + description, then a horizontal-scroll image strip per product */
