@@ -347,7 +347,7 @@ body:not(.template-index) #shopify-section-header {
    bottom-right corner, and the name + price on a single justified line below. */
 /* minmax(0, 1fr) — not plain 1fr — so the column can't blow out past the
    viewport from the image wrapper's percentage padding (same guard as .product-grid). */
-.product-grid--single { grid-template-columns: minmax(0, 1fr); gap: 26px; }
+.product-grid--single { grid-template-columns: minmax(0, 1fr); }
 @media (min-width: 768px) {
   /* Desktop: keep it a centred single column so the feed reads the same. */
   .product-grid--single { grid-template-columns: minmax(0, 1fr); max-width: 720px; margin-inline: auto; gap: 40px; }
@@ -372,6 +372,28 @@ body:not(.template-index) #shopify-section-header {
 /* "+" anchored to the image's bottom-right corner (info row is a single line). */
 .product-grid--single .product-card__quick-add { bottom: 60px; right: 12px; }
 .product-grid--single .product-card__sizes { bottom: 98px; }
+
+/* ============================================================
+   AFTERHOURS collection — MOBILE design only (≤767px)
+   Scoped to body.template-collection-afterhours (collection
+   template suffix = "afterhours") so these tweaks never affect
+   desktop or any other collection. Edit AFTERHOURS spacing here.
+   ============================================================ */
+@media (max-width: 767px) {
+  /* Inset the single-column feed from the screen edges + space between rows. */
+  body.template-collection-afterhours .product-grid--single {
+    padding: 18px;
+    gap: 26px;
+  }
+  /* Collection title above the feed — smaller/tighter than the default hero title. */
+  body.template-collection-afterhours .collection-hero__title {
+    padding: 0 24px 8px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+}
 
 /* ---- Search page only ---- */
 /* Figma 1:486/1:487 — RECOMMENDED/FEATURED: Helvetica Neue Medium 16px, tracking 1.6px (0.1em) */
