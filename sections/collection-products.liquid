@@ -406,7 +406,7 @@
   background: var(--color-muted);
 }
 .sets-grid__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.sets-grid__info { padding-top: 8px; }
+.sets-grid__info { padding-top: 8px; padding-left: 1px; }
 .sets-grid__title {
   display: block;
   text-transform: uppercase;
@@ -421,7 +421,7 @@
 
 /* MOBILE (≤767px): full-bleed, taller hero, 11px labels (matches the mobile comp). */
 @media (max-width: 767px) {
-  .sets-grid { column-gap: 3px; row-gap: 10px; padding-bottom: 64px; }
+  .sets-grid { column-gap: 5px; row-gap: 5px; padding-bottom: 64px; }
   .sets-grid__item--full:not(:first-child) { margin-top: 14px; }
   .sets-grid__item--full .sets-grid__img { aspect-ratio: 3 / 4; }
   .sets-grid__title { font-size: 11px; font-weight: 400; line-height: 1.45; letter-spacing: 0.08em; }
