@@ -120,7 +120,10 @@
       <img src="{{ collection.image | image_url: width: 1600 }}" alt="{{ collection.title | escape }}" loading="lazy">
     </div>
   {%- endif -%}
-  <p class="collection-hero__title">{{ collection.title }}</p>
+  {%- comment -%}SETS (editorial-alt) goes straight to products — no hero title.{%- endcomment -%}
+  {%- unless section.settings.layout == 'editorial-alt' -%}
+    <p class="collection-hero__title">{{ collection.title }}</p>
+  {%- endunless -%}
   {%- if collection.description != blank -%}
     <div class="collection-hero__desc rte">{{ collection.description }}</div>
   {%- endif -%}
