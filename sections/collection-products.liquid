@@ -169,23 +169,39 @@
   </div>
 
 {%- elsif section.settings.layout == 'editorial-alt' -%}
-  {%- comment -%}SETS — 3-image unit: a full-width hero image (no label) then a 2-up pair
-     of products with name/price. Products are grouped in 3s (hero, product, product).
-     Same structure on mobile + desktop; sizing per breakpoint lives in .sets-grid CSS.{%- endcomment -%}
+  {%- comment -%}SETS — each product shows 3 of its OWN images: a full-width hero (no
+     label) + a 2-up pair of detail images, each carrying the product's name/price.
+     Falls back to fewer images gracefully. Sizing per breakpoint lives in .sets-grid CSS.{%- endcomment -%}
   <div class="sets-grid" id="collection-grid">
     {%- for product in collection.products -%}
-      {%- assign pos = forloop.index0 | modulo: 3 -%}
-      {%- if pos == 0 -%}{%- assign sets_img_w = 1400 -%}{%- else -%}{%- assign sets_img_w = 900 -%}{%- endif -%}
-      <div class="sets-grid__item{% if pos == 0 %} sets-grid__item--full{% endif %}">
+      {%- assign sets_hero = product.images[0] | default: product.featured_image -%}
+      {%- assign sets_pair_1 = product.images[1] | default: sets_hero -%}
+      {%- assign sets_pair_2 = product.images[2] | default: sets_pair_1 -%}
+
+      <div class="sets-grid__item sets-grid__item--full">
         <a href="{{ product.url }}" class="sets-grid__img">
-          {%- if product.featured_image -%}<img src="{{ product.featured_image | image_url: width: sets_img_w }}" alt="{{ product.title | escape }}" loading="lazy">{%- endif -%}
+          {%- if sets_hero -%}<img src="{{ sets_hero | image_url: width: 1400 }}" alt="{{ product.title | escape }}" loading="lazy">{%- endif -%}
         </a>
-        {%- unless pos == 0 -%}
-          <div class="sets-grid__info">
-            <a href="{{ product.url }}" class="sets-grid__title">{{ product.title }}</a>
-            <p class="sets-grid__price">{{ product.price | money }}</p>
-          </div>
-        {%- endunless -%}
+      </div>
+
+      <div class="sets-grid__item">
+        <a href="{{ product.url }}" class="sets-grid__img">
+          {%- if sets_pair_1 -%}<img src="{{ sets_pair_1 | image_url: width: 900 }}" alt="{{ product.title | escape }}" loading="lazy">{%- endif -%}
+        </a>
+        <div class="sets-grid__info">
+          <a href="{{ product.url }}" class="sets-grid__title">{{ product.title }}</a>
+          <p class="sets-grid__price">{{ product.price | money }}</p>
+        </div>
+      </div>
+
+      <div class="sets-grid__item">
+        <a href="{{ product.url }}" class="sets-grid__img">
+          {%- if sets_pair_2 -%}<img src="{{ sets_pair_2 | image_url: width: 900 }}" alt="{{ product.title | escape }}" loading="lazy">{%- endif -%}
+        </a>
+        <div class="sets-grid__info">
+          <a href="{{ product.url }}" class="sets-grid__title">{{ product.title }}</a>
+          <p class="sets-grid__price">{{ product.price | money }}</p>
+        </div>
       </div>
     {%- endfor -%}
   </div>
