@@ -407,6 +407,7 @@ body.template-search .section-heading {
 body.template-search .product-grid {
   grid-template-columns: minmax(1, 1fr) minmax(0, 1fr);
   gap: 6px;
+  padding: 0px 40px 0px;
 }
 
 /* ---- Product Card ---------------------------------------- */
