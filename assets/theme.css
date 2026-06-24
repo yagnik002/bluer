@@ -1549,22 +1549,23 @@ body.template-cart .site-header { display: none !important; }
    layout/theme.liquid so they ship with the markup. Edit them there. */
 /* Floating rounded pill, inset from the screen edges (design). Background /
    icon colours are page-dependent and set inline in layout/theme.liquid. */
-.mobile-bottom-nav {
-  display: flex;
-  position: fixed;
-  left: 16px;
-  right: 16px;
-  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
-  z-index: 200;
-  height: 58px;
-  padding: 0 6px;
-  border-radius: 29px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.14);
-}
+   .mobile-bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 200;
+    background: #0000006E;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    height: 60px;
+    padding: 0 4px;
+  }
 @media (min-width: 768px) { .mobile-bottom-nav { display: none; } }
 
 /* Room for the floating bar (its height + bottom inset + breathing space). */
-body { padding-bottom: calc(82px + env(safe-area-inset-bottom, 0px)); }
+body { padding-bottom: 60px; }
 @media (min-width: 768px) { body { padding-bottom: 0; } }
 
 .mobile-nav-item {
