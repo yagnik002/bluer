@@ -171,31 +171,7 @@
 {%- elsif section.settings.layout == 'editorial' or section.settings.layout == 'editorial-alt' -%}
   {%- comment -%}editorial = pair,full,pair,pair,full (AFTERHOURS) · editorial-alt = full,pair,full,pair (SETS){%- endcomment -%}
   {%- if section.settings.layout == 'editorial-alt' -%}{%- assign fmod = 2 -%}{%- assign frem = 0 -%}{%- else -%}{%- assign fmod = 3 -%}{%- assign frem = 1 -%}{%- endif -%}
-
-  {%- if section.settings.layout == 'editorial-alt' -%}
-    {%- comment -%}SETS — MOBILE-ONLY design (≤767px): a full-width hero image with no
-       label, then a 2-up pair of products with name/price, repeating in groups of 3.
-       Hidden on desktop, where .editorial-collection below renders the unchanged layout.{%- endcomment -%}
-    <div class="sets-mobile">
-      {%- for product in collection.products -%}
-        {%- assign pos = forloop.index0 | modulo: 3 -%}
-        {%- assign sets_img_w = 700 -%}{%- if pos == 0 -%}{%- assign sets_img_w = 1100 -%}{%- endif -%}
-        <div class="sets-mobile__item{% if pos == 0 %} sets-mobile__item--full{% endif %}">
-          <a href="{{ product.url }}" class="sets-mobile__img">
-            {%- if product.featured_image -%}<img src="{{ product.featured_image | image_url: width: sets_img_w }}" alt="{{ product.title | escape }}" loading="lazy">{%- endif -%}
-          </a>
-          {%- unless pos == 0 -%}
-            <div class="sets-mobile__info">
-              <a href="{{ product.url }}" class="sets-mobile__title">{{ product.title }}</a>
-              <p class="sets-mobile__price">{{ product.price | money }}</p>
-            </div>
-          {%- endunless -%}
-        </div>
-      {%- endfor -%}
-    </div>
-  {%- endif -%}
-
-  <div class="editorial-collection{% if section.settings.layout == 'editorial-alt' %} editorial-collection--alt{% endif %}" id="collection-grid">
+  <div class="editorial-collection" id="collection-grid">
     {%- for product in collection.products -%}
       {%- assign mod = forloop.index0 | modulo: fmod -%}
       {%- if mod == frem -%}
@@ -373,56 +349,6 @@
   line-height: 1.5;
   letter-spacing: 0.08em;
   color: var(--color-muted-fg);
-}
-
-/* ===== SETS — MOBILE-ONLY design (≤767px) =====
-   Repeating unit: a full-bleed hero image (no label) + a 2-up pair of products
-   with name/price. Hidden on desktop (editorial-alt keeps its desktop layout). */
-.sets-mobile { display: none; }
-@media (max-width: 767px) {
-  /* Desktop SETS markup is hidden on mobile; the sets-mobile grid takes over. */
-  .editorial-collection--alt { display: none; }
-
-  .sets-mobile {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 3px;
-    row-gap: 10px;
-    padding-bottom: 64px;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  }
-  /* Hero image spans both columns; extra space before each new unit (not the first). */
-  .sets-mobile__item--full { grid-column: 1 / -1; }
-  .sets-mobile__item--full:not(:first-child) { margin-top: 14px; }
-
-  .sets-mobile__img {
-    display: block;
-    aspect-ratio: 2 / 3;
-    overflow: hidden;
-    background: var(--color-muted);
-  }
-  .sets-mobile__item--full .sets-mobile__img { aspect-ratio: 3 / 4; }
-  .sets-mobile__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-  .sets-mobile__info { padding: 8px 0 0; }
-  .sets-mobile__title {
-    display: block;
-    font-size: 11px;
-    font-weight: 400;
-    line-height: 1.45;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #000;
-  }
-  .sets-mobile__price {
-    font-size: 11px;
-    font-weight: 300;
-    line-height: 1.45;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--color-muted-fg);
-    margin-top: 2px;
-  }
 }
 
 /* Lookbook layout — title + description, then a horizontal-scroll image strip per product */
