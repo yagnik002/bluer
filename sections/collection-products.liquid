@@ -375,6 +375,56 @@
   color: var(--color-muted-fg);
 }
 
+/* ===== SETS — MOBILE-ONLY design (≤767px) =====
+   Repeating unit: a full-bleed hero image (no label) + a 2-up pair of products
+   with name/price. Hidden on desktop (editorial-alt keeps its desktop layout). */
+.sets-mobile { display: none; }
+@media (max-width: 767px) {
+  /* Desktop SETS markup is hidden on mobile; the sets-mobile grid takes over. */
+  .editorial-collection--alt { display: none; }
+
+  .sets-mobile {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 3px;
+    row-gap: 10px;
+    padding-bottom: 64px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+  /* Hero image spans both columns; extra space before each new unit (not the first). */
+  .sets-mobile__item--full { grid-column: 1 / -1; }
+  .sets-mobile__item--full:not(:first-child) { margin-top: 14px; }
+
+  .sets-mobile__img {
+    display: block;
+    aspect-ratio: 2 / 3;
+    overflow: hidden;
+    background: var(--color-muted);
+  }
+  .sets-mobile__item--full .sets-mobile__img { aspect-ratio: 3 / 4; }
+  .sets-mobile__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .sets-mobile__info { padding: 8px 0 0; }
+  .sets-mobile__title {
+    display: block;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.45;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #000;
+  }
+  .sets-mobile__price {
+    font-size: 11px;
+    font-weight: 300;
+    line-height: 1.45;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-muted-fg);
+    margin-top: 2px;
+  }
+}
+
 /* Lookbook layout — title + description, then a horizontal-scroll image strip per product */
 .lookbook { --lookbook-font: "Helvetica Neue", Helvetica, Arial, sans-serif; padding-bottom: 80px; }
 .lookbook-intro { padding: 24px 24px 4px; }
