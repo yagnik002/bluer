@@ -482,7 +482,7 @@ body.template-search .product-grid {
    line-height 29px, tracking 1.6px (0.1em), uppercase, black. */
 .product-card__title {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 300;
   line-height: 29px;
   letter-spacing: 0.1em;
@@ -494,7 +494,7 @@ body.template-search .product-grid {
 }
 .product-card__price {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 300;
   line-height: 29px;
   letter-spacing: 0.1em;
