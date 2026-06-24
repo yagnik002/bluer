@@ -474,7 +474,7 @@ body.template-search .product-grid {
 .product-card__info {
   padding: 8px 10px 14px;
 }
-@media (min-width: 768px) { .product-card__info { padding: 8px 14px 16px; } }
+@media (min-width: 768px) { .product-card__info { padding: 5px 0px 15px; } }
 
 /* Unified product-name typography across every layout (grid, editorial, lookbook,
    search) — Helvetica Neue, 11px, 0.08em tracking — so it reads the same site-wide. */
