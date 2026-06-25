@@ -37,15 +37,16 @@
       <p class="search-page__label">Featured</p>
       <div class="search-featured">
         {%- for product in featured.products limit: 6 -%}
+          {%- comment -%}Always 3 filled cells: fall back to the previous image when a
+             product has fewer than 3 images (no empty columns).{%- endcomment -%}
+          {%- assign s_img1 = product.images[0] | default: product.featured_image -%}
+          {%- assign s_img2 = product.images[1] | default: s_img1 -%}
+          {%- assign s_img3 = product.images[2] | default: s_img2 -%}
           <a href="{{ product.url }}" class="search-featured__item">
             <div class="search-featured__strip">
-              {%- for image in product.images limit: 3 -%}
-                <span class="search-featured__img"><img src="{{ image | image_url: width: 500 }}" alt="{{ product.title | escape }}" loading="lazy"></span>
-              {%- else -%}
-                {%- if product.featured_image -%}
-                  <span class="search-featured__img"><img src="{{ product.featured_image | image_url: width: 500 }}" alt="{{ product.title | escape }}" loading="lazy"></span>
-                {%- endif -%}
-              {%- endfor -%}
+              {%- if s_img1 -%}<span class="search-featured__img"><img src="{{ s_img1 | image_url: width: 500 }}" alt="{{ product.title | escape }}" loading="lazy"></span>{%- endif -%}
+              {%- if s_img2 -%}<span class="search-featured__img"><img src="{{ s_img2 | image_url: width: 500 }}" alt="{{ product.title | escape }}" loading="lazy"></span>{%- endif -%}
+              {%- if s_img3 -%}<span class="search-featured__img"><img src="{{ s_img3 | image_url: width: 500 }}" alt="{{ product.title | escape }}" loading="lazy"></span>{%- endif -%}
             </div>
             <p class="search-featured__title">{{ product.title }}</p>
             <p class="search-featured__price">{{ product.price | money }}</p>
