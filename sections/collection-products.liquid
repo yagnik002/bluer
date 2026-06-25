@@ -172,40 +172,23 @@
   </div>
 
 {%- elsif section.settings.layout == 'editorial-alt' -%}
-  {%- comment -%}SETS — each product shows 3 of its OWN images: a full-width hero (no
-     label) + a 2-up pair of detail images, each carrying the product's name/price.
-     Falls back to fewer images gracefully. Sizing per breakpoint lives in .sets-grid CSS.{%- endcomment -%}
+  {%- comment -%}SETS — each product as a row of 3 equal images + name/price below
+     (same treatment as the search FEATURED). Falls back gracefully when a product
+     has fewer than 3 images.{%- endcomment -%}
   <div class="sets-grid" id="collection-grid">
     {%- for product in collection.products -%}
-      {%- assign sets_hero = product.images[0] | default: product.featured_image -%}
-      {%- assign sets_pair_1 = product.images[1] | default: sets_hero -%}
-      {%- assign sets_pair_2 = product.images[2] | default: sets_pair_1 -%}
-
-      <div class="sets-grid__item sets-grid__item--full">
-        <a href="{{ product.url }}" class="sets-grid__img">
-          {%- if sets_hero -%}<img src="{{ sets_hero | image_url: width: 1400 }}" alt="{{ product.title | escape }}" loading="lazy">{%- endif -%}
-        </a>
-      </div>
-
-      <div class="sets-grid__item">
-        <a href="{{ product.url }}" class="sets-grid__img">
-          {%- if sets_pair_1 -%}<img src="{{ sets_pair_1 | image_url: width: 900 }}" alt="{{ product.title | escape }}" loading="lazy">{%- endif -%}
-        </a>
-        <div class="sets-grid__info">
-          <a href="{{ product.url }}" class="sets-grid__title">{{ product.title }}</a>
-          <p class="sets-grid__price">{{ product.price | money }}</p>
+      {%- assign sets_img1 = product.images[0] | default: product.featured_image -%}
+      {%- assign sets_img2 = product.images[1] | default: sets_img1 -%}
+      {%- assign sets_img3 = product.images[2] | default: sets_img2 -%}
+      <a href="{{ product.url }}" class="sets-row">
+        <div class="sets-row__strip">
+          {%- if sets_img1 -%}<span class="sets-row__img"><img src="{{ sets_img1 | image_url: width: 700 }}" alt="{{ product.title | escape }}" loading="lazy"></span>{%- endif -%}
+          {%- if sets_img2 -%}<span class="sets-row__img"><img src="{{ sets_img2 | image_url: width: 700 }}" alt="{{ product.title | escape }}" loading="lazy"></span>{%- endif -%}
+          {%- if sets_img3 -%}<span class="sets-row__img"><img src="{{ sets_img3 | image_url: width: 700 }}" alt="{{ product.title | escape }}" loading="lazy"></span>{%- endif -%}
         </div>
-      </div>
-
-      <div class="sets-grid__item">
-        <a href="{{ product.url }}" class="sets-grid__img">
-          {%- if sets_pair_2 -%}<img src="{{ sets_pair_2 | image_url: width: 900 }}" alt="{{ product.title | escape }}" loading="lazy">{%- endif -%}
-        </a>
-        <div class="sets-grid__info">
-          <a href="{{ product.url }}" class="sets-grid__title">{{ product.title }}</a>
-          <p class="sets-grid__price">{{ product.price | money }}</p>
-        </div>
-      </div>
+        <p class="sets-row__title">{{ product.title }}</p>
+        <p class="sets-row__price">{{ product.price | money }}</p>
+      </a>
     {%- endfor -%}
   </div>
 
@@ -392,57 +375,50 @@
   color: var(--color-muted-fg);
 }
 
-/* ===== SETS — 3-image unit (hero + 2-up pair) =====
-   Shared structure; sizing differs per breakpoint below.
-   Desktop matches the Figma spec: 873px centred column, 2:3 hero + 2:3 pair,
-   ~6px gaps, Helvetica Neue Light 16px/29px/0.1em labels. */
+/* ===== SETS — each product as a ROW of 3 equal images + name/price =====
+   Same treatment as the search FEATURED: a full-width 3-up strip, label below. */
 .sets-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-.sets-grid__item--full { grid-column: 1 / -1; }
-.sets-grid__img {
+.sets-row { display: block; }
+.sets-row__strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.sets-row__img {
   display: block;
-  aspect-ratio: 2 / 3;
+  aspect-ratio: 3 / 4;
   overflow: hidden;
   background: var(--color-muted);
 }
-.sets-grid__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.sets-grid__info { padding-top: 8px; padding-left: 1px; }
-.sets-grid__title {
-  display: block;
+.sets-row__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.sets-row__title {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
   color: #000;
+  margin-top: 10px;
 }
-.sets-grid__price {
+.sets-row__price {
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
   color: var(--color-muted-fg);
+  margin-top: 2px;
 }
 
-/* MOBILE (≤767px): full-bleed, taller hero, 11px labels (matches the mobile comp). */
-@media (max-width: 767px) {
-  .sets-grid { column-gap: 5px; row-gap: 5px; padding-bottom: 64px; }
-  .sets-grid__item--full:not(:first-child) { margin-top: 14px; }
-  .sets-grid__item--full .sets-grid__img { aspect-ratio: 3 / 4; }
-  .sets-grid__title { font-size: 11px; font-weight: 400; line-height: 1.45; letter-spacing: 0.08em; }
-  .sets-grid__price { font-size: 11px; font-weight: 300; line-height: 1.45; letter-spacing: 0.08em; margin-top: 2px; }
-}
-
-/* DESKTOP (≥768px): centred 873px column, 2:3 hero + 2:3 pair, ~6px gaps. */
+/* DESKTOP (≥768px): wide 3-up rows, Helvetica Neue Light 16px/29px/0.1em labels. */
 @media (min-width: 768px) {
-  .sets-grid {
-    max-width: 873px;
-    margin: 0 auto;
-    column-gap: 6px;
-    row-gap: 6px;
-    padding: 8px 0 100px;
-  }
-  .sets-grid__item--full:not(:first-child) { margin-top: 48px; }
-  .sets-grid__title { font-size: 16px; font-weight: 300; line-height: 29px; }
-  .sets-grid__price { font-size: 13px; font-weight: 300; line-height: 1.4; margin-top: 2px; }
+  .sets-grid { gap: 56px; padding: 8px 0 100px; }
+  .sets-row__title { font-size: 16px; font-weight: 300; line-height: 29px; letter-spacing: 0.1em; margin-top: 14px; }
+  .sets-row__price { font-size: 13px; font-weight: 300; line-height: 1.4; letter-spacing: 0.1em; }
+}
+
+/* MOBILE (≤767px): full-bleed 3-up rows. */
+@media (max-width: 767px) {
+  .sets-grid { gap: 28px; padding-bottom: 64px; }
 }
 
 /* Lookbook layout — title + description, then a horizontal-scroll image strip per product */
