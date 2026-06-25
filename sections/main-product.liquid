@@ -123,7 +123,53 @@
 
   <!-- Info -->
   <div class="product-info">
-    <div>
+    {%- comment -%}
+      Colour swatches. Two sources:
+      1) a real "Color"/"Colour" variant option (rendered in the variants loop below), or
+      2) a `custom.color_swatches` colour-list metafield — used when the product has no
+         colour variant, so swatches still show. Optional `custom.color_swatch_urls`
+         (list.url, same order) turns each swatch into a link to that colourway's product.
+      Captured once, then shown top-right of the title on mobile and below the price
+      (with the "Color" label) on desktop — desktop markup is unchanged.
+    {%- endcomment -%}
+    {%- assign has_color_option = false -%}
+    {%- for o in product.options -%}
+      {%- assign o_low = o | downcase -%}
+      {%- if o_low contains 'colo' -%}{%- assign has_color_option = true -%}{%- endif -%}
+    {%- endfor -%}
+    {%- assign color_meta = product.metafields.custom.color_swatches -%}
+    {%- capture color_swatch_buttons -%}
+      {%- if has_color_option == false -%}
+        {%- if color_meta != blank and color_meta.value.size > 0 -%}
+          {%- comment -%} Source: per-product `custom.color_swatches` colour-list metafield {%- endcomment -%}
+          {%- assign color_urls = product.metafields.custom.color_swatch_urls.value -%}
+          {%- for c in color_meta.value -%}
+            {%- assign c_url = '' -%}
+            {%- if color_urls != blank and color_urls[forloop.index0] != blank -%}{%- assign c_url = color_urls[forloop.index0] -%}{%- endif -%}
+            {%- if c_url != blank -%}
+              <a href="{{ c_url }}" class="variant-color-btn{% if forloop.first %} is-active{% endif %}" style="background:{{ c }};" title="{{ c }}" aria-label="Colour {{ forloop.index }}"></a>
+            {%- else -%}
+              <button type="button" class="variant-color-btn btn-reset{% if forloop.first %} is-active{% endif %}" style="background:{{ c }};" title="{{ c }}" aria-label="Colour {{ forloop.index }}"></button>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- else -%}
+          {%- comment -%} Fallback: theme-editor default swatch colours (so swatches always show) {%- endcomment -%}
+          {%- capture sc_list -%}{{ section.settings.swatch_color_1 }}|{{ section.settings.swatch_color_2 }}|{{ section.settings.swatch_color_3 }}|{{ section.settings.swatch_color_4 }}|{{ section.settings.swatch_color_5 }}{%- endcapture -%}
+          {%- assign sc_arr = sc_list | split: '|' -%}
+          {%- assign first_done = false -%}
+          {%- for sc in sc_arr -%}
+            {%- assign sc_t = sc | strip -%}
+            {%- if sc_t != blank -%}
+              <button type="button" class="variant-color-btn btn-reset{% unless first_done %} is-active{% endunless %}" style="background:{{ sc_t }};" title="{{ sc_t }}" aria-label="Colour"></button>
+              {%- assign first_done = true -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+      {%- endif -%}
+    {%- endcapture -%}
+    {%- assign color_swatch_clean = color_swatch_buttons | strip -%}
+
+    <div class="product-info__head">
       <a href="{{ collection.url }}" class="product-collection-link">
         {{ collection.title }}
       </a>
@@ -132,71 +178,22 @@
         {{ current_variant.price | money }}
       </p>
       <p class="product-tax-note">MRP inclusive of all taxes</p>
+      {%- if color_swatch_clean != blank -%}
+        {%- comment -%} Mobile only: swatches in the title row (hidden on desktop) {%- endcomment -%}
+        <div class="product-info__swatches">{{ color_swatch_buttons }}</div>
+      {%- endif -%}
     </div>
 
-    {%- comment -%}
-      Colour swatches. Two sources:
-      1) a real "Color"/"Colour" variant option (rendered in the variants loop below), or
-      2) a `custom.color_swatches` colour-list metafield — used when the product has no
-         colour variant, so swatches still show. Optional `custom.color_swatch_urls`
-         (list.url, same order) turns each swatch into a link to that colourway's product.
-    {%- endcomment -%}
-    {%- assign has_color_option = false -%}
-    {%- for o in product.options -%}
-      {%- assign o_low = o | downcase -%}
-      {%- if o_low contains 'colo' -%}{%- assign has_color_option = true -%}{%- endif -%}
-    {%- endfor -%}
-    {%- assign color_meta = product.metafields.custom.color_swatches -%}
-    {%- if has_color_option == false -%}
-      {%- if color_meta != blank and color_meta.value.size > 0 -%}
-        {%- comment -%} Source: per-product `custom.color_swatches` colour-list metafield {%- endcomment -%}
-        {%- assign color_urls = product.metafields.custom.color_swatch_urls.value -%}
-        <div class="product-variants">
-          <div class="product-option">
-            <div class="product-option__header">
-              <p class="product-variants-label">Color</p>
-            </div>
-            <div class="product-variants-list product-variants-list--color">
-              {%- for c in color_meta.value -%}
-                {%- assign c_url = '' -%}
-                {%- if color_urls != blank and color_urls[forloop.index0] != blank -%}
-                  {%- assign c_url = color_urls[forloop.index0] -%}
-                {%- endif -%}
-                {%- if c_url != blank -%}
-                  <a href="{{ c_url }}" class="variant-color-btn{% if forloop.first %} is-active{% endif %}" style="background:{{ c }};" title="{{ c }}" aria-label="Colour {{ forloop.index }}"></a>
-                {%- else -%}
-                  <button type="button" class="variant-color-btn btn-reset{% if forloop.first %} is-active{% endif %}" style="background:{{ c }};" title="{{ c }}" aria-label="Colour {{ forloop.index }}"></button>
-                {%- endif -%}
-              {%- endfor -%}
-            </div>
+    {%- if color_swatch_clean != blank -%}
+      {%- comment -%} Desktop swatch block with the "Color" label (hidden on mobile) {%- endcomment -%}
+      <div class="product-variants product-variants--colors">
+        <div class="product-option">
+          <div class="product-option__header">
+            <p class="product-variants-label">Color</p>
           </div>
+          <div class="product-variants-list product-variants-list--color">{{ color_swatch_buttons }}</div>
         </div>
-      {%- else -%}
-        {%- comment -%} Fallback: theme-editor default swatch colours (so swatches always show) {%- endcomment -%}
-        {%- capture sc_list -%}{{ section.settings.swatch_color_1 }}|{{ section.settings.swatch_color_2 }}|{{ section.settings.swatch_color_3 }}|{{ section.settings.swatch_color_4 }}|{{ section.settings.swatch_color_5 }}{%- endcapture -%}
-        {%- assign sc_arr = sc_list | split: '|' -%}
-        {%- assign sc_count = 0 -%}
-        {%- for sc in sc_arr -%}{%- assign sc_s = sc | strip -%}{%- if sc_s != blank -%}{%- assign sc_count = sc_count | plus: 1 -%}{%- endif -%}{%- endfor -%}
-        {%- if sc_count > 0 -%}
-          <div class="product-variants">
-            <div class="product-option">
-              <div class="product-option__header">
-                <p class="product-variants-label">Color</p>
-              </div>
-              <div class="product-variants-list product-variants-list--color">
-                {%- assign first_done = false -%}
-                {%- for sc in sc_arr -%}
-                  {%- assign sc_t = sc | strip -%}
-                  {%- if sc_t != blank -%}
-                    <button type="button" class="variant-color-btn btn-reset{% unless first_done %} is-active{% endunless %}" style="background:{{ sc_t }};" title="{{ sc_t }}" aria-label="Colour"></button>
-                    {%- assign first_done = true -%}
-                  {%- endif -%}
-                {%- endfor -%}
-              </div>
-            </div>
-          </div>
-        {%- endif -%}
-      {%- endif -%}
+      </div>
     {%- endif -%}
 
     {%- unless product.has_only_default_variant -%}
@@ -332,7 +329,7 @@
   {%- assign featured_collection = collections[section.settings.featured_collection] -%}
   {%- if featured_collection != blank and featured_collection.products_count > 0 -%}
     <div class="recommended-products">
-      <h2 class="section-heading">FEATURED PRODUCTS</h2>
+      <h2 class="section-heading"><span class="rec-heading-desktop">FEATURED PRODUCTS</span><span class="rec-heading-mobile">RECOMMENDED</span></h2>
       <div class="product-grid product-grid--4">
         {%- for fp in featured_collection.products limit: 8 -%}
           {%- render 'product-card', product: fp -%}
@@ -584,6 +581,76 @@ body.template-product .site-header { display: none !important; }
 .size-modal__measure-heading { font-family: var(--sc-font); font-size: 22px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 24px; }
 .size-modal__measure-label { font-family: var(--sc-font); font-size: 14px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
 .size-modal__measure-text { font-family: var(--sc-font); font-size: 14px; font-weight: 300; line-height: 22px; letter-spacing: 0.04em; color: rgba(26,26,26,0.8); margin-bottom: 22px; max-width: 520px; }
+
+/* Mobile-only elements are hidden on desktop (desktop layout is unchanged). */
+.product-info__swatches { display: none; }
+.rec-heading-mobile { display: none; }
+
+/* =========================================================================
+   MOBILE PRODUCT PAGE (≤767px) — matches the mobile design 1:1.
+   All rules here are scoped to mobile; the desktop layout is untouched.
+   The two desktop columns are flattened with `display: contents` and the
+   blocks reordered into the single mobile flow:
+   gallery → title/price/swatches → Add to bag → description → details →
+   Size Guide → Complete the Look → Shipping → Returns.
+   ========================================================================= */
+@media (max-width: 767px) {
+  /* Full-bleed gallery; everything else inset 24px from the edges. */
+  .product-layout { padding: 0 24px 8px; gap: 0; row-gap: 0; }
+  .product-images, .product-info, .product-aside { display: contents; }
+
+  .product-gallery__track { order: 1; margin-inline: -24px; width: calc(100% + 48px); }
+  .product-gallery__cell { aspect-ratio: 2 / 3; }
+  .product-gallery__dots { order: 2; }
+
+  /* Title row: title (left) + colour swatches (top-right); price + tax below. */
+  .product-info__head {
+    order: 3;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    column-gap: 16px;
+    margin-top: 22px;
+  }
+  .product-info__head .product-collection-link { display: none; }
+  .product-info__head .product-title { order: 1; flex: 1 1 auto; min-width: 0; margin: 0; }
+  .product-info__swatches { order: 2; flex: 0 0 auto; display: flex; gap: 6px; margin-top: 7px; }
+  .product-info__swatches .variant-color-btn { width: 18px; height: 18px; }
+  .product-info__head .product-price { order: 3; flex: 1 1 100%; text-transform: none; margin-top: 2px; }
+  .product-info__head .product-tax-note { order: 4; flex: 1 1 100%; text-transform: none; letter-spacing: 0.06em; margin-top: 6px; }
+
+  /* Desktop swatch block (with the "Color" label) hidden on mobile. */
+  .product-variants--colors { display: none; }
+
+  .product-info .product-variants { order: 4; }
+  .product-low-stock { order: 4; }
+  #product-form { order: 5; margin-top: 22px; }
+
+  .product-aside .product-description { order: 6; margin-top: 28px; border-top: none; padding-top: 0; }
+  .product-aside .product-details { order: 7; margin-top: 22px; }
+
+  /* SIZE GUIDE — full-width bordered box, placed right after the details table. */
+  .product-info .size-guide-link {
+    order: 8;
+    display: block;
+    width: 100%;
+    margin: 26px 0 0;
+    padding: 15px;
+    border: 1px solid var(--color-border);
+    background: transparent;
+    font-size: 13px;
+    text-align: center;
+    text-decoration: none;
+    text-underline-offset: 0;
+  }
+
+  .product-aside .complete-the-look { order: 9; margin-top: 40px; }
+  .product-aside .product-accordion { order: 10; }
+
+  /* Recommended heading text swap (desktop keeps "FEATURED PRODUCTS"). */
+  .rec-heading-desktop { display: none; }
+  .rec-heading-mobile { display: inline; }
+}
 </style>
 
 {% schema %}
